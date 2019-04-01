@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="pager" id="pager" class="row" th:if="${pager != null}">
+            <div th:if="${pager.totalPages >= 2}" th:remove="tag">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="pagination pagination-sm justify-content-start justify-content-md-end justify-content-lg-center mt-3 mb-2"
+                        th:classappend="${#lists.size(pager.currentPageRecords) % 2 != 0} ? '' : 'mt-lg-3'">
+                        <!-- first -->
+                        <li th:if="${pager.pageIndex == 0}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&laquo;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex > 0}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}1|}">&laquo;</a>
+                        </li>
+
+                        <!-- previous -->
+                        <li th:if="${pager.pageIndex == 0}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&lt;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex > 0}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}${pager.pageIndex}|}">&lt;</a>
+                        </li>
+
+                        <!-- range -->
+                        <li th:each="p : ${#numbers.sequence(pager.startPage,pager.endPage)}" class="page-item" th:classappend="${p == pager.pageIndex} ? 'active' : ''">
+                            <a th:if="${pager.pageIndex == p}" class="page-link" th:href="'javascript:void(0);'" th:text="${p + 1}">[1]</a>
+                            <a th:if="${pager.pageIndex != p}" class="page-link" th:href="@{|${pager.baseUrl}${p + 1}|}" th:text="${p + 1}">[2]</a>
+                        </li>
+
+                        <!-- next -->
+                        <li th:if="${pager.pageIndex == pager.totalPages - 1}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&gt;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex < pager.totalPages - 1}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}${pager.pageIndex + 2}|}">&gt;</a>
+                        </li>
+
+                        <!-- last -->
+                        <li th:if="${pager.pageIndex == pager.totalPages - 1}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&raquo;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex < pager.totalPages - 1}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}${pager.totalPages}|}">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

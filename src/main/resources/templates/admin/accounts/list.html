@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="admin/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="admin/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <aside th:replace="admin/fragments/sidebar :: sidebar('accounts')">[sidebar left]</aside><!--#page-aside-->
+                        <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9 mt-3 mt-sm-3 mt-md-0">
+                            <div class="page-header" id="banner">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-7 col-sm-6">
+                                        <h1 class="float-sm-left">Account Management</h1>
+                                        <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
+                                    </div>
+                                    <div class="col-lg-4 col-md-5 col-sm-6">
+                                        <div class="sponsor">
+                                            <a href="#" class="float-sm-right">
+                                                <img th:src="@{/images/keyio.png}" height="30" alt=""/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div th:if="${feedbackMessage}" class="alert alert-dismissible alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong th:text="${feedbackMessage}">[Feedback Message]</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-3 order-2 order-sm-2 order-md-1">
+                                    <p class="mt-2">Total: <strong>19 Records</strong></p>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-1 order-sm-1 order-md-2 text-left text-md-right">
+                                    <button type="button" class="btn btn-secondary btn-sm">Import</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">Export</button>
+                                    <a th:href="@{|/admin/accounts/add|}" class="text-decoration-none text-light">
+                                        <button type="button" class="btn btn-info btn-sm">Add New</button>
+                                    </a>
+                                    <a th:href="@{|/admin/accounts/delete|}" class="text-decoration-none">
+                                        <button type="button" class="btn btn-danger btn-sm">Delete All</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <section id="k-account-management" class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="k-cb-width">
+                                                    <div class="form-group mb-0">
+                                                        <div class="form-check pl-0 disabled">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox" value="" disabled="">
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                                <th scope="col">
+                                                    <a class="column-header" href="#">
+                                                        <div>Full Name</div>
+                                                        <div class="sort-by"><i></i></div>
+                                                    </a>
+                                                </th>
+                                                <th scope="col">
+                                                    <a class="column-header asc" href="#">
+                                                        <div>Username</div>
+                                                        <div class="sort-by"><i></i></div>
+                                                    </a>
+                                                </th>
+                                                <th scope="col">
+                                                    <a class="column-header desc" href="#">
+                                                        <div>Email</div>
+                                                        <div class="sort-by"><i></i></div>
+                                                    </a>
+                                                </th>
+                                                <th scope="col">
+                                                    <a class="column-header" href="#">
+                                                        <div>Action</div>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="account : ${accounts}" class="table-active">
+                                                <td scope="row" class="k-cb-width">
+                                                    <div class="form-group mb-0">
+                                                        <div class="form-check pl-0 disabled">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox" th:value="${account.id}" checked="">
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td th:text="${account.firstName + ' ' + account.lastName}">[Full Name]</td>
+                                                <td th:text="${account.username}">[Username]</td>
+                                                <td th:text="${account.email}">[Email]</td>
+                                                <td>
+                                                    <a th:href="@{|/admin/accounts/update/${account.id}|}"><i class="fas fa-edit"></i></a>
+                                                    <a th:href="@{|/admin/accounts/lock/${account.id}|}"><i class="fas fa-lock"></i></a>
+                                                    <a th:href="@{|/admin/accounts/delete/${account.id}|}"><i class="fas fa-trash-alt"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-5 col-lg-4 order-2 order-sm-2 order-md-1">
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-primary">Show 100 records</button>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+                                                <a class="dropdown-item" href="#">Show 20 records</a>
+                                                <a class="dropdown-item" href="#">Show 50 records</a>
+                                                <a class="dropdown-item" href="#">Show 100 records</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-7 col-lg-8 order-1 order-sm-1 order-md-2">
+                                    <ul class="pagination pagination-sm justify-content-start justify-content-md-end">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">&laquo;</a>
+                                        </li>
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">&lt;</a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">4</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">5</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">&gt;</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+    </body>
+</html>

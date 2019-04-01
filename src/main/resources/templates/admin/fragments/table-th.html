@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title></title>
+    </head>
+    <body>
+        <th th:fragment="table-th(messageCode, columnSortName, thClass)" scope="col" class="kc-th-sort" th:classappend="${thClass}"
+            th:data-page-index="${pager?.pageIndex}" th:data-sort-name="${columnSortName}" th:data-sort-dir="${pager?.sortName == columnSortName && pager?.sortDir == 'desc'} ? 'desc' : 'asc'">
+            <div th:if="${pager != null}" th:remove="tag">
+                <div th:if="${pager.sortName == columnSortName}" th:remove="tag">
+                    <div th:if="${pager.sortDir != null}" th:remove="tag">
+                        <div th:if="${pager.sortDir == 'desc'}" th:remove="tag">
+                            <a class="column-header" th:classappend="desc" href="#">
+                                <div th:text="${messageCode}">[Title]</div>
+                                <div class="sort-by"><i></i></div>
+                            </a>
+                        </div>
+                        <div th:if="${pager.sortDir == 'asc'}" th:remove="tag">
+                            <a class="column-header" th:classappend="asc" href="#">
+                                <div th:text="${messageCode}">[Title]</div>
+                                <div class="sort-by"><i></i></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${pager.sortName != columnSortName}" th:remove="tag">
+                    <a class="column-header" href="#">
+                        <div th:text="${messageCode}">[Title]</div>
+                        <div class="sort-by"><i></i></div>
+                    </a>
+                </div>
+            </div>
+            <div th:if="${pager == null}" th:remove="tag">
+                <a class="column-header" href="#">
+                    <div th:text="${messageCode}">[Title]</div>
+                    <!--<div class="sort-by"><i></i></div>-->
+                </a>
+            </div>
+        </th>
+    </body>
+</html>
