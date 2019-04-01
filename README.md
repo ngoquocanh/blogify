@@ -15,4 +15,4 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 
 ## Authors
 
-* **[Ngo Quoc Anh](https://github.com/ngoquocanh)**
+**[Ngo Quoc Anh](https://github.com/ngoquocanh)**
