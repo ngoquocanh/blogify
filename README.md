@@ -2,7 +2,7 @@
 
 This project is built by Java Spring. The idea was to build a basic blogging platform. Spring Boot Blog is a web application using web technologies including:
 
-|  |  |  |  |
+| &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | --- | --- |--- |--- |
 | *Spring Boot* | *Spring Data JPA* | *Spring MVC*   | *Spring Security* |
 | *Bootstrap 4* | *Gradle*          | *JPA Auditing* | *Webjars*         |
