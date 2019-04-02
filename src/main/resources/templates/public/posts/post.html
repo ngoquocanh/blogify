@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="public/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="public/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9">
+                            <section id="k-posts">
+                                <div class="row" th:if="${article != null}">
+                                    <article class="col-12 col-sm-12 col-md-12 col-lg-12 pb-2 k-post">
+                                        <header class="article-header">
+                                            <h1 class="article-title" th:text="${article.articleTitle}">[article title]</h1>
+                                            <div class="article-meta-info">
+                                                <small class="article-date"
+                                                       th:utext="#{public.post.k-posts.post-modified(${T(com.keybds.springblog.utils.DateTimeUtil).convertZonedDateTimeToStringDate(article.articleModified)})}">
+                                                       [Last updated on Mar 25, 1993]
+                                                </small>
+                                            </div>
+                                        </header>
+                                        <div class="article-content" th:utext="${article.articleContent}">
+                                            [article content]
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="row" th:if="${article == null}">
+                                    <p class="col-12" th:text="#{public.posts.list.k-posts.post-not-found}">[No post found]</p>
+                                </div>
+                            </section>
+                        </section><!--#main-->
+                        <aside th:replace="public/fragments/sidebar :: sidebar('posts')">[sidebar left]</aside><!--#page-aside-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="public/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+    </body>
+</html>

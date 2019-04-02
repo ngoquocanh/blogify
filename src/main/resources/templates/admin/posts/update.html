@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="admin/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="admin/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <aside th:replace="admin/fragments/sidebar :: sidebar('posts')">[sidebar left]</aside><!--#page-aside-->
+                        <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9 mt-3 mt-sm-3 mt-md-0">
+                            <div class="page-header" id="banner">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-7 col-sm-6">
+                                        <h1 class="float-sm-left">Update Post</h1>
+                                        <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
+                                    </div>
+                                    <div class="col-lg-4 col-md-5 col-sm-6">
+                                        <div class="sponsor">
+                                            <a href="#" class="float-sm-right">
+                                                <img th:src="@{/images/keyio.png}" height="30" alt=""/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section class="row" id="k-update-post">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${post != null}">
+                                    <form th:object="${post}" th:action="@{/admin/posts/update}" method="post" class="table-responsive">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postStatus')} ? 'has-danger'">
+                                                                <label for="ki-select-status" class="col-md-12 col-lg-2 col-form-label">Status</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <select th:field="*{postStatus}" class="form-control kc-width-9" id="ki-select-status">
+                                                                        <option th:each="statusOption : *{postStatusOptions}" th:value="${statusOption.statusKey}" th:text="${statusOption.statusValue}"></option>
+                                                                    </select>
+                                                                    <ul th:if="${#fields.hasErrors('postStatus')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postStatus')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postTitle')} ? 'has-danger'">
+                                                                <label for="ki-input-title" class="col-md-12 col-lg-2 col-form-label">Title</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{postTitle}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('postTitle')} ? 'is-invalid'" id="ki-input-title" placeholder="" autocomplete="off">
+                                                                    <ul th:if="${#fields.hasErrors('postTitle')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postTitle')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postExcerpt')} ? 'has-danger'">
+                                                                <label for="ki-text-excerpt" class="col-md-12 col-lg-2 col-form-label">Excerpt</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <textarea id="ki-text-excerpt" th:field="*{postExcerpt}" class="form-control"
+                                                                              th:classappend="${#fields.hasErrors('postExcerpt')} ? 'is-invalid'" rows="3"></textarea>
+                                                                    <ul th:if="${#fields.hasErrors('postExcerpt')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postExcerpt')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postContent')} ? 'has-danger'">
+                                                                <label for="ki-text-content" class="col-md-12 col-lg-2 col-form-label">Content</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <textarea id="ki-text-content" th:field="*{postContent}" class="form-control"
+                                                                              th:classappend="${#fields.hasErrors('postContent')} ? 'is-invalid'" rows="3"></textarea>
+                                                                    <ul th:if="${#fields.hasErrors('postContent')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postContent')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0">
+                                                                <div class="col-md-12 col-lg-2"></div>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <button type="button" id="ki-btn-save-post" class="btn btn-secondary">Save</button>
+                                                                    <button type="submit" id="ki-btn-update-post" class="btn btn-success">Update</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" id="ki-input-id" th:field="*{postId}" />
+                                    </form>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${post == null}">
+                                    <p th:text="#{admin.posts.list.k-post-management.post-not-found}">[No post found]</p>
+                                </div>
+                            </section>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: posts-js">[posts scripts]</div>
+    </body>
+</html>

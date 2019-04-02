@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="public/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="public/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <section id="main">
+                    <div class="container">
+                        <div class="page-header" id="banner">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-7 col-sm-6">
+                                    <h1 class="float-sm-left">Welcome!</h1>
+                                    <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
+                                </div>
+                                <div class="col-lg-4 col-md-5 col-sm-6">
+                                    <div class="sponsor">
+                                        <a href="#" class="float-sm-right">
+                                            <img th:src="@{/images/keybds.png}" height="30" alt=""/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" th:if="${param.error}">
+                        <div class="row justify-content-center">
+                            <div class="col col-9 col-sm-10 col-md-7 col-lg-5">
+                                <div class="alert alert-dismissible alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>Invalid username and password.</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" th:if="${param.logout}">
+                        <div class="row justify-content-center">
+                            <div class="col col-9 col-sm-10 col-md-7 col-lg-5">
+                                <div class="alert alert-dismissible alert-info">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>You have been logged out.</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <form th:action="@{/login}" method="post">
+                            <fieldset>
+                                <legend class="row justify-content-center">
+                                    <div class="col col-9 col-sm-10 col-md-7 col-lg-5">Sign in</div>
+                                </legend>
+                                <div class="form-group row justify-content-center">
+                                    <label for="exampleInputEmail1" class="col col-9 col-sm-4 col-md-3 col-lg-2">Username Or Email</label>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username Or Email">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center">
+                                    <label for="exampleInputPassword1" class="col col-9 col-sm-4 col-md-3 col-lg-2">Password</label>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center">
+                                    <div class="col col-9 col-sm-4 col-md-3 col-lg-2"></div>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="form-check pl-0">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="" >
+                                                Remember Me
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center">
+                                    <div class="col col-9 col-sm-4 col-md-3 col-lg-2"></div>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="clearfix">
+                                            <button type="submit" class="btn btn-secondary float-left">Sign in</button>
+                                            <a href="#" class="text-decoration-none float-right">Forgot Password</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+                            </fieldset>
+                        </form>
+                    </div>
+
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col col-9 col-sm-10 col-md-7 col-lg-5">
+                                <div class="dropdown-divider mb-3"></div>
+                            </div>
+                        </div>
+                        <form>
+                            <fieldset>
+                                <legend class="row justify-content-center">
+                                    <div class="col col-9 col-sm-10 col-md-7 col-lg-5">Or Login Using</div>
+                                </legend>
+                                <div class="form-group row justify-content-center">
+                                    <div class="col col-9 col-sm-4 col-md-3 col-lg-2">Social Accounts</div>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-secondary"><i class="fab fa-facebook-f"></i></button>
+                                            <button type="button" class="btn btn-secondary"><i class="fab fa-twitter"></i></button>
+                                            <button type="button" class="btn btn-secondary"><i class="fab fa-google"></i></button>
+                                            <button type="button" class="btn btn-secondary"><i class="fab fa-linkedin-in"></i></button>
+                                            <button type="button" class="btn btn-secondary"><i class="fab fa-github"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </section><!--#main-->
+                <aside id="page-aside"></aside><!--#page-aside-->
+            </section><!--#page-content-->
+            <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="public/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+    </body>
+</html>

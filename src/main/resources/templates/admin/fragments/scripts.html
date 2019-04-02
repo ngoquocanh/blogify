@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="scripts" th:remove="tag">
+            <script th:src="@{/js/jquery.min.js}"></script>
+            <script th:src="@{/js/popper.min.js}"></script>
+            <script th:src="@{/js/bootstrap.min.js}"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+            <script th:src="@{/js/sweetalert.min.js}"></script>
+            <script th:src="@{/js/custom.js}"></script>
+            <script th:src="@{/js/summernode.js}"></script>
+        </div>
+
+        <div th:fragment="posts-js" th:remove="tag">
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var isSubmitted = false;
+
+                function submitForm(path, params, method) {
+                    console.log(JSON.stringify(params));
+                    if (isSubmitted) {
+                        return;
+                    }
+                    method = method || "POST";
+                    var form = document.createElement("form");
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", path);
+                    $.each(params, function (index, item) {
+                        if (item.hasOwnProperty('page')) {
+                            var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "hidden");
+                            hiddenField.setAttribute("name", 'page');
+                            hiddenField.setAttribute("value", item['page']);
+                            form.appendChild(hiddenField);
+                        }
+                        if (item.hasOwnProperty('sort')) {
+                            var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "hidden");
+                            hiddenField.setAttribute("name", 'sort');
+                            hiddenField.setAttribute("value", item['sort']);
+                            form.appendChild(hiddenField);
+                        }
+                        if (item.hasOwnProperty('dir')) {
+                            var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "hidden");
+                            hiddenField.setAttribute("name", 'dir');
+                            hiddenField.setAttribute("value", item['dir']);
+                            form.appendChild(hiddenField);
+                        }
+                    });
+                    $('#ki-dynamic-form').append(form);
+                    form.submit();
+                    isSubmitted = true;
+                }
+
+                function sortTable() {
+                    $('tr:not(.kc-table-empty) .kc-th-sort').on('click', function () {
+                        var sortName = $(this).data('sort-name');
+                        var sortDir = $(this).data('sort-dir');
+                        var pageIndex = $(this).data('page-index');
+                        sortDir = (sortDir === 'desc') ? 'asc' : 'desc';
+                        var objList = [];
+                        var obj = {
+                            page: pageIndex + 1,
+                            sort : sortName,
+                            dir: sortDir
+                        };
+                        objList.push(obj);
+                        if (objList.length === 0) {
+                            console.log('Please select at least one post.');
+                        } else {
+                            var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_LIST}}]]*/ null;
+                            submitForm(path, objList, 'POST');
+                        }
+                    });
+                }
+
+                function savePost() {
+                    var postData = {};
+                    postData["postId"] = parseInt($('#ki-input-id').val());
+                    postData["postStatus"] = parseInt($('#ki-select-status').val());
+                    postData["postTitle"] = $('#ki-input-title').val();
+                    postData["postExcerpt"] = $('#ki-text-excerpt').val();
+                    postData["postContent"] = $('#ki-text-content').val();
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_AJAX_POST_UPDATE}}]]*/ null,
+                        data: JSON.stringify(postData),
+                        success: function (data) {
+                           if (data.code === 2000) {
+                               swal({
+                                   title: "Saved!",
+                                   text: "Your updates have been saved. Click \"Update\" when finished editing.",
+                                   icon: "success"
+                               });
+                           } else {
+                               swal({
+                                   title: "Oops!",
+                                   text: "There was an error updating your post. Please confirm all fields are valid",
+                                   icon: "error"
+                               });
+                           }
+                        },
+                        error: function (e) {
+                            swal({
+                                title: "Error!",
+                                text: "System error",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+
+                function hideMessage(messageBlock) {
+                    $(messageBlock).delay(5000).fadeOut(400, function() {
+                        $(this).remove();
+                    });
+                }
+
+                function hasCheckedItems(cssClass) {
+                    return $(cssClass).filter(":checked").length > 0;
+                }
+                
+                function onCheckedItems(hasItem) {
+                    if (hasItem) {
+                        $('#ki-btn-del-all').removeAttr('disabled');
+                    } else {
+                        $('#ki-btn-del-all').attr('disabled', 'disabled');
+                    }
+                }
+
+                function onChangeCheckboxes(cbAll, cbItems) {
+                    $(cbAll).change(function () {
+                        $(cbItems).prop('checked', $(this).prop('checked'));
+                        onCheckedItems(hasCheckedItems($(cbItems)));
+                    });
+                    $(cbItems).change(function () {
+                        if ($(this).prop('checked') === false) {
+                            $(cbAll).prop('checked', false)
+                        }
+                        if ($(cbItems).filter(":checked").length === $(cbItems).length) {
+                            $(cbAll).prop('checked', true);
+                        }
+                        onCheckedItems(hasCheckedItems($(cbItems)));
+                    });
+                }
+
+                function doSubmitTo(path, params, method) {
+                    if (isSubmitted) {
+                        return;
+                    }
+                    method = method || "POST";
+                    var form = document.createElement("form");
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", path);
+                    $.each(params, function (index, item) {
+                        if (item.hasOwnProperty('id')) {
+                            var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "hidden");
+                            hiddenField.setAttribute("name", 'id');
+                            hiddenField.setAttribute("value", item['id']);
+                            form.appendChild(hiddenField);
+                        }
+                    });
+                    $('#ki-dynamic-form').append(form);
+                    form.submit();
+                    isSubmitted = true;
+                }
+
+                $(document).ready(function() {
+                    onCheckedItems(hasCheckedItems('.kc-cb-items'));
+                    onChangeCheckboxes('#ki-cb-all', '.kc-cb-items');
+
+                    // open confirm dialog delete single post
+                    $('.kc-btn-del').on('click', function (event) {
+                        event.preventDefault();
+                        var currentRowPost = $(this).closest('tr');
+                        var postId = $(currentRowPost).find("input[type=checkbox]").val();
+                        $('#ki-modal-del-post #ki-btn-del-post-yes').attr('data-post-id', postId);
+                        $('#ki-modal-del-post').modal();
+                    });
+
+                    // confirmed delete single post
+                    $('#ki-btn-del-post-yes').on('click', function (event) {
+                        event.preventDefault();
+                        var postId = $(this).data('post-id');
+                        var objList = [];
+                        var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_DELETE}}]]*/ null;
+                        var obj = {id: postId};
+                        objList.push(obj);
+                        doSubmitTo(path, objList, 'POST');
+                    });
+
+                    // close confirm dialog single post
+                    $('#ki-btn-del-post-no').on('click', function (event) {
+                        event.preventDefault();
+                        $('#ki-modal-del-post #ki-btn-del-post-yes').removeAttr('data-post-id');
+                    });
+
+                    $('#ki-modal-del-post').on('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        $('#ki-modal-del-post #ki-btn-del-post-yes').removeAttr('data-post-id');
+                    });
+
+                    // confirmed delete multi post
+                    $('#ki-btn-del-posts-yes').on('click', function (event) {
+                        event.preventDefault();
+                        var objList = [];
+                        $(':checkbox:checked').each(function (index) {
+                            var obj = {
+                                id : $(this).val()
+                            };
+                            objList.push(obj);
+                        });
+                        if (objList.length === 0) {
+                            console.log('Please select at least one post.');
+                        } else {
+                            var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_DELETE}}]]*/ null;
+                            doSubmitTo(path, objList, 'POST');
+                        }
+                    });
+
+                    // handle feedback message fade after a period of time
+                    hideMessage('#ki-message-holder');
+
+                    // update post ajax
+                    $('#ki-btn-save-post').on('click', function (event) {
+                        event.preventDefault();
+                        savePost();
+                    });
+
+                    // sort table when click table header
+                    sortTable();
+                });
+                /*]]>*/
+            </script>
+        </div>
+    </body>
+</html>

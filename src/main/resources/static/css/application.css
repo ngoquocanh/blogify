@@ -1,0 +1,252 @@
+/**
+    Before this style
+    - remove body padding top at css file sketchy template
+    - remove margin footer at css file sketchy template
+ */
+
+/******************************************/
+/********* footer always at bottom  *******/
+/******************************************/
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+body::after {
+    content: '';
+    display: block;
+    height: 75px; /* Set same as page footer's height */
+}
+#page-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 75px; /* Set same as body::after's height */
+    /*background-color: #6c6b6b;*/
+}
+
+@media (max-width: 767px){
+    body::after {
+        content: '';
+        display: block;
+        height: 105px; /* Set same as page footer's height */
+    }
+    #page-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 105px; /* Set same as body::after's height */
+        /*background-color: #6c6b6b;*/
+    }
+}
+
+@media (min-width: 768px){
+    body::after {
+        content: '';
+        display: block;
+        height: 75px; /* Set same as page footer's height */
+    }
+    #page-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 75px; /* Set same as body::after's height */
+        /*background-color: #6c6b6b;*/
+    }
+}
+/******************************************/
+/********* footer always at bottom end *******/
+/******************************************/
+
+/*--------------------------*/
+
+/***************************/
+/********* tag list  *******/
+/***************************/
+#tag-cloud {
+    background-color: #e3e3e3;
+}
+ul.tag-list {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+ul.tag-list li {
+    display: inline-block;
+    list-style-type: none;
+    padding: 6px 3px 0px 3px;
+}
+ul.tag-list li:first-child {
+    padding-left: 0px;
+}
+ul.tag-list li:last-child {
+    padding-right: 0px;
+}
+ul.tag-list li a {
+    text-decoration: none;
+}
+.minimum-tag {
+    font-size:1rem;
+}
+.small-tag {
+    font-size:1.15rem;
+}
+.medium-tag {
+    font-size:1.4rem;
+}
+.large-tag {
+    font-size:1.6rem;
+}
+.maximum-tag {
+    font-size:1.8rem;
+}
+/***************************/
+/******* tag list end ******/
+/***************************/
+
+/*--------------------------*/
+
+/******************************/
+/******* table sort able ******/
+/******************************/
+a.column-header {
+    text-decoration: none;
+}
+.column-header {
+    display: flex;
+}
+div.sort-by {
+    display: flex;
+    align-items: center;
+}
+div.sort-by i {
+    position: relative;
+    padding-right: 1rem;
+    bottom: 0.46rem;
+}
+div.sort-by i:before,
+div.sort-by i:after {
+    border: 0.25rem solid transparent;
+    content: '';
+    display: block;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: -0.25rem;
+    width: 0;
+}
+div.sort-by i:before {
+    border-bottom-color: #333;
+    margin-top: 0;
+}
+div.sort-by i:after {
+    border-top-color: #333;
+    margin-top: 0.625rem;
+}
+.column-header:hover div.sort-by i:after {
+    border-top-color: #0d0d0d;
+    margin-top: 0.625rem;
+}
+.column-header.asc div.sort-by i:after {
+    visibility: hidden;
+}
+.column-header.desc div.sort-by i:before {
+    visibility: hidden;
+}
+/**********************************/
+/******* table sort able end ******/
+/**********************************/
+
+#page-content {
+    padding-top: 120px;
+}
+.sponsor img, .navbar img {
+    max-height: 30px;
+}
+
+/******************************/
+/******* single article  ******/
+/******************************/
+.k-post .k-article-title, .k-profile-title,
+.k-post .article-header .article-title,
+.k-post .article-content h1,
+.k-post .article-content h2,
+.k-post .article-content h3,
+.k-post .article-content h4,
+.k-post .article-content h5,
+h1, h2, h3, h4, h5 {
+    font-family: "Neucha", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    color: #212529;
+}
+.page-header h1 {
+    font-size: 1.85rem;
+}
+.k-post .article-header .article-title {
+    font-size: 2.2rem;
+}
+.k-post .article-header .article-meta-info .article-date {
+    color: #868e96;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.k-post .article-content h2 {
+    font-size: 1.85rem;
+}
+.k-post .article-content h3 {
+    font-size: 1.7rem;
+}
+.k-post .article-content p,
+.k-post .article-content ol,
+.k-post .article-content ul {
+    margin-bottom: 1rem;
+}
+.k-post .article-content ol,
+.k-post .article-content ul {
+    padding-left: 1rem;
+}
+.k-post .article-content h2,
+.k-post .article-content h3,
+.k-post .article-content h4,
+.k-post .article-content h5 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.3rem;
+}
+.k-post .article-content img {
+    display: block;
+    /*padding: 0.8rem 0rem;*/
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+}
+/******************************/
+/******* single article  ******/
+/******************************/
+.k-cb-width, .kc-cb-width, .kc-width-1 {
+    width: 1rem;
+}
+.kc-width-9 {
+    width: 9rem;
+}
+.kc-width-18 {
+    width: 18rem;
+    min-width: 18rem;
+}
+
+.has-danger {
+    color: #dc3545;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: #657c89;;
+}
+#k-profile {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
