@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="public/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="public/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9">
+                            <section id="k-posts">
+                                <div class="row" th:if="${pager != null}">
+                                    <div th:if="${not #lists.isEmpty(pager.currentPageRecords)}" th:remove="tag">
+                                        <article th:each="post, pSt : ${pager.currentPageRecords}" class="col-12 col-sm-12 col-md-12 col-lg-6" th:classappend="${pSt.last} ? 'pb-2 k-post' : 'pb-4 k-post'">
+                                            <div class="card">
+                                                <div class="card-body pb-1">
+                                                    <h2 class="card-title k-article-title mb-2">
+                                                        <a th:href="@{|/article/${post.articleName}|}" class="text-decoration-none" th:text="${post.articleTitle}">[Post Title]</a>
+                                                    </h2>
+                                                    <ul class="card-subtitle list-inline text-muted mb-1">
+                                                        <li class="list-inline-item"><a href="#"><span class="badge badge-secondary">Java</span></a></li>
+                                                        <li class="list-inline-item"><a href="#"><span class="badge badge-secondary">Microservices</span></a></li>
+                                                    </ul>
+                                                    <p class="card-text"><small class="text-muted" th:text="#{public.post.k-posts.post-created(${T(com.keybds.springblog.utils.DateTimeUtil).convertZonedDateTimeToStringDate(post.articleDate)})}">[Post Date]</small></p>
+                                                </div>
+                                                <div class="card-body pt-0 pb-2">
+                                                    <img class="card-img-bottom" src="https://via.placeholder.com/350x200" alt="Card image cap">
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <p class="card-text mb-1" th:text="${post.articleExcerpt}">[Post Excerpt]</p>
+                                                    <a th:href="@{|/article/${post.articleName}|}" class="card-link"><button type="button" class="btn btn-outline-secondary btn-sm">Read More</button></a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div th:if="${#lists.isEmpty(pager.currentPageRecords)}" th:remove="tag">
+                                        <p class="col-12" th:text="#{public.posts.list.k-posts.post-not-found}">[No post found]</p>
+                                    </div>
+                                </div>
+                                <div class="row" th:if="${pager == null}">
+                                    <p class="col-12" th:text="#{public.posts.list.k-posts.post-not-found}">[No post found]</p>
+                                </div>
+                            </section>
+                            <div th:replace="public/fragments/pager :: pager">[pager]</div>
+                        </section><!--#main-->
+                        <aside th:replace="public/fragments/sidebar :: sidebar('posts')">[sidebar left]</aside><!--#page-aside-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="public/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+    </body>
+</html>

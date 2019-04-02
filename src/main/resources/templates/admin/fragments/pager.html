@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="pager" id="pager" class="row" th:if="${pager != null}">
+            <div th:if="${pager.totalPages >= 2}" th:remove="tag">
+                <div class="col-12 col-sm-12 col-md-5 col-lg-4 order-2 order-sm-2 order-md-1">
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div th:each="pageSizeOption : ${pager.listPageSizeOptions}" th:remove="tag">
+                            <div th:if="${pager.pageSize == pageSizeOption}" th:remove="tag">
+                                <button type="button" class="btn btn-primary" th:text="#{pager.listPageSizeOptions.pageSizeOption(${pageSizeOption})}">[Show 100 records]</button>
+                            </div>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+                                <a th:each="pageSizeOption : ${pager.listPageSizeOptions}" class="dropdown-item" href="#" th:text="#{pager.listPageSizeOptions.pageSizeOption(${pageSizeOption})}">[Show 100 records]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-7 col-lg-8 order-1 order-sm-1 order-md-2">
+                    <ul class="pagination pagination-sm justify-content-start justify-content-md-end">
+                        <!-- first -->
+                        <li th:if="${pager.pageIndex == 0}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&laquo;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex > 0}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}1|}">&laquo;</a>
+                        </li>
+
+                        <!-- previous -->
+                        <li th:if="${pager.pageIndex == 0}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&lt;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex > 0}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}${pager.pageIndex}|}">&lt;</a>
+                        </li>
+
+                        <!-- range -->
+                        <li th:each="p : ${#numbers.sequence(pager.startPage,pager.endPage)}" class="page-item" th:classappend="${p == pager.pageIndex} ? 'active' : ''">
+                            <a th:if="${pager.pageIndex == p}" class="page-link" th:href="'javascript:void(0);'" th:text="${p + 1}">[1]</a>
+                            <a th:if="${pager.pageIndex != p}" class="page-link" th:href="@{|${pager.baseUrl}${p + 1}|}" th:text="${p + 1}">[2]</a>
+                        </li>
+
+                        <!-- next -->
+                        <li th:if="${pager.pageIndex == pager.totalPages - 1}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&gt;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex < pager.totalPages - 1}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}${pager.pageIndex + 2}|}">&gt;</a>
+                        </li>
+
+                        <!-- last -->
+                        <li th:if="${pager.pageIndex == pager.totalPages - 1}" class="page-item" th:classappend="'disabled'">
+                            <a class="page-link" th:href="'javascript:void(0);'">&raquo;</a>
+                        </li>
+                        <li th:if="${pager.pageIndex < pager.totalPages - 1}" class="page-item">
+                            <a class="page-link" th:href="@{|${pager.baseUrl}${pager.totalPages}|}">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+                function goPage() {
+                    // th:onclick="'javascript:goPage(\''+ ${a} +'\');'"
+                    // th:onclick="'javascript:goPage();'"
+                }
+            /*]]>*/
+            </script>
+        </div>
+    </body>
+</html>

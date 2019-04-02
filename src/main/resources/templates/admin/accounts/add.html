@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="admin/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="admin/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <aside th:replace="admin/fragments/sidebar :: sidebar('accounts')">[sidebar left]</aside><!--#page-aside-->
+                        <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9 mt-3 mt-sm-3 mt-md-0">
+                            <div class="page-header" id="banner">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-7 col-sm-6">
+                                        <h1 class="float-sm-left">Add Account</h1>
+                                        <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
+                                    </div>
+                                    <div class="col-lg-4 col-md-5 col-sm-6">
+                                        <div class="sponsor">
+                                            <a href="#" class="float-sm-right">
+                                                <img th:src="@{/images/keyio.png}" height="30" alt=""/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section id="k-add-account" class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <form th:object="${account}" th:action="@{/admin/accounts/add}" method="post">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 col-md-11 col-lg-9">
+                                            <div class="alert alert-dismissible alert-success">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" th:classappend="${#fields.hasErrors('firstName')} ? 'has-danger'">
+                                        <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="firstName">First Name</label>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <input type="text" th:field="*{firstName}" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" placeholder="First Name" id="firstName" autocomplete="off">
+                                            <ul th:if="${#fields.hasErrors('firstName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">[Invalid input]</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" th:classappend="${#fields.hasErrors('lastName')} ? 'has-danger'">
+                                        <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="lastName">Last Name</label>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <input type="text" th:field="*{lastName}" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" placeholder="Last Name" id="lastName" autocomplete="off">
+                                            <ul th:if="${#fields.hasErrors('lastName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">[Invalid input]</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
+                                        <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="username">Username</label>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <input type="text" th:field="*{username}" class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" placeholder="Username" id="username" autocomplete="off">
+                                            <ul th:if="${#fields.hasErrors('username')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                <li th:each="err : ${#fields.errors('username')}" th:text="${err}">[Invalid input]</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
+                                        <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="inputValid">Email</label>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <input type="text" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="Email" id="inputValid" autocomplete="off">
+                                            <ul th:if="${#fields.hasErrors('email')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                <li th:each="err : ${#fields.errors('email')}" th:text="${err}">[Invalid input]</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
+                                        <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="inputDanger1">Password</label>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" placeholder="Password" id="inputDanger1" autocomplete="off">
+                                            <ul th:if="${#fields.hasErrors('password')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                <li th:each="err : ${#fields.errors('password')}" th:text="${err}">[Invalid input]</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'has-danger'">
+                                        <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="inputDanger5">Confirm Password</label>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <input type="password" th:field="*{confirmPassword}" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'" placeholder="Confirm Password" id="inputDanger5" autocomplete="off">
+                                            <ul th:if="${#fields.hasErrors('confirmPassword')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                <li th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}">[Invalid input]</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row has-danger">
+                                        <div class="col-sm-4 col-md-4 col-lg-3"></div>
+                                        <div class="col-sm-8 col-md-7 col-lg-6">
+                                            <button type="submit" class="btn btn-info">Save</button>
+                                            <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/accounts/|} + '\''" class="btn btn-primary">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+    </body>
+</html>
