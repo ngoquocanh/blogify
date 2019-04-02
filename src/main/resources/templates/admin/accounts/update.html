@@ -42,14 +42,6 @@
                                 <div id="myTabContent" class="tab-content">
                                     <div class="tab-pane fade" th:classappend="${active == 'k-account-general-tab'} ? 'active show' : ''" id="k-account-general-tab">
                                         <form th:object="${account}" th:action="@{/admin/accounts/update/info}" method="post">
-                                            <!--<div class="form-group row has-success">-->
-                                                <!--<div class="col-sm-12 col-md-10 col-lg-8">-->
-                                                    <!--<div class="alert alert-dismissible alert-success">-->
-                                                        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
-                                                        <!--<strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
                                             <div class="form-group row" th:classappend="${#fields.hasErrors('firstName')} ? 'has-danger'">
                                                 <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="firstName">First Name</label>
                                                 <div class="col-sm-8 col-md-7 col-lg-6">
@@ -68,13 +60,6 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <!--<div class="form-group row">-->
-                                                <!--<label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="dateOfBirth">Date Of Birth</label>-->
-                                                <!--<div class="col-sm-8 col-md-7 col-lg-6">-->
-                                                    <!--<input type="text" value="" class="form-control" placeholder="Date Of Birth" id="dateOfBirth">-->
-                                                    <!--&lt;!&ndash;<div class="invalid-feedback">Sorry, that username's taken. Try another?</div>&ndash;&gt;-->
-                                                <!--</div>-->
-                                            <!--</div>-->
                                             <div class="form-group row has-danger">
                                                 <div class="col-sm-4 col-md-3 col-lg-2"></div>
                                                 <div class="col-sm-8 col-md-7 col-lg-6">
@@ -86,14 +71,6 @@
                                     </div>
                                     <div class="tab-pane fade" th:classappend="${active == 'k-account-email-tab'} ? 'active show' : ''" id="k-account-email-tab">
                                         <form th:object="${account}" th:action="@{/admin/accounts/update/email}" method="post">
-                                            <!--<div class="form-group row has-success">-->
-                                                <!--<div class="col-sm-12 col-md-10 col-lg-8">-->
-                                                    <!--<div class="alert alert-dismissible alert-success">-->
-                                                        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
-                                                        <!--<strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
                                             <div class="form-group row" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
                                                 <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="inputValid2">Email</label>
                                                 <div class="col-sm-8 col-md-7 col-lg-6">
@@ -114,14 +91,6 @@
                                     </div>
                                     <div class="tab-pane fade" th:classappend="${active == 'k-account-username-tab'} ? 'active show' : ''" id="k-account-username-tab">
                                         <form th:object="${account}" th:action="@{/admin/accounts/update/username}" method="post">
-                                            <!--<div class="form-group row has-success">-->
-                                                <!--<div class="col-sm-12 col-md-10 col-lg-8">-->
-                                                    <!--<div class="alert alert-dismissible alert-success">-->
-                                                        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
-                                                        <!--<strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
                                             <div class="form-group row" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
                                                 <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="inputValid3">Username</label>
                                                 <div class="col-sm-8 col-md-7 col-lg-6">
@@ -142,14 +111,6 @@
                                     </div>
                                     <div class="tab-pane fade" th:classappend="${active == 'k-account-security-tab'} ? 'active show' : ''" id="k-account-security-tab">
                                         <form th:object="${account}" th:action="@{/admin/accounts/update/security}" method="post">
-                                            <!--<div class="form-group row has-success">-->
-                                                <!--<div class="col-sm-12 col-md-11 col-lg-9">-->
-                                                    <!--<div class="alert alert-dismissible alert-success">-->
-                                                        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
-                                                        <!--<strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
                                             <div class="form-group row" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
                                                 <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="currentPassword">Current Password</label>
                                                 <div class="col-sm-8 col-md-7 col-lg-6">
