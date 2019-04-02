@@ -18,7 +18,7 @@
                                     <div class="col-lg-4 col-md-5 col-sm-6">
                                         <div class="sponsor">
                                             <a href="#" class="float-sm-right">
-                                                <img th:src="@{/images/keyio.png}" height="30" alt=""/>
+                                                <img th:src="@{/images/keybds.png}" height="30" alt=""/>
                                             </a>
                                         </div>
                                     </div>
@@ -49,64 +49,73 @@
                                     </a>
                                 </div>
                             </div>
-                            <section id="k-account-management" class="row">
+                            <section id="k-accounts-management" class="row">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>
-                                            <tr>
-                                                <th scope="col" class="k-cb-width">
-                                                    <div class="form-group mb-0">
-                                                        <div class="form-check pl-0 disabled">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox" value="" disabled="">
-                                                            </label>
-                                                        </div>
+                                            <tr th:class="${#lists.isEmpty(pager?.currentPageRecords)} ? 'kc-table-empty' : ''">
+                                                <th scope="col" class="kc-width-1">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label pl-0">
+                                                            <input class="form-check-input ml-0" type="checkbox" id="ki-cb-all" value="" />
+                                                        </label>
                                                     </div>
                                                 </th>
+                                                <!--<th th:replace="admin/fragments/table-th :: table-th(#{pager.title.accounts.full-name}, 'fullName', '')"></th>-->
+                                                <!--<th th:replace="admin/fragments/table-th :: table-th(#{pager.title.accounts.username}, 'username', '')"></th>-->
+                                                <!--<th th:replace="admin/fragments/table-th :: table-th(#{pager.title.accounts.email}, 'email', '')"></th>-->
                                                 <th scope="col">
                                                     <a class="column-header" href="#">
-                                                        <div>Full Name</div>
-                                                        <div class="sort-by"><i></i></div>
-                                                    </a>
-                                                </th>
-                                                <th scope="col">
-                                                    <a class="column-header asc" href="#">
-                                                        <div>Username</div>
-                                                        <div class="sort-by"><i></i></div>
-                                                    </a>
-                                                </th>
-                                                <th scope="col">
-                                                    <a class="column-header desc" href="#">
-                                                        <div>Email</div>
-                                                        <div class="sort-by"><i></i></div>
+                                                        <div th:text="#{pager.title.accounts.full-name}">[Full Name]</div>
                                                     </a>
                                                 </th>
                                                 <th scope="col">
                                                     <a class="column-header" href="#">
-                                                        <div>Action</div>
+                                                        <div th:text="#{pager.title.accounts.username}">[Username]</div>
+                                                    </a>
+                                                </th>
+                                                <th scope="col">
+                                                    <a class="column-header" href="#">
+                                                        <div th:text="#{pager.title.accounts.email}">[Email]</div>
+                                                    </a>
+                                                </th>
+                                                <th scope="col">
+                                                    <a class="column-header" href="#">
+                                                        <div th:text="#{pager.title.accounts.action}">[Action]</div>
                                                     </a>
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr th:each="account : ${accounts}" class="table-active">
-                                                <td scope="row" class="k-cb-width">
-                                                    <div class="form-group mb-0">
-                                                        <div class="form-check pl-0 disabled">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox" th:value="${account.id}" checked="">
+                                        <tbody th:if="${pager != null}">
+                                            <div th:if="${not #lists.isEmpty(pager.currentPageRecords)}" th:remove="tag">
+                                                <tr th:each="account : ${pager.currentPageRecords}" class="table-active">
+                                                    <td scope="row">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label pl-0">
+                                                                <input class="form-check-input ml-0 kc-cb-items" type="checkbox" th:id="|ki-cb-items-${account.id}|" th:value="${account.id}" />
                                                             </label>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td th:text="${account.firstName + ' ' + account.lastName}">[Full Name]</td>
-                                                <td th:text="${account.username}">[Username]</td>
-                                                <td th:text="${account.email}">[Email]</td>
-                                                <td>
-                                                    <a th:href="@{|/admin/accounts/update/${account.id}|}"><i class="fas fa-edit"></i></a>
-                                                    <a th:href="@{|/admin/accounts/lock/${account.id}|}"><i class="fas fa-lock"></i></a>
-                                                    <a th:href="@{|/admin/accounts/delete/${account.id}|}"><i class="fas fa-trash-alt"></i></a>
-                                                </td>
+                                                    </td>
+                                                    <td th:text="${account.firstName + ' ' + account.lastName}">[Full Name]</td>
+                                                    <td th:text="${account.username}">[Username]</td>
+                                                    <td th:text="${account.email}">[Email]</td>
+                                                    <td>
+                                                        <!--<a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${post.id})}"><i class="fas fa-edit"></i></a>-->
+                                                        <a th:href="@{|/admin/accounts/update/${account.id}|}"><i class="fas fa-edit"></i></a>
+                                                        <a th:href="@{|/admin/accounts/lock/${account.id}|}"><i class="fas fa-lock"></i></a>
+                                                        <a th:href="@{|/admin/accounts/delete/${account.id}|}"><i class="fas fa-trash-alt"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </div>
+                                            <div th:if="${#lists.isEmpty(pager.currentPageRecords)}" th:remove="tag">
+                                                <tr>
+                                                    <td colspan="5" th:text="#{admin.accounts.list.k-accounts-management.account-not-found}">[No account found]</td>
+                                                </tr>
+                                            </div>
+                                        </tbody>
+                                        <tbody th:if="${pager == null}">
+                                            <tr>
+                                                <td colspan="5" th:text="#{admin.accounts.list.k-accounts-management.account-not-found}">[No account found]</td>
                                             </tr>
                                         </tbody>
                                     </table>

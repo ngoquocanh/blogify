@@ -14,6 +14,7 @@ public class UrlConstants {
     /** admin accounts **/
     public static final String ADMIN_PREFIX                   = "/admin"; // is used in SecurityConfig
     public static final String ADMIN_ACCOUNTS_LIST            = "/admin/accounts";
+    public static final String ADMIN_ACCOUNTS_LIST_BASE_URL   = "/admin/accounts?page=";
     public static final String ADMIN_ACCOUNT_ADD              = "/admin/accounts/add";
     public static final String ADMIN_ACCOUNT_UPDATE           = "/admin/accounts/update/{" + AdminAccountController.MODEL_ATTRIBUTE_ACCOUNT_ID + "}";
     public static final String ADMIN_ACCOUNT_UPDATE_INFO      = "/admin/accounts/update/info";

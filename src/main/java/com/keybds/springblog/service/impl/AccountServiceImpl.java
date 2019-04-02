@@ -6,14 +6,17 @@ import com.keybds.springblog.model.Account;
 import com.keybds.springblog.model.AccountDetails;
 import com.keybds.springblog.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service(value = "accountService")
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl extends AbstractService implements AccountService  {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -127,6 +130,16 @@ public class AccountServiceImpl implements AccountService {
             }
         } else {
             return account;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Account> getAllAccounts(Pageable pageable) {
+        if (isPaged(pageable)) {
+            return accountRepository.findAll(pageable);
+        } else {
+            return Page.empty();
         }
     }
 

@@ -2,14 +2,17 @@ package com.keybds.springblog.controller.admin;
 
 import com.keybds.springblog.components.WebUI;
 import com.keybds.springblog.constants.UrlConstants;
+import com.keybds.springblog.containers.PageHolder;
+import com.keybds.springblog.containers.PageUtil;
 import com.keybds.springblog.controller.BaseController;
 import com.keybds.springblog.dto.AccountDTO;
 import com.keybds.springblog.enums.StatusMessageCode;
 import com.keybds.springblog.exceptions.MvcException;
 import com.keybds.springblog.model.Account;
-import com.keybds.springblog.repository.AccountRepository;
 import com.keybds.springblog.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -27,9 +30,6 @@ public class AdminAccountController extends BaseController {
 
     @Autowired
     private WebUI webUI;
-
-    @Autowired
-    private AccountRepository accountRepository;
 
     @Autowired
     private AccountService accountService;
@@ -66,10 +66,23 @@ public class AdminAccountController extends BaseController {
 //    }
 
     @GetMapping(UrlConstants.ADMIN_ACCOUNTS_LIST)
-    public ModelAndView retrieveAccounts() {
+    public ModelAndView retrieveAllAccountsPageable(
+            @RequestParam(value = AdminPostController.MODEL_ATTRIBUTE_PAGE_INDEX,
+                    defaultValue = AdminPostController.MODEL_ATTRIBUTE_PAGE_DEFAULT) String strPageIndex) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_ADMIN_ACCOUNTS_LIST);
-        Iterable<Account> accounts = accountRepository.findAll();
-        mav.addObject(MODEL_ATTRIBUTE_ACCOUNTS, accounts);
+        Integer pageIndex = parseInt(strPageIndex, 0);
+        if (pageIndex != 0) {
+            Page<Account> accounts = accountService.getAllAccounts(PageRequest.of(pageIndex - 1, PAGE_SIZE));
+            if (accounts.hasContent()) {
+                PageUtil<Account> pager = manualBuildPager(accounts.getContent(), accounts.getNumber(), accounts.getSize(), accounts.getTotalElements());
+                PageHolder<Account> pageAccountsHolder = new PageHolder(pager, UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL);
+                mav.addObject(MODEL_ATTRIBUTE_PAGER, pageAccountsHolder);
+            } else {
+                mav.addObject(MODEL_ATTRIBUTE_PAGER, null);
+            }
+        } else {
+            mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
+        }
         return mav;
     }
 

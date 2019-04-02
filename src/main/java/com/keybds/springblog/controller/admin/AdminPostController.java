@@ -38,7 +38,7 @@ public class AdminPostController extends BaseController {
     protected static final String VIEW_ADMIN_POST_UPDATE    = "admin/posts/update";
     protected static final String VIEW_ADMIN_POST_ADD       = "admin/posts/add";
 
-    public static final String MODEL_ATTRIBUTE_PAGER                 = "pager";
+//    public static final String MODEL_ATTRIBUTE_PAGER                 = "pager";
     public static final String MODEL_ATTRIBUTE_PAGE_INDEX            = "page";
     public static final String MODEL_ATTRIBUTE_PAGE_SORT_NAME        = "sort";
     public static final String MODEL_ATTRIBUTE_PAGE_SORT_DIR         = "dir";

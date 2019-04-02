@@ -22,6 +22,9 @@ import static java.lang.Math.toIntExact;
 
 public abstract class BaseController {
 
+    protected static final String MODEL_ATTRIBUTE_PAGER                 = "pager";
+
+
     /**
      * For pagination
      */
