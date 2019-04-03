@@ -13,8 +13,6 @@ ALTER TABLE `accounts` AUTO_INCREMENT = 1;
 -- ----------------------------
 INSERT INTO `accounts` VALUES ('1', 'admin', 'admin@gmail.com', 'Admin', 'Jones', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
 INSERT INTO `accounts` VALUES ('2', 'user', 'user@gmail.com', 'User', 'Charlie', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
-INSERT INTO `accounts` VALUES ('3', 'john', 'john@gmail.com', 'John', 'Bubkis', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
-INSERT INTO `accounts` VALUES ('4', 'ken', 'ken@gmail.com', 'Ken', 'Watts', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
 
 -- ----------------------------
 -- records of authorities

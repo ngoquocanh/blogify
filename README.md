@@ -5,7 +5,7 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 | #1 | #2 | #3 | #4 |
 | --- | --- |--- |--- |
 | *Spring Boot* | *Spring Data JPA* | *Spring MVC*   | *Spring Security* |
-| *Bootstrap 4* | *Gradle*          | *JPA Auditing* | *Webjars*         |
+| *Bootstrap 4* | *Gradle*          | *Thymeleaf*    | *Webjars*         |
 
 :boom: **2019-apr**
 

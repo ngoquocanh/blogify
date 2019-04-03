@@ -25,9 +25,9 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div id="ki-message-holder" th:if="${feedbackMessage}" class="row">
                                 <div class="col">
-                                    <div th:if="${feedbackMessage}" class="alert alert-dismissible alert-success">
+                                    <div class="alert alert-dismissible alert-success">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         <strong th:text="${feedbackMessage}">[Feedback Message]</strong>
                                     </div>
@@ -36,7 +36,12 @@
 
                             <div class="row">
                                 <div class="col-12 col-sm-12 col-md-4 col-lg-3 order-2 order-sm-2 order-md-1">
-                                    <p class="mt-2">Total: <strong>19 Records</strong></p>
+                                    <div th:if="${pager == null}" th:remove="tag">
+                                        <p class="mt-2" th:text="#{pager.totalRecords.hasOne(0)}">[Total: 0 Record]</p>
+                                    </div>
+                                    <div th:if="${pager != null}" th:remove="tag">
+                                        <p class="mt-2" th:text="${pager.totalRecords > 1} ? #{pager.totalRecords.hasMore(${pager.totalRecords})} : #{pager.totalRecords.hasOne(${pager.totalRecords})}">[Total: 10 Records]</p>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-1 order-sm-1 order-md-2 text-left text-md-right">
                                     <button type="button" class="btn btn-secondary btn-sm">Import</button>
@@ -44,11 +49,11 @@
                                     <a th:href="@{|/admin/accounts/add|}" class="text-decoration-none text-light">
                                         <button type="button" class="btn btn-info btn-sm">Add New</button>
                                     </a>
-                                    <a th:href="@{|/admin/accounts/delete|}" class="text-decoration-none">
-                                        <button type="button" class="btn btn-danger btn-sm">Delete All</button>
-                                    </a>
+                                    <!--@{|/admin/accounts/delete|}-->
+                                    <button type="button" id="ki-btn-del-all" class="btn btn-danger btn-sm" disabled="disabled" data-toggle="modal" data-target="#ki-modal-del-posts">Delete All</button>
                                 </div>
                             </div>
+
                             <section id="k-accounts-management" class="row">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
@@ -173,6 +178,18 @@
             </section><!--#page-content-->
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
-        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[scripts]</div>
+        <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(document).ready(function() {
+                onCheckedItems(hasCheckedItems('.kc-cb-items'));
+                onChangeCheckboxes('#ki-cb-all', '.kc-cb-items');
+
+                // handle feedback message fade after a period of time
+                hideMessage('#ki-message-holder');
+            });
+            /*]]>*/
+        </script>
     </body>
 </html>
