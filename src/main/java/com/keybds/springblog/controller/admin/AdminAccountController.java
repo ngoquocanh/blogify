@@ -6,6 +6,7 @@ import com.keybds.springblog.containers.PageHolder;
 import com.keybds.springblog.containers.PageUtil;
 import com.keybds.springblog.controller.BaseController;
 import com.keybds.springblog.dto.AccountDTO;
+import com.keybds.springblog.dto.AccountEmailDTO;
 import com.keybds.springblog.dto.AccountInfoDTO;
 import com.keybds.springblog.enums.StatusMessageCode;
 import com.keybds.springblog.exceptions.MvcException;
@@ -26,7 +27,6 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes(AdminAccountController.MODEL_ATTRIBUTE_ACCOUNT)
 public class AdminAccountController extends BaseController {
 
     @Autowired
@@ -39,10 +39,13 @@ public class AdminAccountController extends BaseController {
     protected static final String VIEW_ADMIN_ACCOUNT_ADD    = "admin/accounts/add";
     protected static final String VIEW_ADMIN_ACCOUNT_UPDATE = "admin/accounts/update";
 
-    public static final String MODEL_ATTRIBUTE_ACCOUNTS      = "accounts";
-    public static final String MODEL_ATTRIBUTE_ACCOUNT       = "account";
-    public static final String MODEL_ATTRIBUTE_ACCOUNT_INFO  = "accountInfo";
-    public static final String MODEL_ATTRIBUTE_ACCOUNT_ID    = "id";
+    public static final String MODEL_ATTRIBUTE_ACCOUNTS          = "accounts";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT           = "account";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT_INFO      = "accountInfo";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT_USERNAME  = "accountUsername";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT_EMAIL     = "accountEmail";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT_SECURITY  = "accountSecurity";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT_ID        = "id";
 
     public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_ADDED   = "feedback.message.account.added";
     public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED = "feedback.message.account.updated";
@@ -121,11 +124,18 @@ public class AdminAccountController extends BaseController {
         ModelAndView mav = new ModelAndView(VIEW_ADMIN_ACCOUNT_UPDATE);
         Optional<Account> accountFound = accountService.retrieveAccountById(id);
         if (accountFound.isPresent()) {
+            // first name, last name
             AccountInfoDTO accountInfo = new AccountInfoDTO();
             accountInfo.setId(accountFound.get().getId());
             accountInfo.setFirstName(accountFound.get().getFirstName());
             accountInfo.setLastName(accountFound.get().getLastName());
             mav.addObject(MODEL_ATTRIBUTE_ACCOUNT_INFO, accountInfo);
+
+            // email
+            AccountEmailDTO accountEmail = new AccountEmailDTO();
+            accountEmail.setId(accountFound.get().getId());
+            accountEmail.setEmail(accountFound.get().getEmail());
+            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT_EMAIL, accountEmail);
         } else {
             throw new MvcException(StatusMessageCode.ACCOUNT_NOT_FOUND);
         }
@@ -136,13 +146,12 @@ public class AdminAccountController extends BaseController {
      * just update firstName, lastName
      * @param accountInfo
      * @param bindingResult
-     * @param sessionStatus
      * @param attributes
      * @return
      */
     @PostMapping(UrlConstants.ADMIN_ACCOUNT_UPDATE_INFO)
     public ModelAndView updateAccountInfo(@Valid @ModelAttribute(MODEL_ATTRIBUTE_ACCOUNT_INFO) AccountInfoDTO accountInfo,
-                                      BindingResult bindingResult, SessionStatus sessionStatus, RedirectAttributes attributes) {
+                                      BindingResult bindingResult, RedirectAttributes attributes) {
         ModelAndView mav = new ModelAndView();
         if (bindingResult.hasErrors()) {
             mav.addObject(TAB_MODEL_ACTIVE, TAB_MODEL_ACTIVE_VALUE_INFO);
@@ -154,7 +163,32 @@ public class AdminAccountController extends BaseController {
             accountToUpdate.setFirstName(accountInfo.getFirstName());
             accountToUpdate.setLastName(accountInfo.getLastName());
             Account account = accountService.updateAccountInfo(accountToUpdate);
-            sessionStatus.setComplete();
+            webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
+            mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
+        }
+        return mav;
+    }
+
+    /**
+     * update email
+     * @param accountEmail
+     * @param bindingResult
+     * @param attributes
+     * @return
+     */
+    @PostMapping(UrlConstants.ADMIN_ACCOUNT_UPDATE_EMAIL)
+    public ModelAndView updateAccountEmail(@Valid @ModelAttribute(MODEL_ATTRIBUTE_ACCOUNT_EMAIL) AccountEmailDTO accountEmail,
+                                           BindingResult bindingResult, RedirectAttributes attributes) {
+        ModelAndView mav = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            mav.addObject(TAB_MODEL_ACTIVE, TAB_MODEL_ACTIVE_VALUE_EMAIL);
+            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT_EMAIL, accountEmail);
+            mav.setViewName(VIEW_ADMIN_ACCOUNT_UPDATE);
+        } else {
+            Account accountToUpdate = new Account();
+            accountToUpdate.setId(accountEmail.getId());
+            accountToUpdate.setEmail(accountEmail.getEmail());
+            Account account = accountService.updateAccountEmail(accountToUpdate);
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
             mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
         }
@@ -179,31 +213,6 @@ public class AdminAccountController extends BaseController {
             mav.setViewName(VIEW_ADMIN_ACCOUNT_UPDATE);
         } else {
             Account account = accountService.updateAccountUsername(accountDTO);
-            sessionStatus.setComplete();
-            webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
-            mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST));
-        }
-        return mav;
-    }
-
-    /**
-     * update email
-     * @param accountDTO
-     * @param bindingResult
-     * @param sessionStatus
-     * @param attributes
-     * @return
-     */
-    @PostMapping(UrlConstants.ADMIN_ACCOUNT_UPDATE_EMAIL)
-    public ModelAndView updateAccountEmail(@Valid @ModelAttribute(MODEL_ATTRIBUTE_ACCOUNT) AccountDTO accountDTO,
-                                              BindingResult bindingResult, SessionStatus sessionStatus, RedirectAttributes attributes) {
-        ModelAndView mav = new ModelAndView();
-        if (bindingResult.hasErrors()) {
-            mav.addObject(TAB_MODEL_ACTIVE, TAB_MODEL_ACTIVE_VALUE_EMAIL);
-            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT, accountDTO);
-            mav.setViewName(VIEW_ADMIN_ACCOUNT_UPDATE);
-        } else {
-            Account account = accountService.updateAccountEmail(accountDTO);
             sessionStatus.setComplete();
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
             mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST));
