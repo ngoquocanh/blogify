@@ -45,23 +45,23 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
     }
 
     @Override
-    public Account updateAccountInfo(AccountDTO accountDTO) {
-        Account account = new Account();
-        if (accountRepository.existsById(accountDTO.getId())) {
+    public Account updateAccountInfo(Account account) {
+        Account accountToUpdate = new Account();
+        if (accountRepository.existsById(account.getId())) {
             // info from input
-            account.setFirstName(accountDTO.getFirstName());
-            account.setLastName(accountDTO.getLastName());
-            account.setId(accountDTO.getId());
+            accountToUpdate.setFirstName(account.getFirstName());
+            accountToUpdate.setLastName(account.getLastName());
+            accountToUpdate.setId(account.getId());
 
             // for sure account existed
-            Optional<Account> accountFound = retrieveAccountById(accountDTO.getId());
-            account.setEmail(accountFound.get().getEmail());
-            account.setUsername(accountFound.get().getUsername());
-            account.setPassword(accountFound.get().getPassword());
-            account.setAuthorities(accountFound.get().getAuthorities());
-            account.setEnabled(accountFound.get().getEnabled());
+            Optional<Account> accountFound = retrieveAccountById(account.getId());
+            accountToUpdate.setEmail(accountFound.get().getEmail());
+            accountToUpdate.setUsername(accountFound.get().getUsername());
+            accountToUpdate.setPassword(accountFound.get().getPassword());
+            accountToUpdate.setAuthorities(accountFound.get().getAuthorities());
+            accountToUpdate.setEnabled(accountFound.get().getEnabled());
 
-            Account accountUpdated = accountRepository.save(account);
+            Account accountUpdated = accountRepository.save(accountToUpdate);
             return accountUpdated;
         } else {
             return account;

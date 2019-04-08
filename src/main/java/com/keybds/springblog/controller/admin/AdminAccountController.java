@@ -6,6 +6,7 @@ import com.keybds.springblog.containers.PageHolder;
 import com.keybds.springblog.containers.PageUtil;
 import com.keybds.springblog.controller.BaseController;
 import com.keybds.springblog.dto.AccountDTO;
+import com.keybds.springblog.dto.AccountInfoDTO;
 import com.keybds.springblog.enums.StatusMessageCode;
 import com.keybds.springblog.exceptions.MvcException;
 import com.keybds.springblog.model.Account;
@@ -40,6 +41,7 @@ public class AdminAccountController extends BaseController {
 
     public static final String MODEL_ATTRIBUTE_ACCOUNTS      = "accounts";
     public static final String MODEL_ATTRIBUTE_ACCOUNT       = "account";
+    public static final String MODEL_ATTRIBUTE_ACCOUNT_INFO  = "accountInfo";
     public static final String MODEL_ATTRIBUTE_ACCOUNT_ID    = "id";
 
     public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_ADDED   = "feedback.message.account.added";
@@ -115,39 +117,46 @@ public class AdminAccountController extends BaseController {
     }
 
     @GetMapping(UrlConstants.ADMIN_ACCOUNT_UPDATE)
-    public ModelAndView openFormUpdateAccount(@PathVariable(MODEL_ATTRIBUTE_ACCOUNT_ID) Long id) {
+    public ModelAndView openFormUpdateAccount(@PathVariable(MODEL_ATTRIBUTE_ACCOUNT_ID) Long id) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_ADMIN_ACCOUNT_UPDATE);
-        Account account;
         Optional<Account> accountFound = accountService.retrieveAccountById(id);
         if (accountFound.isPresent()) {
-            account = accountFound.get();
-            AccountDTO accountDTO = convertToDTO(account);
-            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT, accountDTO);
+            AccountInfoDTO accountInfo = new AccountInfoDTO();
+            accountInfo.setId(accountFound.get().getId());
+            accountInfo.setFirstName(accountFound.get().getFirstName());
+            accountInfo.setLastName(accountFound.get().getLastName());
+            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT_INFO, accountInfo);
+        } else {
+            throw new MvcException(StatusMessageCode.ACCOUNT_NOT_FOUND);
         }
         return mav;
     }
 
     /**
      * just update firstName, lastName
-     * @param accountDTO
+     * @param accountInfo
      * @param bindingResult
      * @param sessionStatus
      * @param attributes
      * @return
      */
     @PostMapping(UrlConstants.ADMIN_ACCOUNT_UPDATE_INFO)
-    public ModelAndView updateAccountInfo(@Valid @ModelAttribute(MODEL_ATTRIBUTE_ACCOUNT) AccountDTO accountDTO,
+    public ModelAndView updateAccountInfo(@Valid @ModelAttribute(MODEL_ATTRIBUTE_ACCOUNT_INFO) AccountInfoDTO accountInfo,
                                       BindingResult bindingResult, SessionStatus sessionStatus, RedirectAttributes attributes) {
         ModelAndView mav = new ModelAndView();
         if (bindingResult.hasErrors()) {
             mav.addObject(TAB_MODEL_ACTIVE, TAB_MODEL_ACTIVE_VALUE_INFO);
-            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT, accountDTO);
+            mav.addObject(MODEL_ATTRIBUTE_ACCOUNT_INFO, accountInfo);
             mav.setViewName(VIEW_ADMIN_ACCOUNT_UPDATE);
         } else {
-            Account account = accountService.updateAccountInfo(accountDTO);
+            Account accountToUpdate = new Account();
+            accountToUpdate.setId(accountInfo.getId());
+            accountToUpdate.setFirstName(accountInfo.getFirstName());
+            accountToUpdate.setLastName(accountInfo.getLastName());
+            Account account = accountService.updateAccountInfo(accountToUpdate);
             sessionStatus.setComplete();
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
-            mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST));
+            mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
         }
         return mav;
     }
