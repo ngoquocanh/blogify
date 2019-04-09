@@ -10,6 +10,7 @@ import com.keybds.springblog.enums.StatusMessageCode;
 import com.keybds.springblog.exceptions.MvcException;
 import com.keybds.springblog.model.Account;
 import com.keybds.springblog.service.AccountService;
+import com.keybds.springblog.utils.AccountUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +26,6 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes(AdminAccountController.MODEL_ATTRIBUTE_ACCOUNT)
 public class AdminAccountController extends BaseController {
 
     @Autowired
@@ -139,12 +139,7 @@ public class AdminAccountController extends BaseController {
             mav.addObject(MODEL_ATTRIBUTE_ACCOUNT_INFO, accountInfo);
             mav.setViewName(VIEW_ADMIN_ACCOUNT_UPDATE);
         } else {
-            Account accountToUpdate = new Account();
-            accountToUpdate.setId(accountInfo.getId());
-            accountToUpdate.setFirstName(accountInfo.getFirstName());
-            accountToUpdate.setLastName(accountInfo.getLastName());
-            accountToUpdate.setUsername(accountInfo.getUsername());
-            accountToUpdate.setEmail(accountInfo.getEmail());
+            Account accountToUpdate = AccountUtil.convertToEntity(accountInfo);
             Account account = accountService.updateAccountInfo(accountToUpdate);
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
             mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));

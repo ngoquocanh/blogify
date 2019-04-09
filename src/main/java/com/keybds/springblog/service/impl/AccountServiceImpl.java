@@ -5,11 +5,13 @@ import com.keybds.springblog.dto.AccountDTO;
 import com.keybds.springblog.model.Account;
 import com.keybds.springblog.model.AccountDetails;
 import com.keybds.springblog.service.AccountService;
+import com.keybds.springblog.utils.AccountUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,9 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Need to check username and email existed or not
@@ -46,14 +51,15 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
 
     @Override
     public Account updateAccountInfo(Account account) {
-        Account accountToUpdate = new Account();
+        Account accountToUpdate;
         if (accountRepository.existsById(account.getId())) {
             // info from input
-            accountToUpdate.setId(account.getId());
-            accountToUpdate.setFirstName(account.getFirstName());
-            accountToUpdate.setLastName(account.getLastName());
-            accountToUpdate.setUsername(account.getUsername());
-            accountToUpdate.setEmail(account.getEmail());
+            accountToUpdate = AccountUtil.convertToEntity(account);
+//            accountToUpdate.setId(account.getId());
+//            accountToUpdate.setFirstName(account.getFirstName());
+//            accountToUpdate.setLastName(account.getLastName());
+//            accountToUpdate.setUsername(account.getUsername());
+//            accountToUpdate.setEmail(account.getEmail());
 
             // for sure account existed
             Optional<Account> accountFound = retrieveAccountById(account.getId());
@@ -72,7 +78,7 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
         if (accountRepository.existsById(account.getId())) {
             // sure account existed
             Account accountExisted = retrieveAccountById(account.getId()).get();
-            accountExisted.setPassword(account.getPassword());
+            accountExisted.setPassword(passwordEncoder.encode(account.getPassword()));
             return accountRepository.save(accountExisted);
         } else {
             return account;
