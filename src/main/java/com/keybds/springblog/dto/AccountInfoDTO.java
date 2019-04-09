@@ -12,6 +12,12 @@ public class AccountInfoDTO {
     @Size(min = 4, max = 35, message = "please enter a value for last Name field between {min} and {max} characters")
     private String lastName;
 
+    @Size(min = 6, max = 40, message = "please enter a value for username field between {min} and {max} characters")
+    private String username;
+
+    @Size(min = 6, max = 40, message = "please enter a value for email field between {min} and {max} characters")
+    private String email;
+
     public Long getId() {
         return id;
     }
@@ -34,5 +40,21 @@ public class AccountInfoDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

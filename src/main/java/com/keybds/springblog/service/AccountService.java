@@ -12,9 +12,7 @@ public interface AccountService extends UserDetailsService {
     Account createAccount(AccountDTO accountDTO);
     Optional<Account> retrieveAccountById(Long id);
     Account updateAccountInfo(Account account);
-    Account updateAccountUsername(AccountDTO accountDTO);
-    Account updateAccountEmail(Account account);
-    Account updateAccountSecurity(AccountDTO accountDTO);
+    Account updateAccountSecurity(Account account);
 
     /**
      * get all accounts for pagination

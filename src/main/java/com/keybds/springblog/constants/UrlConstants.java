@@ -21,6 +21,8 @@ public class UrlConstants {
     public static final String ADMIN_ACCOUNT_UPDATE_USERNAME  = "/admin/accounts/update/username";
     public static final String ADMIN_ACCOUNT_UPDATE_EMAIL     = "/admin/accounts/update/email";
     public static final String ADMIN_ACCOUNT_UPDATE_SECURITY  = "/admin/accounts/update/security";
+    public static final String ADMIN_ACCOUNT_RESET_PASSWORD_ID  = "/admin/accounts/{id}/reset-password";
+    public static final String ADMIN_ACCOUNT_RESET_PASSWORD     = "/admin/accounts/reset-password";
 
     /** admin posts **/
     public static final String ADMIN_POSTS_LIST            = "/admin/posts";

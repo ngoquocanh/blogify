@@ -49,65 +49,17 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
         Account accountToUpdate = new Account();
         if (accountRepository.existsById(account.getId())) {
             // info from input
+            accountToUpdate.setId(account.getId());
             accountToUpdate.setFirstName(account.getFirstName());
             accountToUpdate.setLastName(account.getLastName());
-            accountToUpdate.setId(account.getId());
-
-            // for sure account existed
-            Optional<Account> accountFound = retrieveAccountById(account.getId());
-            accountToUpdate.setEmail(accountFound.get().getEmail());
-            accountToUpdate.setUsername(accountFound.get().getUsername());
-            accountToUpdate.setPassword(accountFound.get().getPassword());
-            accountToUpdate.setAuthorities(accountFound.get().getAuthorities());
-            accountToUpdate.setEnabled(accountFound.get().getEnabled());
-
-            Account accountUpdated = accountRepository.save(accountToUpdate);
-            return accountUpdated;
-        } else {
-            return account;
-        }
-    }
-
-    @Override
-    public Account updateAccountUsername(AccountDTO accountDTO) {
-        Account account = new Account();
-        if (accountRepository.existsById(accountDTO.getId())) {
-            // email from input
-            account.setUsername(accountDTO.getUsername());
-
-            account.setId(accountDTO.getId());
-
-            // for sure account existed
-            Optional<Account> accountFound = retrieveAccountById(accountDTO.getId());
-            account.setFirstName(accountFound.get().getFirstName());
-            account.setLastName(accountFound.get().getLastName());
-            account.setEmail(accountFound.get().getEmail());
-            account.setPassword(accountFound.get().getPassword());
-
-            Account accountUpdated = accountRepository.save(account);
-            return accountUpdated;
-        } else {
-            return account;
-        }
-    }
-
-    @Override
-    public Account updateAccountEmail(Account account) {
-        Account accountToUpdate = new Account();
-        if (accountRepository.existsById(account.getId())) {
-            // username from input
+            accountToUpdate.setUsername(account.getUsername());
             accountToUpdate.setEmail(account.getEmail());
-            accountToUpdate.setId(account.getId());
 
-            // sure account existed
+            // for sure account existed
             Optional<Account> accountFound = retrieveAccountById(account.getId());
-            accountToUpdate.setFirstName(accountFound.get().getFirstName());
-            accountToUpdate.setLastName(accountFound.get().getLastName());
-            accountToUpdate.setUsername(accountFound.get().getUsername());
-            accountToUpdate.setPassword(accountFound.get().getPassword());
             accountToUpdate.setAuthorities(accountFound.get().getAuthorities());
+            accountToUpdate.setPassword(accountFound.get().getPassword());
             accountToUpdate.setEnabled(accountFound.get().getEnabled());
-
             Account accountUpdated = accountRepository.save(accountToUpdate);
             return accountUpdated;
         } else {
@@ -116,19 +68,12 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
     }
 
     @Override
-    public Account updateAccountSecurity(AccountDTO accountDTO) {
-        Account account = new Account();
-        if (accountRepository.existsById(accountDTO.getId())) {
+    public Account updateAccountSecurity(Account account) {
+        if (accountRepository.existsById(account.getId())) {
             // sure account existed
-            Account accountExisted = retrieveAccountById(accountDTO.getId()).get();
-            // check old password is same with user input or not
-            if (accountDTO.getPassword().equals(accountExisted.getPassword())) {
-                //set new password for account
-                accountExisted.setPassword(accountDTO.getNewPassword());
-                return accountRepository.save(accountExisted);
-            } else {
-                return account;
-            }
+            Account accountExisted = retrieveAccountById(account.getId()).get();
+            accountExisted.setPassword(account.getPassword());
+            return accountRepository.save(accountExisted);
         } else {
             return account;
         }

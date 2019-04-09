@@ -107,7 +107,7 @@
                                                     <td>
                                                         <!--<a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${post.id})}"><i class="fas fa-edit"></i></a>-->
                                                         <a th:href="@{|/admin/accounts/update/${account.id}|}"><i class="fas fa-edit"></i></a>
-                                                        <a th:href="@{|/admin/accounts/lock/${account.id}|}"><i class="fas fa-lock"></i></a>
+                                                        <a th:href="@{|/admin/accounts/${account.id}/reset-password|}"><i class="fas fa-lock"></i></a>
                                                         <a th:href="@{|/admin/accounts/delete/${account.id}|}"><i class="fas fa-trash-alt"></i></a>
                                                     </td>
                                                 </tr>
