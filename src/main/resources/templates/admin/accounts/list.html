@@ -12,7 +12,7 @@
                             <div class="page-header" id="banner">
                                 <div class="row">
                                     <div class="col-lg-8 col-md-7 col-sm-6">
-                                        <h1 class="float-sm-left">Account Management</h1>
+                                        <h1 class="float-sm-left">Accounts Management</h1>
                                         <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
                                     </div>
                                     <div class="col-lg-4 col-md-5 col-sm-6">
@@ -49,7 +49,6 @@
                                     <a th:href="@{|/admin/accounts/add|}" class="text-decoration-none text-light">
                                         <button type="button" class="btn btn-info btn-sm">Add New</button>
                                     </a>
-                                    <!--@{|/admin/accounts/delete|}-->
                                     <button type="button" id="ki-btn-del-all" class="btn btn-danger btn-sm" disabled="disabled" data-toggle="modal" data-target="#ki-modal-del-posts">Delete All</button>
                                 </div>
                             </div>
@@ -66,9 +65,6 @@
                                                         </label>
                                                     </div>
                                                 </th>
-                                                <!--<th th:replace="admin/fragments/table-th :: table-th(#{pager.title.accounts.full-name}, 'fullName', '')"></th>-->
-                                                <!--<th th:replace="admin/fragments/table-th :: table-th(#{pager.title.accounts.username}, 'username', '')"></th>-->
-                                                <!--<th th:replace="admin/fragments/table-th :: table-th(#{pager.title.accounts.email}, 'email', '')"></th>-->
                                                 <th scope="col">
                                                     <a class="column-header" href="#">
                                                         <div th:text="#{pager.title.accounts.full-name}">[Full Name]</div>
@@ -105,10 +101,9 @@
                                                     <td th:text="${account.username}">[Username]</td>
                                                     <td th:text="${account.email}">[Email]</td>
                                                     <td>
-                                                        <!--<a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${post.id})}"><i class="fas fa-edit"></i></a>-->
                                                         <a th:href="@{|/admin/accounts/update/${account.id}|}"><i class="fas fa-edit"></i></a>
                                                         <a th:href="@{|/admin/accounts/${account.id}/reset-password|}"><i class="fas fa-lock"></i></a>
-                                                        <a th:href="@{|/admin/accounts/delete/${account.id}|}"><i class="fas fa-trash-alt"></i></a>
+                                                        <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>
                                                     </td>
                                                 </tr>
                                             </div>
@@ -125,53 +120,29 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </section>
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-md-5 col-lg-4 order-2 order-sm-2 order-md-1">
-                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                        <button type="button" class="btn btn-primary">Show 100 records</button>
-                                        <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-                                                <a class="dropdown-item" href="#">Show 20 records</a>
-                                                <a class="dropdown-item" href="#">Show 50 records</a>
-                                                <a class="dropdown-item" href="#">Show 100 records</a>
+
+                                <div class="modal fade" id="ki-modal-del-account" tabindex="-1" role="dialog" aria-labelledby="delAccountModel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="delAccountModel">Confirm delete post</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this account?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="ki-btn-del-account-yes" class="btn btn-primary">Yes</button>
+                                                <button type="button" id="ki-btn-del-account-no" class="btn btn-secondary" data-dismiss="modal">No</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-7 col-lg-8 order-1 order-sm-1 order-md-2">
-                                    <ul class="pagination pagination-sm justify-content-start justify-content-md-end">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#">&laquo;</a>
-                                        </li>
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#">&lt;</a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">4</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">5</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">&gt;</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">&raquo;</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                                </div><!--ki-modal-del-post-->
+                            </section>
+                            <div th:replace="admin/fragments/pager :: pager">[pager]</div>
+                            <div id="ki-dynamic-form"></div>
                         </section><!--#main-->
                     </div>
                 </div>
@@ -182,12 +153,67 @@
         <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
         <script th:inline="javascript">
             /*<![CDATA[*/
+            var isSubmitted = false;
+
+            function doSubmitTo(path, params, method) {
+                if (isSubmitted) {
+                    return;
+                }
+                method = method || "POST";
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+                $.each(params, function (index, item) {
+                    if (item.hasOwnProperty('id')) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", 'id');
+                        hiddenField.setAttribute("value", item['id']);
+                        form.appendChild(hiddenField);
+                    }
+                });
+                $('#ki-dynamic-form').append(form);
+                form.submit();
+                isSubmitted = true;
+            }
+
             $(document).ready(function() {
+                // handle feedback message fade after a period of time
+                hideMessage('#ki-message-holder');
+
                 onCheckedItems(hasCheckedItems('.kc-cb-items'));
                 onChangeCheckboxes('#ki-cb-all', '.kc-cb-items');
 
-                // handle feedback message fade after a period of time
-                hideMessage('#ki-message-holder');
+                // open confirm dialog delete single account
+                $('.kc-btn-del').on('click', function (event) {
+                    event.preventDefault();
+                    var currentRowAccount = $(this).closest('tr');
+                    var acId = $(currentRowAccount).find("input[type=checkbox]").val();
+                    $('#ki-modal-del-account #ki-btn-del-account-yes').attr('data-account-id', acId);
+                    $('#ki-modal-del-account').modal();
+                });
+
+                // confirmed delete single post
+                $('#ki-btn-del-account-yes').on('click', function (event) {
+                    event.preventDefault();
+                    var acId = $(this).data('account-id');
+                    var objList = [];
+                    var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
+                    var obj = {id: acId};
+                    objList.push(obj);
+                    doSubmitTo(path, objList, 'POST');
+                });
+
+                // close confirm dialog single post
+                $('#ki-btn-del-account-no').on('click', function (event) {
+                    event.preventDefault();
+                    $('#ki-modal-del-account #ki-btn-del-account-yes').removeAttr('data-account-id');
+                });
+
+                $('#ki-modal-del-account').on('hidden.bs.modal', function (event) {
+                    event.preventDefault();
+                    $('#ki-modal-del-account #ki-btn-del-account-yes').removeAttr('data-account-id');
+                });
             });
             /*]]>*/
         </script>

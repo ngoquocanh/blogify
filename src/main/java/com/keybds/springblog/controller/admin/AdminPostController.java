@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -247,16 +246,10 @@ public class AdminPostController extends BaseController {
      * @return
      * @throws MvcException
      */
-    @PostMapping(UrlConstants.ADMIN_POST_DELETE)
+    @PostMapping(UrlConstants.ADMIN_POSTS_DELETE)
     public ModelAndView deletePosts(@RequestParam(MODEL_ATTRIBUTE_POST_ID) String[] strPostIds, RedirectAttributes attributes) throws MvcException {
         ModelAndView mav = new ModelAndView();
-        List<Long> postIds = new ArrayList<>();
-        for (String strPostId : strPostIds) {
-            Long postId = parseLong(strPostId, 0L);
-            if (postId != 0L) {
-                postIds.add(postId);
-            }
-        }
+        List<Long> postIds = parseLongIds(strPostIds);
         postService.deletePosts(postIds);
         webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_POSTS_DELETED);
         mav.setViewName(redirectTo(UrlConstants.ADMIN_POSTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));

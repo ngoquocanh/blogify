@@ -18,11 +18,9 @@ public class UrlConstants {
     public static final String ADMIN_ACCOUNT_ADD              = "/admin/accounts/add";
     public static final String ADMIN_ACCOUNT_UPDATE           = "/admin/accounts/update/{" + AdminAccountController.MODEL_ATTRIBUTE_ACCOUNT_ID + "}";
     public static final String ADMIN_ACCOUNT_UPDATE_INFO      = "/admin/accounts/update/info";
-    public static final String ADMIN_ACCOUNT_UPDATE_USERNAME  = "/admin/accounts/update/username";
-    public static final String ADMIN_ACCOUNT_UPDATE_EMAIL     = "/admin/accounts/update/email";
-    public static final String ADMIN_ACCOUNT_UPDATE_SECURITY  = "/admin/accounts/update/security";
     public static final String ADMIN_ACCOUNT_RESET_PASSWORD_ID  = "/admin/accounts/{id}/reset-password";
     public static final String ADMIN_ACCOUNT_RESET_PASSWORD     = "/admin/accounts/reset-password";
+    public static final String ADMIN_ACCOUNTS_DELETE            = "/admin/accounts/delete";
 
     /** admin posts **/
     public static final String ADMIN_POSTS_LIST            = "/admin/posts";
@@ -31,7 +29,7 @@ public class UrlConstants {
     public static final String ADMIN_POST_UPDATE           = "/admin/posts/update";
     public static final String ADMIN_POST_ADD              = "/admin/posts/add";
     public static final String ADMIN_POST_DELETE_ID        = "/admin/posts/delete/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
-    public static final String ADMIN_POST_DELETE           = "/admin/posts/delete";
+    public static final String ADMIN_POSTS_DELETE           = "/admin/posts/delete";
 
     /** admin ajax posts **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";

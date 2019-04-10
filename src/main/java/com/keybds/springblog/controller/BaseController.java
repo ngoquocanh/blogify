@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -163,6 +164,17 @@ public abstract class BaseController {
         } catch (NumberFormatException numberEx) {
             return Long.MAX_VALUE;
         }
+    }
+
+    protected List<Long> parseLongIds(String[] strIds) {
+        List<Long> longIds = new ArrayList<>();
+        for (String strId : strIds) {
+            Long longId = parseLong(strId, 0L);
+            if (longId != 0L) {
+                longIds.add(longId);
+            }
+        }
+        return longIds;
     }
 
     /**

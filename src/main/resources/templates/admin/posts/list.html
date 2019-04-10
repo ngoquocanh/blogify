@@ -271,7 +271,7 @@
                     event.preventDefault();
                     var postId = $(this).data('post-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_DELETE}}]]*/ null;
+                    var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
                     var obj = {id: postId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
@@ -301,7 +301,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one post.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });

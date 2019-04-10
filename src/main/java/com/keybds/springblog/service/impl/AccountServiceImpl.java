@@ -1,11 +1,11 @@
 package com.keybds.springblog.service.impl;
 
+import com.keybds.springblog.exceptions.MvcException;
 import com.keybds.springblog.repository.AccountRepository;
 import com.keybds.springblog.dto.AccountDTO;
 import com.keybds.springblog.model.Account;
 import com.keybds.springblog.model.AccountDetails;
 import com.keybds.springblog.service.AccountService;
-import com.keybds.springblog.utils.AccountUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service(value = "accountService")
@@ -53,13 +54,8 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
     public Account updateAccountInfo(Account account) {
         Account accountToUpdate;
         if (accountRepository.existsById(account.getId())) {
-            // info from input
-            accountToUpdate = AccountUtil.convertToEntity(account);
-//            accountToUpdate.setId(account.getId());
-//            accountToUpdate.setFirstName(account.getFirstName());
-//            accountToUpdate.setLastName(account.getLastName());
-//            accountToUpdate.setUsername(account.getUsername());
-//            accountToUpdate.setEmail(account.getEmail());
+            // info from input include: id, firstName, lastName, username, email
+            accountToUpdate = account;
 
             // for sure account existed
             Optional<Account> accountFound = retrieveAccountById(account.getId());
@@ -92,6 +88,15 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
             return accountRepository.findAll(pageable);
         } else {
             return Page.empty();
+        }
+    }
+
+    @Override
+    public void deleteAccounts(List<Long> accountIds) throws MvcException {
+        for (Long acId : accountIds) {
+            if (accountRepository.existsById(acId)) {
+                accountRepository.deleteById(acId);
+            }
         }
     }
 

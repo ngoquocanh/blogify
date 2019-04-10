@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -45,8 +46,9 @@ public class AdminAccountController extends BaseController {
     public static final String MODEL_ATTRIBUTE_ACCOUNT_SECURITY  = "accountSecurity";
     public static final String MODEL_ATTRIBUTE_ACCOUNT_ID        = "id";
 
-    public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_ADDED   = "feedback.message.account.added";
-    public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED = "feedback.message.account.updated";
+    public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_ADDED    = "feedback.message.account.added";
+    public static final String FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED  = "feedback.message.account.updated";
+    public static final String FEEDBACK_MESSAGE_KEY_ACCOUNTS_DELETED = "feedback.message.accounts.deleted";
 
 //    @Autowired
 //    @Qualifier("accountValidator")
@@ -57,6 +59,13 @@ public class AdminAccountController extends BaseController {
 //        binder.setValidator(validator);
 //    }
 
+    /**
+     * URL: /admin/accounts?p=
+     * METHOD: GET
+     * @param strPageIndex
+     * @return pager
+     * @throws MvcException
+     */
     @GetMapping(UrlConstants.ADMIN_ACCOUNTS_LIST)
     public ModelAndView retrieveAllAccountsPageable(
             @RequestParam(value = AdminPostController.MODEL_ATTRIBUTE_PAGE_INDEX,
@@ -183,6 +192,24 @@ public class AdminAccountController extends BaseController {
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNT_UPDATED, account.getEmail());
             mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
         }
+        return mav;
+    }
+
+    /**
+     * URL: /admin/accounts/delete
+     * METHOD: POST
+     * @param strAccountIds
+     * @param attributes
+     * @return
+     * @throws MvcException
+     */
+    @PostMapping(UrlConstants.ADMIN_ACCOUNTS_DELETE)
+    public ModelAndView deleteAccounts(@RequestParam(MODEL_ATTRIBUTE_ACCOUNT_ID) String[] strAccountIds, RedirectAttributes attributes) throws MvcException {
+        ModelAndView mav = new ModelAndView();
+        List<Long> accountIds = parseLongIds(strAccountIds);
+        accountService.deleteAccounts(accountIds);
+        webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_ACCOUNTS_DELETED);
+        mav.setViewName(redirectTo(UrlConstants.ADMIN_ACCOUNTS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
         return mav;
     }
 }

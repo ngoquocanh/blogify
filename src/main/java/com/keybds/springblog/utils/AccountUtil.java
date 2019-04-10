@@ -19,14 +19,4 @@ public class AccountUtil {
         account.setEmail(accountInfoDTO.getEmail());
         return account;
     }
-
-    public static Account convertToEntity(Account accountInfo) {
-        Account account = new Account();
-        account.setId(accountInfo.getId());
-        account.setFirstName(accountInfo.getFirstName());
-        account.setLastName(accountInfo.getLastName());
-        account.setUsername(accountInfo.getUsername());
-        account.setEmail(accountInfo.getEmail());
-        return account;
-    }
 }
