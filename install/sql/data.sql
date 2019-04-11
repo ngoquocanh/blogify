@@ -1,12 +1,16 @@
 DELETE FROM `articles`;
 DELETE FROM `article_status`;
 DELETE FROM `article_type`;
+DELETE FROM `articles_tags`;
+DELETE FROM `articles_categories`;
 DELETE FROM `accounts_authorities`;
 DELETE FROM `accounts`;
 DELETE FROM `authorities`;
 
 ALTER TABLE `articles` AUTO_INCREMENT = 1;
 ALTER TABLE `accounts` AUTO_INCREMENT = 1;
+ALTER TABLE `article_tags` AUTO_INCREMENT = 1;
+ALTER TABLE `article_categories` AUTO_INCREMENT = 1;
 
 -- ----------------------------
 -- records of accounts
@@ -33,6 +37,10 @@ INSERT INTO `article_status` (`status_key`, `status_value`) VALUES (1, 'Public')
 -- records of article_type
 -- ----------------------------
 INSERT INTO `article_type` (`type_key`, `type_value`) VALUES (1, 'Post'), (2, 'Page');
+
+-- ----------------------------
+-- records of articles_tags
+-- ----------------------------
 
 -- ----------------------------
 -- records of articles

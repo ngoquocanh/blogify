@@ -34,6 +34,10 @@ public class UrlConstants {
     /** admin ajax posts **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";
 
+    /** public ajax **/
+    public static final String PUBLIC_AJAX_PREFIX          = "/aj";
+    public static final String PUBLIC_AJAX_POST_TAG_CLOUD  = "/aj/tag-cloud";
+
     /** public posts **/
     public static final String PUBLIC_ARTICLES_LIST        = "/articles";
     public static final String PUBLIC_POSTS_LIST_BASE_URL  = "/articles/p/";
