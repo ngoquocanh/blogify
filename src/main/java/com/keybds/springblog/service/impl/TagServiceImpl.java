@@ -4,6 +4,8 @@ import com.keybds.springblog.model.Tag;
 import com.keybds.springblog.repository.TagRepository;
 import com.keybds.springblog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,5 +22,14 @@ public class TagServiceImpl extends AbstractService implements TagService {
     @Override
     public List<Tag> getAllTags() {
         return (List<Tag>) tagRepository.findAll();
+    }
+
+    @Override
+    public Page<Tag> getAllTags(Pageable pageable) {
+        if (isPaged(pageable)) {
+            return tagRepository.findAll(pageable);
+        } else {
+            return Page.empty();
+        }
     }
 }

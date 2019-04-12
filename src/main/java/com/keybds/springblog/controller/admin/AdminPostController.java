@@ -56,7 +56,7 @@ public class AdminPostController extends BaseController {
     public static final String ENTITY_SORT_POST_DATE  = "articleDate";
 
     /**
-     * URL: /admin/posts?p=
+     * URL: /admin/posts?page=
      * METHOD: GET
      * @param strPageIndex
      * @return pager

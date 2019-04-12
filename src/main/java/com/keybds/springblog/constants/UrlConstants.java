@@ -31,6 +31,10 @@ public class UrlConstants {
     public static final String ADMIN_POST_DELETE_ID        = "/admin/posts/delete/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
     public static final String ADMIN_POSTS_DELETE           = "/admin/posts/delete";
 
+    /** admin tags **/
+    public static final String ADMIN_TAGS_LIST            = "/admin/tags";
+    public static final String ADMIN_TAGS_LIST_BASE_URL   = "/admin/tags?page=";
+
     /** admin ajax posts **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";
 

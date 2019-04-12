@@ -1,8 +1,8 @@
 package com.keybds.springblog.repository;
 
 import com.keybds.springblog.model.Tag;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface TagRepository extends CrudRepository<Tag, Long> {
+public interface TagRepository extends PagingAndSortingRepository<Tag, Long> {
 
 }

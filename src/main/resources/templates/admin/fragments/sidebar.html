@@ -17,7 +17,7 @@
                 <div class="list-group mb-4">
                     <a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_ACCOUNTS_LIST}}" class="list-group-item list-group-item-action" th:classappend="${activeNav == 'accounts'} ? 'active'">Accounts</a>
                     <a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_LIST}}" class="list-group-item list-group-item-action" th:classappend="${activeNav == 'posts'} ? 'active'">Posts</a>
-                    <a href="#" class="list-group-item list-group-item-action disabled" th:classappend="${activeNav == 'tags'} ? 'active'">Tags</a>
+                    <a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_TAGS_LIST}}" class="list-group-item list-group-item-action" th:classappend="${activeNav == 'tags'} ? 'active'">Tags</a>
                     <a href="#" class="list-group-item list-group-item-action disabled" th:classappend="${activeNav == 'categories'} ? 'active'">Categories</a>
                 </div>
             </div>

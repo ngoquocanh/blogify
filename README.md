@@ -10,6 +10,8 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 :boom: **2019-apr**
 
 - Admin account management
+- Admin tag management
+- Ajax tag cloud
 
 :boom: **2019-mar**
 
