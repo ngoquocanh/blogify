@@ -37,6 +37,12 @@ public class UrlConstants {
     public static final String ADMIN_TAG_UPDATE_ID        = "/admin/tags/update/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
     public static final String ADMIN_TAGS_DELETE          = "/admin/tags/delete";
 
+    /** admin categories **/
+    public static final String ADMIN_CATEGORIES_LIST            = "/admin/categories";
+    public static final String ADMIN_CATEGORIES_LIST_BASE_URL   = "/admin/categories?page=";
+    public static final String ADMIN_CATEGORY_UPDATE_ID         = "/admin/categories/update/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
+    public static final String ADMIN_CATEGORIES_DELETE          = "/admin/categories/delete";
+
     /** admin ajax posts **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";
 

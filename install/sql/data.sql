@@ -59,6 +59,20 @@ INSERT INTO `tags` (`id`, `value`) VALUES
 -- ----------------------------
 
 -- ----------------------------
+-- records of categories
+-- ----------------------------
+INSERT INTO `categories` (`id`, `value`) VALUES
+(1, 'Java'),
+(2, 'Thymeleaf'),
+(3, 'Linux'),
+(4, 'JPA'),
+(5, 'Microservices'),
+(6, 'Gradle'),
+(7, 'Hibernate'),
+(8, 'Javascript'),
+(9, 'Solr');
+
+-- ----------------------------
 -- records of articles
 -- ----------------------------
 INSERT INTO `articles` (`id`, `account_id`, `article_title`, `article_name`, `article_link`, `article_date`, `article_modified`, `article_type_key`, `article_excerpt`, `article_content`, `article_image`, `article_status_key`) VALUES

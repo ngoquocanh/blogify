@@ -31,8 +31,7 @@ public class AdminTagController extends BaseController {
 
     protected static final String VIEW_ADMIN_TAGS_LIST     = "admin/tags/list";
     protected static final String MODEL_ATTRIBUTE_TAG_ID   = "id";
-
-    public static final String FEEDBACK_MESSAGE_KEY_TAGS_DELETED = "feedback.message.tags.deleted";
+    protected static final String FEEDBACK_MESSAGE_KEY_TAGS_DELETED = "feedback.message.tags.deleted";
 
     /**
      * URL: /admin/tags?page=
