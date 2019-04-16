@@ -93,7 +93,7 @@
                                                     <td class="kc-width-18" th:text="${tag.value}">[Tag Title]</td>
                                                     <td >[8]</td>
                                                     <td>
-                                                        <a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${tag.id})}"><i class="fas fa-edit"></i></a>
+                                                        <a th:href="@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${tag.id})}"><i class="fas fa-edit"></i></a>
                                                         <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>
                                                     </td>
                                                 </tr>
@@ -219,7 +219,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one post.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_LIST}}]]*/ null;
+                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_LIST}}]]*/ null;
                         submitForm(path, objList, 'POST');
                     }
                 });
@@ -268,7 +268,7 @@
                     event.preventDefault();
                     var postId = $(this).data('post-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
+                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
                     var obj = {id: postId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
@@ -298,7 +298,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one post.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });
