@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlConstants.HOME,
         UrlConstants.SIGN_IN, UrlConstants.SIGN_UP,
         UrlConstants.PUBLIC_AJAX_PREFIX.concat("/**"),
-            UrlConstants.ADMIN_TAGS_LIST,
         UrlConstants.PUBLIC_ARTICLE.concat("/**"), UrlConstants.PUBLIC_ARTICLES_LIST.concat("/**"),
     };
 

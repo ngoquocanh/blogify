@@ -29,11 +29,13 @@ public class UrlConstants {
     public static final String ADMIN_POST_UPDATE           = "/admin/posts/update";
     public static final String ADMIN_POST_ADD              = "/admin/posts/add";
     public static final String ADMIN_POST_DELETE_ID        = "/admin/posts/delete/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
-    public static final String ADMIN_POSTS_DELETE           = "/admin/posts/delete";
+    public static final String ADMIN_POSTS_DELETE          = "/admin/posts/delete";
 
     /** admin tags **/
     public static final String ADMIN_TAGS_LIST            = "/admin/tags";
     public static final String ADMIN_TAGS_LIST_BASE_URL   = "/admin/tags?page=";
+    public static final String ADMIN_TAG_UPDATE_ID        = "/admin/tags/update/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
+    public static final String ADMIN_TAGS_DELETE          = "/admin/tags/delete";
 
     /** admin ajax posts **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";

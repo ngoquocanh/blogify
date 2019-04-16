@@ -3,14 +3,16 @@ DELETE FROM `article_status`;
 DELETE FROM `article_type`;
 DELETE FROM `articles_tags`;
 DELETE FROM `articles_categories`;
+DELETE FROM `tags`;
+DELETE FROM `categories`;
 DELETE FROM `accounts_authorities`;
 DELETE FROM `accounts`;
 DELETE FROM `authorities`;
 
 ALTER TABLE `articles` AUTO_INCREMENT = 1;
 ALTER TABLE `accounts` AUTO_INCREMENT = 1;
-ALTER TABLE `article_tags` AUTO_INCREMENT = 1;
-ALTER TABLE `article_categories` AUTO_INCREMENT = 1;
+ALTER TABLE `articles_tags` AUTO_INCREMENT = 1;
+ALTER TABLE `articles_categories` AUTO_INCREMENT = 1;
 
 -- ----------------------------
 -- records of accounts
@@ -37,6 +39,20 @@ INSERT INTO `article_status` (`status_key`, `status_value`) VALUES (1, 'Public')
 -- records of article_type
 -- ----------------------------
 INSERT INTO `article_type` (`type_key`, `type_value`) VALUES (1, 'Post'), (2, 'Page');
+
+-- ----------------------------
+-- records of tags
+-- ----------------------------
+INSERT INTO `tags` (`id`, `value`) VALUES
+(1, 'Java'),
+(2, 'Thymeleaf'),
+(3, 'Linux'),
+(4, 'JPA'),
+(5, 'Microservices'),
+(6, 'Gradle'),
+(7, 'Hibernate'),
+(8, 'Javascript'),
+(9, 'Solr');
 
 -- ----------------------------
 -- records of articles_tags

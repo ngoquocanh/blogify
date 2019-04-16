@@ -25,6 +25,7 @@ public abstract class BaseController {
 
     protected static final String MODEL_ATTRIBUTE_PAGER                 = "pager";
     protected static final String MODEL_ATTRIBUTE_PAGE_INDEX            = "page";
+    protected static final String MODEL_ATTRIBUTE_PAGE_DEFAULT          = "0";
 
     /**
      * For pagination

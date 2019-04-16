@@ -1,5 +1,6 @@
 package com.keybds.blogify.service.impl;
 
+import com.keybds.blogify.exceptions.MvcException;
 import com.keybds.blogify.model.Tag;
 import com.keybds.blogify.repository.TagRepository;
 import com.keybds.blogify.service.TagService;
@@ -30,6 +31,15 @@ public class TagServiceImpl extends AbstractService implements TagService {
             return tagRepository.findAll(pageable);
         } else {
             return Page.empty();
+        }
+    }
+
+    @Override
+    public void deleteTags(List<Long> tagIds) throws MvcException {
+        for (Long tagId : tagIds) {
+            if (tagRepository.existsById(tagId)) {
+                tagRepository.deleteById(tagId);
+            }
         }
     }
 }

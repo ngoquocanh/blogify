@@ -93,7 +93,7 @@
                                                     <td class="kc-width-18" th:text="${tag.value}">[Tag Title]</td>
                                                     <td >[8]</td>
                                                     <td>
-                                                        <a th:href="@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${tag.id})}"><i class="fas fa-edit"></i></a>
+                                                        <a th:href="@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_TAG_UPDATE_ID}(id=${tag.id})}"><i class="fas fa-edit"></i></a>
                                                         <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>
                                                     </td>
                                                 </tr>
@@ -125,32 +125,32 @@
                                                 <p>Are you sure you want to delete these tags?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" id="ki-btn-del-posts-yes" class="btn btn-primary">Yes</button>
-                                                <button type="button" id="ki-btn-del-posts-no" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <button type="button" id="ki-btn-del-tags-yes" class="btn btn-primary">Yes</button>
+                                                <button type="button" id="ki-btn-del-tags-no" class="btn btn-secondary" data-dismiss="modal">No</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div><!--ki-modal-del-posts-->
 
-                                <div class="modal fade" id="ki-modal-del-post" tabindex="-1" role="dialog" aria-labelledby="delPostModel" aria-hidden="true">
+                                <div class="modal fade" id="ki-modal-del-tag" tabindex="-1" role="dialog" aria-labelledby="delPostModel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="delPostModel">Confirm delete post</h5>
+                                                <h5 class="modal-title" id="delPostModel">Confirm delete tag</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure you want to delete this post?</p>
+                                                <p>Are you sure you want to delete this tag?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" id="ki-btn-del-post-yes" class="btn btn-primary">Yes</button>
-                                                <button type="button" id="ki-btn-del-post-no" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <button type="button" id="ki-btn-del-tag-yes" class="btn btn-primary">Yes</button>
+                                                <button type="button" id="ki-btn-del-tag-no" class="btn btn-secondary" data-dismiss="modal">No</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div><!--ki-modal-del-post-->
+                                </div><!--ki-modal-del-tag-->
                             </section>
                             <div th:replace="admin/fragments/pager :: pager">[pager]</div>
                             <div id="ki-dynamic-form"></div>
@@ -259,34 +259,34 @@
                     event.preventDefault();
                     var currentRowPost = $(this).closest('tr');
                     var postId = $(currentRowPost).find("input[type=checkbox]").val();
-                    $('#ki-modal-del-post #ki-btn-del-post-yes').attr('data-post-id', postId);
-                    $('#ki-modal-del-post').modal();
+                    $('#ki-modal-del-tag #ki-btn-del-tag-yes').attr('data-tag-id', postId);
+                    $('#ki-modal-del-tag').modal();
                 });
 
                 // confirmed delete single post
-                $('#ki-btn-del-post-yes').on('click', function (event) {
+                $('#ki-btn-del-tag-yes').on('click', function (event) {
                     event.preventDefault();
-                    var postId = $(this).data('post-id');
+                    var tagId = $(this).data('tag-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
-                    var obj = {id: postId};
+                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_TAGS_DELETE}}]]*/ null;
+                    var obj = {id: tagId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
                 });
 
-                // close confirm dialog single post
-                $('#ki-btn-del-post-no').on('click', function (event) {
+                // close confirm dialog single tag
+                $('#ki-btn-del-tag-no').on('click', function (event) {
                     event.preventDefault();
-                    $('#ki-modal-del-post #ki-btn-del-post-yes').removeAttr('data-post-id');
+                    $('#ki-modal-del-tag #ki-btn-del-tag-yes').removeAttr('data-tag-id');
                 });
 
-                $('#ki-modal-del-post').on('hidden.bs.modal', function (event) {
+                $('#ki-modal-del-tag').on('hidden.bs.modal', function (event) {
                     event.preventDefault();
-                    $('#ki-modal-del-post #ki-btn-del-post-yes').removeAttr('data-post-id');
+                    $('#ki-modal-del-tag #ki-btn-del-tag-yes').removeAttr('data-tag-id');
                 });
 
-                // confirmed delete multi post
-                $('#ki-btn-del-posts-yes').on('click', function (event) {
+                // confirmed delete multi tags
+                $('#ki-btn-del-tags-yes').on('click', function (event) {
                     event.preventDefault();
                     var objList = [];
                     $(':checkbox:checked').each(function (index) {
@@ -296,9 +296,9 @@
                         objList.push(obj);
                     });
                     if (objList.length === 0) {
-                        console.log('Please select at least one post.');
+                        console.log('Please select at least one tag.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_TAGS_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });
