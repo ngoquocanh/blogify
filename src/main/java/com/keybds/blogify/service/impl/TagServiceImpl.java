@@ -70,7 +70,7 @@ public class TagServiceImpl extends AbstractService implements TagService {
             if (optionalTag.isPresent()) {
                 Tag tagToUpdate = new Tag();
                 tagToUpdate.setId(optionalTag.get().getId());
-                tagToUpdate.setValue(optionalTag.get().getValue());
+                tagToUpdate.setValue(tag.getValue());
                 tagUpdated = tagRepository.save(tagToUpdate);
             } else {
                 throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);

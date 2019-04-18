@@ -10,12 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface ArticleRepository extends PagingAndSortingRepository<Article, Long> {
-//    List<Article> findByArticleStatusEquals(Integer articleStatus);
-//    Page<Article> findByArticleStatusEquals(Integer articleStatus, Pageable pageable);
-
     List<Article> findByArticleStatusEquals(ArticleStatus articleStatus);
     Page<Article> findByArticleStatusEquals(ArticleStatus articleStatus, Pageable pageable);
-
     Article findByArticleNameIgnoreCase(String articleName) throws DataAccessException;
-    Article findByArticleLinkIgnoreCase(String articleName);
 }
