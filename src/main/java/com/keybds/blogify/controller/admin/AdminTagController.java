@@ -5,19 +5,22 @@ import com.keybds.blogify.constants.UrlConstants;
 import com.keybds.blogify.containers.PageHolder;
 import com.keybds.blogify.containers.PageUtil;
 import com.keybds.blogify.controller.BaseController;
+import com.keybds.blogify.dto.TagDTO;
+import com.keybds.blogify.enums.StatusMessageCode;
 import com.keybds.blogify.exceptions.MvcException;
 import com.keybds.blogify.model.Tag;
 import com.keybds.blogify.service.TagService;
+import com.keybds.blogify.utils.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -30,8 +33,11 @@ public class AdminTagController extends BaseController {
     private WebUI webUI;
 
     protected static final String VIEW_ADMIN_TAGS_LIST     = "admin/tags/list";
-    protected static final String MODEL_ATTRIBUTE_TAG_ID   = "id";
+    protected static final String VIEW_ADMIN_TAG_UPDATE    = "admin/tags/update";
+    public static final String MODEL_ATTRIBUTE_TAG_ID      = "id";
+    protected static final String MODEL_ATTRIBUTE_TAG         = "tag";
     protected static final String FEEDBACK_MESSAGE_KEY_TAGS_DELETED = "feedback.message.tags.deleted";
+    protected static final String FEEDBACK_MESSAGE_KEY_TAG_UPDATED  = "feedback.message.tag.updated";
 
     /**
      * URL: /admin/tags?page=
@@ -60,6 +66,53 @@ public class AdminTagController extends BaseController {
     }
 
     /**
+     * URL: /admin/tags/update/{id}
+     * METHOD: GET
+     * @param strTagId
+     * @return
+     * @throws MvcException
+     */
+    @GetMapping(UrlConstants.ADMIN_TAG_UPDATE_ID)
+    public ModelAndView openFormUpdateTag(@PathVariable(MODEL_ATTRIBUTE_TAG_ID) String strTagId) throws MvcException {
+        Long tagId = parseLong(strTagId, 0L);
+        ModelAndView mav = new ModelAndView(VIEW_ADMIN_TAG_UPDATE);
+        if (tagId != 0L) {
+            Tag tagFound = tagService.getTag(tagId);
+            TagDTO tagToUpdate = TagUtil.convertToDTO(tagFound);
+            mav.addObject(MODEL_ATTRIBUTE_TAG, tagToUpdate);
+        } else {
+            mav.addObject(MODEL_ATTRIBUTE_TAG, null);
+            throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);
+        }
+        return mav;
+    }
+
+    /**
+     * URL: /admin/tags/update
+     * METHOD: POST
+     * @param tagDTO
+     * @param bindingResult
+     * @param attributes
+     * @return
+     * @throws MvcException
+     */
+    @PostMapping(UrlConstants.ADMIN_TAG_UPDATE)
+    public ModelAndView updatePost(@Valid @ModelAttribute(MODEL_ATTRIBUTE_TAG) TagDTO tagDTO,
+                                   BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
+        ModelAndView mav = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            mav.addObject(MODEL_ATTRIBUTE_TAG, tagDTO);
+            mav.setViewName(VIEW_ADMIN_TAG_UPDATE);
+        } else {
+            Tag tag = TagUtil.convertToEntity(tagDTO);
+            Tag tagUpdated = tagService.updateTag(tag);
+            webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_TAG_UPDATED, tagUpdated.getId());
+            mav.setViewName(redirectTo(UrlConstants.ADMIN_TAGS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
+        }
+        return mav;
+    }
+
+    /**
      * URL: /admin/tags/delete
      * METHOD: POST
      * @param strTagIds
@@ -76,4 +129,5 @@ public class AdminTagController extends BaseController {
         mav.setViewName(redirectTo(UrlConstants.ADMIN_TAGS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
         return mav;
     }
+
 }

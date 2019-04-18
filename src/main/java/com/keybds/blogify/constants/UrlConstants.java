@@ -3,6 +3,7 @@ package com.keybds.blogify.constants;
 import com.keybds.blogify.controller.PostController;
 import com.keybds.blogify.controller.admin.AdminPostController;
 import com.keybds.blogify.controller.admin.AdminAccountController;
+import com.keybds.blogify.controller.admin.AdminTagController;
 
 public class UrlConstants {
 
@@ -35,6 +36,7 @@ public class UrlConstants {
     public static final String ADMIN_TAGS_LIST            = "/admin/tags";
     public static final String ADMIN_TAGS_LIST_BASE_URL   = "/admin/tags?page=";
     public static final String ADMIN_TAG_UPDATE_ID        = "/admin/tags/update/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
+    public static final String ADMIN_TAG_UPDATE           = "/admin/tags/update";
     public static final String ADMIN_TAGS_DELETE          = "/admin/tags/delete";
 
     /** admin categories **/
@@ -43,7 +45,7 @@ public class UrlConstants {
     public static final String ADMIN_CATEGORY_UPDATE_ID         = "/admin/categories/update/{" + AdminPostController.MODEL_ATTRIBUTE_POST_ID + "}";
     public static final String ADMIN_CATEGORIES_DELETE          = "/admin/categories/delete";
 
-    /** admin ajax posts **/
+    /** admin ajax **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";
 
     /** public ajax **/

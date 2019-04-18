@@ -11,4 +11,6 @@ public interface TagService {
     List<Tag> getAllTags();
     Page<Tag> getAllTags(Pageable pageable);
     void deleteTags(List<Long> tagIds) throws MvcException;
+    Tag getTag(Long tagId) throws MvcException;
+    Tag updateTag(Tag tag) throws MvcException;
 }

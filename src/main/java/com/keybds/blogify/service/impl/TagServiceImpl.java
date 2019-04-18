@@ -1,5 +1,6 @@
 package com.keybds.blogify.service.impl;
 
+import com.keybds.blogify.enums.StatusMessageCode;
 import com.keybds.blogify.exceptions.MvcException;
 import com.keybds.blogify.model.Tag;
 import com.keybds.blogify.repository.TagRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,5 +43,41 @@ public class TagServiceImpl extends AbstractService implements TagService {
                 tagRepository.deleteById(tagId);
             }
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Tag getTag(Long tagId) throws MvcException {
+        Tag tag;
+        if (tagRepository.existsById(tagId)) {
+            Optional<Tag> tagExisted = tagRepository.findById(tagId);
+            if (tagExisted.isPresent()) {
+                tag = tagExisted.get();
+            } else {
+                throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);
+            }
+        } else {
+            throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);
+        }
+        return tag;
+    }
+
+    @Override
+    public Tag updateTag(Tag tag) throws MvcException {
+        Tag tagUpdated;
+        if (tagRepository.existsById(tag.getId())) {
+            Optional<Tag> optionalTag = tagRepository.findById(tag.getId());
+            if (optionalTag.isPresent()) {
+                Tag tagToUpdate = new Tag();
+                tagToUpdate.setId(optionalTag.get().getId());
+                tagToUpdate.setValue(optionalTag.get().getValue());
+                tagUpdated = tagRepository.save(tagToUpdate);
+            } else {
+                throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);
+            }
+        } else {
+            throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);
+        }
+        return tagUpdated;
     }
 }
