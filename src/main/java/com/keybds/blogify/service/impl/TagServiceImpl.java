@@ -80,4 +80,11 @@ public class TagServiceImpl extends AbstractService implements TagService {
         }
         return tagUpdated;
     }
+
+    @Override
+    public Tag createTag(Tag tag) throws MvcException {
+        Tag tagToCreate = new Tag();
+        tagToCreate.setValue(tag.getValue());
+        return tagRepository.save(tagToCreate);
+    }
 }

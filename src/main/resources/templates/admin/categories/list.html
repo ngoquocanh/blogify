@@ -17,9 +17,7 @@
                                     </div>
                                     <div class="col-lg-4 col-md-5 col-sm-6">
                                         <div class="sponsor">
-                                            <a href="#" class="float-sm-right">
-                                                <img th:src="@{/images/keybds.png}" height="30" alt=""/>
-                                            </a>
+                                            <a th:replace="admin/fragments/logo :: logo('/', 'float-sm-right')"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -44,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-1 order-sm-1 order-md-2 text-left text-md-right">
-                                    <a th:href="@{|/admin/tags/add|}" class="text-decoration-none text-light">
+                                    <a th:href="@{|/admin/categories/add|}" class="text-decoration-none text-light">
                                         <button type="button" class="btn btn-info btn-sm">Add New</button>
                                     </a>
                                     <button type="button" id="ki-btn-del-all" class="btn btn-danger btn-sm" disabled="disabled" data-toggle="modal" data-target="#ki-modal-del-categories">Delete All</button>

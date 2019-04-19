@@ -7,7 +7,7 @@ USE blogify;
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 16, 2019 at 11:08 AM
+-- Generation Time: Apr 19, 2019 at 10:43 AM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-6+ubuntu16.04.1+deb.sury.org+3
 
@@ -29,6 +29,7 @@ SET time_zone = "+07:00";
 --
 -- Table structure for table `accounts`
 --
+
 CREATE TABLE `accounts` (
   `id` bigint(20) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -39,26 +40,23 @@ CREATE TABLE `accounts` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Table structure for table `authorities`
---
-CREATE TABLE `authorities` (
-  `id` tinyint(1) NOT NULL,
-  `authority` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `accounts_authorities`
 --
+
 CREATE TABLE `accounts_authorities` (
   `account_id` bigint(20) NOT NULL,
   `authority_id` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `articles`
 --
+
 CREATE TABLE `articles` (
   `id` bigint(20) NOT NULL,
   `account_id` bigint(20) NOT NULL,
@@ -74,53 +72,82 @@ CREATE TABLE `articles` (
   `article_status_key` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Table structure for table `article_status`
---
-CREATE TABLE `article_status` (
-  `status_key` tinyint(1) NOT NULL,
-  `status_value` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
 
 --
--- Table structure for table `article_type`
+-- Table structure for table `articles_categories`
 --
-CREATE TABLE `article_type` (
-  `type_key` tinyint(1) NOT NULL,
-  `type_value` varchar(10) NOT NULL
+
+CREATE TABLE `articles_categories` (
+  `article_id` bigint(20) NOT NULL,
+  `category_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Table structure for table `tags`
---
-CREATE TABLE `tags` (
-  `id` int(20) NOT NULL,
-  `value` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `articles_tags`
 --
+
 CREATE TABLE `articles_tags` (
   `article_id` bigint(20) NOT NULL,
   `tag_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `article_status`
+--
+
+CREATE TABLE `article_status` (
+  `status_key` tinyint(1) NOT NULL,
+  `status_value` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `article_type`
+--
+
+CREATE TABLE `article_type` (
+  `type_key` tinyint(1) NOT NULL,
+  `type_value` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `authorities`
+--
+
+CREATE TABLE `authorities` (
+  `id` tinyint(1) NOT NULL,
+  `authority` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `categories`
 --
+
 CREATE TABLE `categories` (
   `id` int(20) NOT NULL,
   `value` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `articles_categories`
+-- Table structure for table `tags`
 --
-CREATE TABLE `articles_categories` (
-  `article_id` bigint(20) NOT NULL,
-  `category_id` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tags` (
+  `id` int(20) NOT NULL,
+  `value` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -202,17 +229,22 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `tags`
+--
+ALTER TABLE `tags`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
 --

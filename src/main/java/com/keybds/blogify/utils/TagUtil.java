@@ -12,9 +12,11 @@ public class TagUtil {
         return tagDTO;
     }
 
-    public static Tag convertToEntity(TagDTO tagDTO) {
+    public static Tag convertToEntity(TagDTO tagDTO, boolean isNew) {
         Tag tag = new Tag();
-        tag.setId(tagDTO.getId());
+        if (!isNew) {
+            tag.setId(tagDTO.getId());
+        }
         tag.setValue(tagDTO.getValue());
         return tag;
     }

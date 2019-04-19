@@ -34,10 +34,14 @@ public class AdminTagController extends BaseController {
 
     protected static final String VIEW_ADMIN_TAGS_LIST     = "admin/tags/list";
     protected static final String VIEW_ADMIN_TAG_UPDATE    = "admin/tags/update";
+    protected static final String VIEW_ADMIN_TAG_ADD       = "admin/tags/add";
+
     public static final String MODEL_ATTRIBUTE_TAG_ID      = "id";
-    protected static final String MODEL_ATTRIBUTE_TAG         = "tag";
+    protected static final String MODEL_ATTRIBUTE_TAG      = "tag";
+
     protected static final String FEEDBACK_MESSAGE_KEY_TAGS_DELETED = "feedback.message.tags.deleted";
     protected static final String FEEDBACK_MESSAGE_KEY_TAG_UPDATED  = "feedback.message.tag.updated";
+    protected static final String FEEDBACK_MESSAGE_KEY_TAG_ADDED    = "feedback.message.tag.added";
 
     /**
      * URL: /admin/tags?page=
@@ -97,16 +101,55 @@ public class AdminTagController extends BaseController {
      * @throws MvcException
      */
     @PostMapping(UrlConstants.ADMIN_TAG_UPDATE)
-    public ModelAndView updatePost(@Valid @ModelAttribute(MODEL_ATTRIBUTE_TAG) TagDTO tagDTO,
+    public ModelAndView updateTag(@Valid @ModelAttribute(MODEL_ATTRIBUTE_TAG) TagDTO tagDTO,
                                    BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
         ModelAndView mav = new ModelAndView();
         if (bindingResult.hasErrors()) {
             mav.addObject(MODEL_ATTRIBUTE_TAG, tagDTO);
             mav.setViewName(VIEW_ADMIN_TAG_UPDATE);
         } else {
-            Tag tag = TagUtil.convertToEntity(tagDTO);
+            Tag tag = TagUtil.convertToEntity(tagDTO, false);
             Tag tagUpdated = tagService.updateTag(tag);
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_TAG_UPDATED, tagUpdated.getId());
+            mav.setViewName(redirectTo(UrlConstants.ADMIN_TAGS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
+        }
+        return mav;
+    }
+
+    /**
+     * URL: /admin/tags/add
+     * METHOD: GET
+     * @return
+     * @throws MvcException
+     */
+    @GetMapping(UrlConstants.ADMIN_TAG_ADD)
+    public ModelAndView openFormAddPost() throws MvcException {
+        ModelAndView mav = new ModelAndView(VIEW_ADMIN_TAG_ADD);
+        TagDTO tagDTO = new TagDTO();
+        mav.addObject(MODEL_ATTRIBUTE_TAG, tagDTO);
+        return mav;
+    }
+
+    /**
+     * URL: /admin/tags/add
+     * METHOD: POST
+     * @param tagDTO
+     * @param bindingResult
+     * @param attributes
+     * @return
+     * @throws MvcException
+     */
+    @PostMapping(UrlConstants.ADMIN_TAG_ADD)
+    public ModelAndView createTag(@Valid @ModelAttribute(MODEL_ATTRIBUTE_TAG) TagDTO tagDTO,
+                                   BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
+        ModelAndView mav = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            mav.addObject(MODEL_ATTRIBUTE_TAG, tagDTO);
+            mav.setViewName(VIEW_ADMIN_TAG_ADD);
+        } else {
+            Tag tag = TagUtil.convertToEntity(tagDTO, true);
+            Tag tagCreated = tagService.createTag(tag);
+            webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_TAG_ADDED, tagCreated.getValue());
             mav.setViewName(redirectTo(UrlConstants.ADMIN_TAGS_LIST_BASE_URL.concat(PAGE_INDEX.toString())));
         }
         return mav;

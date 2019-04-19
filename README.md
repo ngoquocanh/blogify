@@ -11,9 +11,10 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 
 - Admin account management
 - Admin tag management
+- Admin category management
 - Ajax tag cloud
 - Update database
-- Change project name, package name
+- Change project name, package name, change logo
 
 :boom: **2019-mar**
 

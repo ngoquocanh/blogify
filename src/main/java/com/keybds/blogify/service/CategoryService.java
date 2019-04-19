@@ -12,4 +12,7 @@ public interface CategoryService {
     List<Category> getAllCategories();
     Page<Category> getAllCategories(Pageable pageable);
     void deleteCategories(List<Long> categoryIds) throws MvcException;
+    Category getCategory(Long categoryId) throws MvcException;
+    Category updateCategory(Category category) throws MvcException;
+    Category createCategory(Category category) throws MvcException;
 }

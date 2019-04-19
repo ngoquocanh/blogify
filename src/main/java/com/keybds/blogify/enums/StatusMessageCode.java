@@ -5,6 +5,7 @@ public enum StatusMessageCode {
     FAIL(4000, "Unknown error"),
     ERROR(5000, "System error"),
     POST_NOT_FOUND(1001, "Post not found"),
+    CATEGORY_NOT_FOUND(1004, "Category not found"),
     TAG_NOT_FOUND(1005, "Tag not found"),
     POST_EXISTED(1003, "Post Existed"),
     DATABASE_ERROR(1002, "Database Error"),

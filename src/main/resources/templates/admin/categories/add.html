@@ -7,12 +7,12 @@
             <section id="page-content" class="pb-4">
                 <div class="container">
                     <div class="row">
-                        <aside th:replace="admin/fragments/sidebar :: sidebar('tags')">[sidebar left]</aside><!--#page-aside-->
+                        <aside th:replace="admin/fragments/sidebar :: sidebar('categories')">[sidebar left]</aside><!--#page-aside-->
                         <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9 mt-3 mt-sm-3 mt-md-0">
                             <div class="page-header" id="banner">
                                 <div class="row">
                                     <div class="col-lg-8 col-md-7 col-sm-6">
-                                        <h1 class="float-sm-left">Add Tag</h1>
+                                        <h1 class="float-sm-left">Add Category</h1>
                                         <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
                                     </div>
                                     <div class="col-lg-4 col-md-5 col-sm-6">
@@ -24,8 +24,8 @@
                             </div>
 
                             <section class="row" id="k-update-post">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${tag != null}">
-                                    <form th:object="${tag}" th:action="@{/admin/tags/add}" method="post" class="table-responsive">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${category != null}">
+                                    <form th:object="${category}" th:action="@{/admin/categories/add}" method="post" class="table-responsive">
                                         <table class="table table-hover">
                                             <tbody>
                                             <tr class="table-active">
@@ -50,7 +50,7 @@
                                                         <div class="form-group row mb-0">
                                                             <div class="col-md-12 col-lg-2"></div>
                                                             <div class="col-md-12 col-lg-10">
-                                                                <button type="submit" id="ki-btn-add-tag" class="btn btn-primary">Save</button>
+                                                                <button type="submit" id="ki-btn-update-tag" class="btn btn-primary">Save</button>
                                                                 <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/tags/|} + '\''" class="btn btn-secondary">Cancel</button>
                                                             </div>
                                                         </div>
@@ -62,8 +62,8 @@
                                         </table>
                                     </form>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${tag == null}">
-                                    <p th:text="#{admin.tags.list.k-tag-management.tag-not-found}">[No tag found]</p>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${category == null}">
+                                    <p th:text="#{admin.categories.list.k-category-management.category-not-found}">[No category found]</p>
                                 </div>
                             </section>
                         </section><!--#main-->
