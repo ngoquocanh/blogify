@@ -35,6 +35,8 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Update database
 - Change project name, package name, change logo
 
+![alt 2019-apr](https://4.bp.blogspot.com/-jAUelk9ZC1M/XL8RvaZnULI/AAAAAAAACo8/xo2gKP0F-z0pWw5vlK4HhcyRhL_itjPcwCPcBGAYYCw/s1600/2019-apr.png)
+
 :boom: **2019-mar**
 
 - Create database
