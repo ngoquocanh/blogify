@@ -2,7 +2,9 @@ package com.keybds.blogify.service.impl;
 
 import com.keybds.blogify.enums.StatusMessageCode;
 import com.keybds.blogify.exceptions.MvcException;
+import com.keybds.blogify.model.ArticleTag;
 import com.keybds.blogify.model.Tag;
+import com.keybds.blogify.repository.ArticleTagRepository;
 import com.keybds.blogify.repository.TagRepository;
 import com.keybds.blogify.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class TagServiceImpl extends AbstractService implements TagService {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private ArticleTagRepository articleTagRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -40,6 +45,10 @@ public class TagServiceImpl extends AbstractService implements TagService {
     public void deleteTags(List<Long> tagIds) throws MvcException {
         for (Long tagId : tagIds) {
             if (tagRepository.existsById(tagId)) {
+                List<ArticleTag> articleTagList = articleTagRepository.findByTagId(tagId);
+                if (articleTagList != null) {
+                    articleTagRepository.deleteAll(articleTagList);
+                }
                 tagRepository.deleteById(tagId);
             }
         }

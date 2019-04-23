@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "articles")
@@ -50,4 +52,16 @@ public class Article implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "article_status_key", referencedColumnName = "status_key")
     private ArticleStatus articleStatus;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "articles_tags",
+            joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    private Set<Tag> tags = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "articles_categories",
+            joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+    private Set<Category> categories = new HashSet<>();
 }

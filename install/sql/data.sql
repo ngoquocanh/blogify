@@ -1,3 +1,5 @@
+DELETE FROM `articles_tags`;
+DELETE FROM `articles_categories`;
 DELETE FROM `articles`;
 DELETE FROM `article_status`;
 DELETE FROM `article_type`;
@@ -107,3 +109,13 @@ INSERT INTO `articles` (`id`, `account_id`, `article_title`, `article_name`, `ar
 (28, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quasi animi sunt est pariatur minima praesentium, laudantium quia architecto veritatis.', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis perspiciatis rerum ipsam, nemo mollitia adipisci fugiat repudiandae quae praesentium soluta veritatis fuga amet dolorem nulla!', 'http://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples', '2019-01-23 08:44:16', '2019-01-23 08:44:16', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem alias illo eum quae cum enim aspernatur facere architecto, aliquid, et earum, assumenda laudantium adipisci nobis laboriosam itaque! Enim earum, officiis quae, fuga deserunt doloribus voluptate.', 'Prerequisites Development environment...', NULL, 1),
 (29, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quasi animi sunt est pariatur minima praesentium, laudantium quia architecto veritatis.', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis perspiciatis rerum ipsam, nemo mollitia adipisci fugiat repudiandae quae praesentium soluta veritatis fuga amet dolorem nulla!', 'http://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples', '2019-01-23 08:44:16', '2019-01-23 08:44:16', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem alias illo eum quae cum enim aspernatur facere architecto, aliquid, et earum, assumenda laudantium adipisci nobis laboriosam itaque! Enim earum, officiis quae, fuga deserunt doloribus voluptate.', 'Prerequisites Development environment...', NULL, 1),
 (30, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quasi animi sunt est pariatur minima praesentium, laudantium quia architecto veritatis.', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis perspiciatis rerum ipsam, nemo mollitia adipisci fugiat repudiandae quae praesentium soluta veritatis fuga amet dolorem nulla!', 'http://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples', '2019-01-23 08:44:16', '2019-01-23 08:44:16', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem alias illo eum quae cum enim aspernatur facere architecto, aliquid, et earum, assumenda laudantium adipisci nobis laboriosam itaque! Enim earum, officiis quae, fuga deserunt doloribus voluptate.', 'Prerequisites Development environment...', NULL, 1);
+
+INSERT INTO `articles_tags` (`id`, `article_id`, `tag_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 6);
+
+INSERT INTO `articles_categories` (`id`, `article_id`, `category_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 6);

@@ -79,6 +79,7 @@ CREATE TABLE `articles` (
 --
 
 CREATE TABLE `articles_categories` (
+  `id` bigint(20) NOT NULL,
   `article_id` bigint(20) NOT NULL,
   `category_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -90,6 +91,7 @@ CREATE TABLE `articles_categories` (
 --
 
 CREATE TABLE `articles_tags` (
+  `id` bigint(20) NOT NULL,
   `article_id` bigint(20) NOT NULL,
   `tag_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -179,7 +181,7 @@ ALTER TABLE `articles`
 -- Indexes for table `articles_categories`
 --
 ALTER TABLE `articles_categories`
-  ADD PRIMARY KEY (`article_id`,`category_id`),
+  ADD PRIMARY KEY (`id`, `article_id`, `category_id`),
   ADD KEY `fk_articles_has_categories_categories1_idx` (`category_id`),
   ADD KEY `fk_articles_has_categories_articles1_idx` (`article_id`);
 
@@ -187,7 +189,7 @@ ALTER TABLE `articles_categories`
 -- Indexes for table `articles_tags`
 --
 ALTER TABLE `articles_tags`
-  ADD PRIMARY KEY (`article_id`,`tag_id`),
+  ADD PRIMARY KEY (`id`,`article_id`,`tag_id`),
   ADD KEY `fk_articles_has_tags_tags1_idx` (`tag_id`),
   ADD KEY `fk_articles_has_tags_articles1_idx` (`article_id`);
 
@@ -222,10 +224,6 @@ ALTER TABLE `tags`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
@@ -245,9 +243,17 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `tags`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `article_categories`
 --
+ALTER TABLE `articles_categories`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `articles_tags`
+--
+ALTER TABLE `articles_tags`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Constraints for table `accounts_authorities`

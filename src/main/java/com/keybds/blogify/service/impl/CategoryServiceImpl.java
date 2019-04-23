@@ -2,7 +2,9 @@ package com.keybds.blogify.service.impl;
 
 import com.keybds.blogify.enums.StatusMessageCode;
 import com.keybds.blogify.exceptions.MvcException;
+import com.keybds.blogify.model.ArticleCategory;
 import com.keybds.blogify.model.Category;
+import com.keybds.blogify.repository.ArticleCategoryRepository;
 import com.keybds.blogify.repository.CategoryRepository;
 import com.keybds.blogify.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class CategoryServiceImpl extends AbstractService implements CategoryServ
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ArticleCategoryRepository articleCategoryRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -40,6 +45,10 @@ public class CategoryServiceImpl extends AbstractService implements CategoryServ
     public void deleteCategories(List<Long> categoryIds) throws MvcException {
         for (Long categoryId : categoryIds) {
             if (categoryRepository.existsById(categoryId)) {
+                List<ArticleCategory> articleCategoryList = articleCategoryRepository.findByCategoryId(categoryId);
+                if (articleCategoryList != null) {
+                    articleCategoryRepository.deleteAll(articleCategoryList);
+                }
                 categoryRepository.deleteById(categoryId);
             }
         }
