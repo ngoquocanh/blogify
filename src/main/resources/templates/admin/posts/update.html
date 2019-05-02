@@ -17,9 +17,7 @@
                                     </div>
                                     <div class="col-lg-4 col-md-5 col-sm-6">
                                         <div class="sponsor">
-                                            <a href="#" class="float-sm-right">
-                                                <img th:src="@{/images/keyio.png}" height="30" alt=""/>
-                                            </a>
+                                            <a th:replace="admin/fragments/logo :: logo('/', 'float-sm-right')"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -125,6 +123,53 @@
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
-        <div th:replace="admin/fragments/scripts :: posts-js">[posts scripts]</div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function savePost() {
+                var postData = {};
+                postData["postId"] = parseInt($('#ki-input-id').val());
+                postData["postStatus"] = parseInt($('#ki-select-status').val());
+                postData["postTitle"] = $('#ki-input-title').val();
+                postData["postExcerpt"] = $('#ki-text-excerpt').val();
+                postData["postContent"] = $('#ki-text-content').val();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_AJAX_POST_UPDATE}}]]*/ null,
+                    data: JSON.stringify(postData),
+                    success: function (data) {
+                        if (data.code === 2000) {
+                            swal({
+                                title: "Saved!",
+                                text: "Your updates have been saved. Click \"Update\" when finished editing.",
+                                icon: "success"
+                            });
+                        } else {
+                            swal({
+                                title: "Oops!",
+                                text: "There was an error updating your post. Please confirm all fields are valid",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function (e) {
+                        swal({
+                            title: "Error!",
+                            text: "System error",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                // update post ajax
+                $('#ki-btn-save-post').on('click', function (event) {
+                    event.preventDefault();
+                    savePost();
+                });
+            });
+            /*]]>*/
+        </script>
     </body>
 </html>

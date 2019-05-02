@@ -17,9 +17,7 @@
                                     </div>
                                     <div class="col-lg-4 col-md-5 col-sm-6">
                                         <div class="sponsor">
-                                            <a href="#" class="float-sm-right">
-                                                <img th:src="@{/images/keybds.png}" height="30" alt=""/>
-                                            </a>
+                                            <a th:replace="admin/fragments/logo :: logo('/', 'float-sm-right')"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +61,8 @@
                                                         </label>
                                                     </div>
                                                 </th>
-                                                <th th:replace="admin/fragments/table-th :: table-th(#{pager.title.posts.title}, 'title', 'kc-width-18')"></th>
-                                                <th th:replace="admin/fragments/table-th :: table-th(#{pager.title.posts.date}, 'date', 'kc-width-9')"></th>
+                                                <th th:replace="admin/fragments/table-th :: table-th(#{pager.title.posts.title}, 'title', '')"></th>
+                                                <th th:replace="admin/fragments/table-th :: table-th(#{pager.title.posts.date}, 'date', '')"></th>
                                                 <th scope="col">
                                                     <a class="column-header" href="#">
                                                         <div th:text="#{pager.title.posts.status}">[Status]</div>
@@ -87,11 +85,11 @@
                                                             </label>
                                                         </div>
                                                     </td>
-                                                    <td class="kc-width-18" th:text="${post.articleTitle}">[Post Title]</td>
-                                                    <td th:text="${T(com.keybds.springblog.utils.DateTimeUtil).convertZonedDateTimeToStringTime(post.articleDate)}">[Post Date]</td>
+                                                    <td th:text="${post.articleTitle}">[Post Title]</td>
+                                                    <td th:text="${T(com.keybds.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringTime(post.articleDate)}">[Post Date]</td>
                                                     <td th:text="${post.articleStatus.statusValue}">[PUBLIC]</td>
                                                     <td>
-                                                        <a th:href="@{${T(com.keybds.springblog.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${post.id})}"><i class="fas fa-edit"></i></a>
+                                                        <a th:href="@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${post.id})}"><i class="fas fa-edit"></i></a>
                                                         <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>
                                                     </td>
                                                 </tr>
@@ -164,6 +162,152 @@
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
-        <div th:replace="admin/fragments/scripts :: posts-js">[posts scripts]</div>
+        <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var isSubmitted = false;
+
+            function submitForm(path, params, method) {
+                console.log(JSON.stringify(params));
+                if (isSubmitted) {
+                    return;
+                }
+                method = method || "POST";
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+                $.each(params, function (index, item) {
+                    if (item.hasOwnProperty('page')) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", 'page');
+                        hiddenField.setAttribute("value", item['page']);
+                        form.appendChild(hiddenField);
+                    }
+                    if (item.hasOwnProperty('sort')) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", 'sort');
+                        hiddenField.setAttribute("value", item['sort']);
+                        form.appendChild(hiddenField);
+                    }
+                    if (item.hasOwnProperty('dir')) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", 'dir');
+                        hiddenField.setAttribute("value", item['dir']);
+                        form.appendChild(hiddenField);
+                    }
+                });
+                $('#ki-dynamic-form').append(form);
+                form.submit();
+                isSubmitted = true;
+            }
+
+            function sortTable() {
+                $('tr:not(.kc-table-empty) .kc-th-sort').on('click', function () {
+                    var sortName = $(this).data('sort-name');
+                    var sortDir = $(this).data('sort-dir');
+                    var pageIndex = $(this).data('page-index');
+                    sortDir = (sortDir === 'desc') ? 'asc' : 'desc';
+                    var objList = [];
+                    var obj = {
+                        page: pageIndex + 1,
+                        sort : sortName,
+                        dir: sortDir
+                    };
+                    objList.push(obj);
+                    if (objList.length === 0) {
+                        console.log('Please select at least one post.');
+                    } else {
+                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_LIST}}]]*/ null;
+                        submitForm(path, objList, 'POST');
+                    }
+                });
+            }
+
+            function doSubmitTo(path, params, method) {
+                if (isSubmitted) {
+                    return;
+                }
+                method = method || "POST";
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+                $.each(params, function (index, item) {
+                    if (item.hasOwnProperty('id')) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", 'id');
+                        hiddenField.setAttribute("value", item['id']);
+                        form.appendChild(hiddenField);
+                    }
+                });
+                $('#ki-dynamic-form').append(form);
+                form.submit();
+                isSubmitted = true;
+            }
+
+            $(document).ready(function() {
+                // handle feedback message fade after a period of time
+                hideMessage('#ki-message-holder');
+
+                onCheckedItems(hasCheckedItems('.kc-cb-items'));
+                onChangeCheckboxes('#ki-cb-all', '.kc-cb-items');
+
+                // open confirm dialog delete single post
+                $('.kc-btn-del').on('click', function (event) {
+                    event.preventDefault();
+                    var currentRowPost = $(this).closest('tr');
+                    var postId = $(currentRowPost).find("input[type=checkbox]").val();
+                    $('#ki-modal-del-post #ki-btn-del-post-yes').attr('data-post-id', postId);
+                    $('#ki-modal-del-post').modal();
+                });
+
+                // confirmed delete single post
+                $('#ki-btn-del-post-yes').on('click', function (event) {
+                    event.preventDefault();
+                    var postId = $(this).data('post-id');
+                    var objList = [];
+                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
+                    var obj = {id: postId};
+                    objList.push(obj);
+                    doSubmitTo(path, objList, 'POST');
+                });
+
+                // close confirm dialog single post
+                $('#ki-btn-del-post-no').on('click', function (event) {
+                    event.preventDefault();
+                    $('#ki-modal-del-post #ki-btn-del-post-yes').removeAttr('data-post-id');
+                });
+
+                $('#ki-modal-del-post').on('hidden.bs.modal', function (event) {
+                    event.preventDefault();
+                    $('#ki-modal-del-post #ki-btn-del-post-yes').removeAttr('data-post-id');
+                });
+
+                // confirmed delete multi post
+                $('#ki-btn-del-posts-yes').on('click', function (event) {
+                    event.preventDefault();
+                    var objList = [];
+                    $(':checkbox:checked').each(function (index) {
+                        var obj = {
+                            id : $(this).val()
+                        };
+                        objList.push(obj);
+                    });
+                    if (objList.length === 0) {
+                        console.log('Please select at least one post.');
+                    } else {
+                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_DELETE}}]]*/ null;
+                        doSubmitTo(path, objList, 'POST');
+                    }
+                });
+
+                // sort table when click table header
+                sortTable();
+            });
+            /*]]>*/
+        </script>
     </body>
 </html>

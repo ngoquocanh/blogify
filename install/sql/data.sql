@@ -1,20 +1,26 @@
+DELETE FROM `articles_tags`;
+DELETE FROM `articles_categories`;
 DELETE FROM `articles`;
 DELETE FROM `article_status`;
 DELETE FROM `article_type`;
+DELETE FROM `articles_tags`;
+DELETE FROM `articles_categories`;
+DELETE FROM `tags`;
+DELETE FROM `categories`;
 DELETE FROM `accounts_authorities`;
 DELETE FROM `accounts`;
 DELETE FROM `authorities`;
 
 ALTER TABLE `articles` AUTO_INCREMENT = 1;
 ALTER TABLE `accounts` AUTO_INCREMENT = 1;
+ALTER TABLE `articles_tags` AUTO_INCREMENT = 1;
+ALTER TABLE `articles_categories` AUTO_INCREMENT = 1;
 
 -- ----------------------------
 -- records of accounts
 -- ----------------------------
 INSERT INTO `accounts` VALUES ('1', 'admin', 'admin@gmail.com', 'Admin', 'Jones', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
 INSERT INTO `accounts` VALUES ('2', 'user', 'user@gmail.com', 'User', 'Charlie', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
-INSERT INTO `accounts` VALUES ('3', 'john', 'john@gmail.com', 'John', 'Bubkis', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
-INSERT INTO `accounts` VALUES ('4', 'ken', 'ken@gmail.com', 'Ken', 'Watts', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', '1');
 
 -- ----------------------------
 -- records of authorities
@@ -35,6 +41,38 @@ INSERT INTO `article_status` (`status_key`, `status_value`) VALUES (1, 'Public')
 -- records of article_type
 -- ----------------------------
 INSERT INTO `article_type` (`type_key`, `type_value`) VALUES (1, 'Post'), (2, 'Page');
+
+-- ----------------------------
+-- records of tags
+-- ----------------------------
+INSERT INTO `tags` (`id`, `value`) VALUES
+(1, 'Java'),
+(2, 'Thymeleaf'),
+(3, 'Linux'),
+(4, 'JPA'),
+(5, 'Microservices'),
+(6, 'Gradle'),
+(7, 'Hibernate'),
+(8, 'Javascript'),
+(9, 'Solr');
+
+-- ----------------------------
+-- records of articles_tags
+-- ----------------------------
+
+-- ----------------------------
+-- records of categories
+-- ----------------------------
+INSERT INTO `categories` (`id`, `value`) VALUES
+(1, 'Java'),
+(2, 'Thymeleaf'),
+(3, 'Linux'),
+(4, 'JPA'),
+(5, 'Microservices'),
+(6, 'Gradle'),
+(7, 'Hibernate'),
+(8, 'Javascript'),
+(9, 'Solr');
 
 -- ----------------------------
 -- records of articles
@@ -71,3 +109,13 @@ INSERT INTO `articles` (`id`, `account_id`, `article_title`, `article_name`, `ar
 (28, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quasi animi sunt est pariatur minima praesentium, laudantium quia architecto veritatis.', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis perspiciatis rerum ipsam, nemo mollitia adipisci fugiat repudiandae quae praesentium soluta veritatis fuga amet dolorem nulla!', 'http://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples', '2019-01-23 08:44:16', '2019-01-23 08:44:16', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem alias illo eum quae cum enim aspernatur facere architecto, aliquid, et earum, assumenda laudantium adipisci nobis laboriosam itaque! Enim earum, officiis quae, fuga deserunt doloribus voluptate.', 'Prerequisites Development environment...', NULL, 1),
 (29, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quasi animi sunt est pariatur minima praesentium, laudantium quia architecto veritatis.', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis perspiciatis rerum ipsam, nemo mollitia adipisci fugiat repudiandae quae praesentium soluta veritatis fuga amet dolorem nulla!', 'http://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples', '2019-01-23 08:44:16', '2019-01-23 08:44:16', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem alias illo eum quae cum enim aspernatur facere architecto, aliquid, et earum, assumenda laudantium adipisci nobis laboriosam itaque! Enim earum, officiis quae, fuga deserunt doloribus voluptate.', 'Prerequisites Development environment...', NULL, 1),
 (30, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quasi animi sunt est pariatur minima praesentium, laudantium quia architecto veritatis.', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis perspiciatis rerum ipsam, nemo mollitia adipisci fugiat repudiandae quae praesentium soluta veritatis fuga amet dolorem nulla!', 'http://stackoverflow.com/questions/521171/a-java-collection-of-value-pairs-tuples', '2019-01-23 08:44:16', '2019-01-23 08:44:16', '1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem alias illo eum quae cum enim aspernatur facere architecto, aliquid, et earum, assumenda laudantium adipisci nobis laboriosam itaque! Enim earum, officiis quae, fuga deserunt doloribus voluptate.', 'Prerequisites Development environment...', NULL, 1);
+
+INSERT INTO `articles_tags` (`id`, `article_id`, `tag_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 6);
+
+INSERT INTO `articles_categories` (`id`, `article_id`, `category_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 6);

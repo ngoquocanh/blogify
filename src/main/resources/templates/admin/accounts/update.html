@@ -12,141 +12,107 @@
                             <div class="page-header" id="banner">
                                 <div class="row">
                                     <div class="col-lg-8 col-md-7 col-sm-6">
-                                        <h1 class="float-sm-left">Account Management</h1>
+                                        <h1 class="float-sm-left">Update Account</h1>
                                         <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
                                     </div>
                                     <div class="col-lg-4 col-md-5 col-sm-6">
                                         <div class="sponsor">
-                                            <a href="#" class="float-sm-right">
-                                                <img th:src="@{/images/keyio.png}" height="30" alt=""/>
-                                            </a>
+                                            <a th:replace="admin/fragments/logo :: logo('/', 'float-sm-right')"></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <section id="k-update-account" class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                <ul class="nav nav-tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link show" th:classappend="${active == 'k-account-general-tab'} ? 'active' : ''" data-toggle="tab" href="#k-account-general-tab">General</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link show" th:classappend="${active == 'k-account-email-tab'} ? 'active' : ''" data-toggle="tab" href="#k-account-email-tab">Email</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link show" th:classappend="${active == 'k-account-username-tab'} ? 'active' : ''" data-toggle="tab" href="#k-account-username-tab">Username</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link show" th:classappend="${active == 'k-account-security-tab'} ? 'active' : ''" data-toggle="tab" href="#k-account-security-tab">Security</a>
-                                    </li>
-                                </ul>
-                                <div id="myTabContent" class="tab-content">
-                                    <div class="tab-pane fade" th:classappend="${active == 'k-account-general-tab'} ? 'active show' : ''" id="k-account-general-tab">
-                                        <form th:object="${account}" th:action="@{/admin/accounts/update/info}" method="post">
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('firstName')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="firstName">First Name</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="text" th:field="*{firstName}" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" placeholder="First Name" id="firstName" autocomplete="off">
-                                                    <ul th:if="${#fields.hasErrors('firstName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('lastName')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="lastName">Last Name</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="text" th:field="*{lastName}" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" placeholder="Last Name" id="lastName" autocomplete="off">
-                                                    <ul th:if="${#fields.hasErrors('lastName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row has-danger">
-                                                <div class="col-sm-4 col-md-3 col-lg-2"></div>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <button type="submit" class="btn btn-info">Update</button>
-                                                    <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/accounts/|} + '\''" class="btn btn-primary">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane fade" th:classappend="${active == 'k-account-email-tab'} ? 'active show' : ''" id="k-account-email-tab">
-                                        <form th:object="${account}" th:action="@{/admin/accounts/update/email}" method="post">
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="inputValid2">Email</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="text" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="Email" id="inputValid2">
-                                                    <ul th:if="${#fields.hasErrors('email')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row  has-danger">
-                                                <div class="col-sm-4 col-md-3 col-lg-2"></div>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <button type="submit" class="btn btn-info">Update</button>
-                                                    <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/accounts/|} + '\''" class="btn btn-primary">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane fade" th:classappend="${active == 'k-account-username-tab'} ? 'active show' : ''" id="k-account-username-tab">
-                                        <form th:object="${account}" th:action="@{/admin/accounts/update/username}" method="post">
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-3 col-lg-2 form-control-label" for="inputValid3">Username</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="text" th:field="*{username}" class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" placeholder="Username" id="inputValid3">
-                                                    <ul th:if="${#fields.hasErrors('username')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-sm-4 col-md-3 col-lg-2"></div>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <button type="submit" class="btn btn-info">Update</button>
-                                                    <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/accounts/|} + '\''" class="btn btn-primary">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane fade" th:classappend="${active == 'k-account-security-tab'} ? 'active show' : ''" id="k-account-security-tab">
-                                        <form th:object="${account}" th:action="@{/admin/accounts/update/security}" method="post">
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="currentPassword">Current Password</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" placeholder="Current Password" id="currentPassword">
-                                                    <ul th:if="${#fields.hasErrors('password')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('newPassword')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="newPassword">New Password</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="password" th:field="*{newPassword}" class="form-control" th:classappend="${#fields.hasErrors('newPassword')} ? 'is-invalid'" placeholder="New Password" id="newPassword">
-                                                    <ul th:if="${#fields.hasErrors('newPassword')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('newPassword')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'has-danger'">
-                                                <label class="col-sm-4 col-md-4 col-lg-3 form-control-label" for="inputDanger4">Confirm Password</label>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <input type="password" th:field="*{confirmPassword}" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'" placeholder="Confirm Password" id="inputDanger4">
-                                                    <ul th:if="${#fields.hasErrors('confirmPassword')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
-                                                        <li th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}">[Invalid input]</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row ">
-                                                <div class="col-sm-4 col-md-4 col-lg-3"></div>
-                                                <div class="col-sm-8 col-md-7 col-lg-6">
-                                                    <button type="submit" class="btn btn-info">Update</button>
-                                                    <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/accounts/|} + '\''" class="btn btn-primary">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+
+                            <section class="row" id="k-update-account">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${accountInfo != null}">
+                                    <form th:object="${accountInfo}" th:action="@{/admin/accounts/update/info}" method="post" class="table-responsive">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('firstName')} ? 'has-danger'">
+                                                                <label for="ki-input-first-name" class="col-md-12 col-lg-2 col-form-label">First Name</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{firstName}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" id="ki-input-first-name" placeholder="" autocomplete="off">
+                                                                    <ul th:if="${#fields.hasErrors('firstName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('lastName')} ? 'has-danger'">
+                                                                <label for="ki-input-last-name" class="col-md-12 col-lg-2 col-form-label">Last Name</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{lastName}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" id="ki-input-last-name" placeholder="" autocomplete="off">
+                                                                    <ul th:if="${#fields.hasErrors('lastName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
+                                                                <label for="ki-input-username" class="col-md-12 col-lg-2 col-form-label">Username</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{username}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" id="ki-input-username" placeholder="" autocomplete="off">
+                                                                    <ul th:if="${#fields.hasErrors('username')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
+                                                                <label for="ki-input-email" class="col-md-12 col-lg-2 col-form-label">Email</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{email}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="ki-input-email" placeholder="" autocomplete="off">
+                                                                    <ul th:if="${#fields.hasErrors('email')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0">
+                                                                <div class="col-md-12 col-lg-2"></div>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <button type="submit" id="ki-btn-save-post" class="btn btn-primary">Update</button>
+                                                                    <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/accounts/|} + '\''" class="btn btn-secondary">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" id="ki-input-id" th:field="*{id}" />
+                                    </form>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${accountInfo == null}">
+                                    <p th:text="#{admin.accounts.list.k-accounts-management.account-not-found}">[No Account found]</p>
                                 </div>
                             </section>
                         </section><!--#main-->

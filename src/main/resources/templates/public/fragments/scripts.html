@@ -11,5 +11,17 @@
             <script th:src="@{/js/bootstrap.min.js}"></script>
             <script th:src="@{/js/custom.js}"></script>
         </div>
+
+        <div th:fragment="tag-cloud">
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                $(document).ready(function() {
+                    $.get("/aj/tag-cloud", function (data) {
+                        $('#tag-cloud').html(data);
+                    });
+                });
+                /*]]>*/
+            </script>
+        </div>
     </body>
 </html>
