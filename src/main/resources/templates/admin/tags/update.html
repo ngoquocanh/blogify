@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="admin/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="admin/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <aside th:replace="admin/fragments/sidebar :: sidebar('tags')">[sidebar left]</aside><!--#page-aside-->
+                        <section id="main" class="col col-12 col-sm-12 col-md-8 col-lg-9 mt-3 mt-sm-3 mt-md-0">
+                            <div class="page-header" id="banner">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-7 col-sm-6">
+                                        <h1 class="float-sm-left">Update Tag</h1>
+                                        <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
+                                    </div>
+                                    <div class="col-lg-4 col-md-5 col-sm-6">
+                                        <div class="sponsor">
+                                            <a th:replace="admin/fragments/logo :: logo('/', 'float-sm-right')"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section class="row" id="k-update-post">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${tag != null}">
+                                    <form th:object="${tag}" th:action="@{/admin/tags/update}" method="post" class="table-responsive">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('value')} ? 'has-danger'">
+                                                                <label for="ki-input-title" class="col-md-12 col-lg-2 col-form-label">Name</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{value}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('value')} ? 'is-invalid'" id="ki-input-title" placeholder="" autocomplete="off">
+                                                                    <ul th:if="${#fields.hasErrors('value')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('value')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0">
+                                                                <div class="col-md-12 col-lg-2"></div>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <button type="submit" id="ki-btn-update-tag" class="btn btn-primary">Update</button>
+                                                                    <button type="button" th:onclick="'window.location.href=\'' + @{|/admin/tags/|} + '\''" class="btn btn-secondary">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" id="ki-input-id" th:field="*{id}" />
+                                    </form>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${tag == null}">
+                                    <p th:text="#{admin.tags.list.k-tag-management.tag-not-found}">[No tag found]</p>
+                                </div>
+                            </section>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+    </body>
+</html>
