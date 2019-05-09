@@ -21,7 +21,7 @@
                                                         <li class="list-inline-item"><a href="#"><span class="badge badge-secondary">Java</span></a></li>
                                                         <li class="list-inline-item"><a href="#"><span class="badge badge-secondary">Microservices</span></a></li>
                                                     </ul>
-                                                    <p class="card-text"><small class="text-muted" th:text="#{public.post.k-posts.post-created(${T(com.keybds.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringDate(post.articleDate)})}">[Post Date]</small></p>
+                                                    <p class="card-text"><small class="text-muted" th:text="#{public.post.k-posts.post-created(${T(com.quopri.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringDate(post.articleDate)})}">[Post Date]</small></p>
                                                 </div>
                                                 <div class="card-body pt-0 pb-2">
                                                     <img class="card-img-bottom" th:src="@{${post.articleImage != null} ? ${post.articleImage} : '/images/thumbnail.jpg'}" alt="Thumbnail image">

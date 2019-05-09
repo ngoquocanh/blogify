@@ -15,7 +15,7 @@
                                             <h1 class="article-title" th:text="${article.articleTitle}">[article title]</h1>
                                             <div class="article-meta-info">
                                                 <small class="article-date"
-                                                       th:utext="#{public.post.k-posts.post-modified(${T(com.keybds.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringDate(article.articleModified)})}">
+                                                       th:utext="#{public.post.k-posts.post-modified(${T(com.quopri.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringDate(article.articleModified)})}">
                                                        [Last updated on Mar 25, 1993]
                                                 </small>
                                             </div>

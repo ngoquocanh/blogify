@@ -216,7 +216,7 @@
                     event.preventDefault();
                     var acId = $(this).data('account-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
+                    var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
                     var obj = {id: acId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
@@ -246,7 +246,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one account.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });
