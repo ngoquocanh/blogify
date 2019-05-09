@@ -25,11 +25,13 @@ public class AjaxController {
     public String retrieveAllTagCloud() throws MvcException {
         List<Tag> tags = tagService.getAllTags();
         StringBuilder tagsHtml = new StringBuilder();
-        tagsHtml.append("<ul class='tag-list'>");
-        for (Tag tag : tags) {
-            tagsHtml.append(buildTagHtml(tag));
+        if (!tags.isEmpty()) {
+            tagsHtml.append("<div class='card m-0 p-0'><ul class='tag-list'>");
+            for (Tag tag : tags) {
+                tagsHtml.append(buildTagHtml(tag));
+            }
+            tagsHtml.append("</ul></div>");
         }
-        tagsHtml.append("</ul>");
         return tagsHtml.toString();
     }
 

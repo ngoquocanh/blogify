@@ -65,6 +65,22 @@
                                                 <tr class="table-active">
                                                     <td scope="row">
                                                         <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postThumbnail')} ? 'has-danger'">
+                                                                <label for="ki-text-thumbnail" class="col-md-12 col-lg-2 col-form-label">Thumbnail</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <textarea id="ki-text-thumbnail" th:field="*{postThumbnail}" class="form-control"
+                                                                              th:classappend="${#fields.hasErrors('postThumbnail')} ? 'is-invalid'" rows="2"></textarea>
+                                                                    <ul th:if="${#fields.hasErrors('postThumbnail')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postThumbnail')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
                                                             <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postExcerpt')} ? 'has-danger'">
                                                                 <label for="ki-text-excerpt" class="col-md-12 col-lg-2 col-form-label">Excerpt</label>
                                                                 <div class="col-md-12 col-lg-10">

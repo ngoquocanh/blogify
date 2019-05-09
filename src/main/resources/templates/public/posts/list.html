@@ -24,7 +24,7 @@
                                                     <p class="card-text"><small class="text-muted" th:text="#{public.post.k-posts.post-created(${T(com.keybds.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringDate(post.articleDate)})}">[Post Date]</small></p>
                                                 </div>
                                                 <div class="card-body pt-0 pb-2">
-                                                    <img class="card-img-bottom" src="https://via.placeholder.com/350x200" alt="Card image cap">
+                                                    <img class="card-img-bottom" th:src="@{${post.articleImage != null} ? ${post.articleImage} : '/images/thumbnail.jpg'}" alt="Thumbnail image">
                                                 </div>
                                                 <div class="card-body pt-0">
                                                     <p class="card-text mb-1" th:text="${post.articleExcerpt}">[Post Excerpt]</p>

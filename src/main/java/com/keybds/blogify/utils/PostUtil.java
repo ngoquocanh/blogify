@@ -18,6 +18,7 @@ public class PostUtil {
         if (!isNew) {
             article.setId(postDTO.getPostId());
         }
+
         if (postDTO.getPostStatus().equals(ArticleEnum.STATUS_PUBLIC.getKey())) {
             article.setArticleStatus(new ArticleStatus(ArticleEnum.STATUS_PUBLIC));
         } else if (postDTO.getPostStatus().equals(ArticleEnum.STATUS_DRAFT.getKey())) {
@@ -27,6 +28,7 @@ public class PostUtil {
         }
         article.setArticleExcerpt(postDTO.getPostExcerpt());
         article.setArticleTitle(postDTO.getPostTitle());
+        article.setArticleImage(postDTO.getPostThumbnail());
         article.setArticleName(postDTO.getPostName());
         article.setArticleContent(postDTO.getPostContent());
         return article;
@@ -36,6 +38,7 @@ public class PostUtil {
         PostDTO postDTO = new PostDTO();
         postDTO.setPostId(article.getId());
         postDTO.setPostTitle(article.getArticleTitle());
+        postDTO.setPostThumbnail(article.getArticleImage());
         postDTO.setPostExcerpt(article.getArticleExcerpt());
         postDTO.setPostContent(article.getArticleContent());
         postDTO.setPostStatus(article.getArticleStatus().getStatusKey());

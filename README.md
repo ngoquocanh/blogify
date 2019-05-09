@@ -5,7 +5,7 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 | #1 | #2 | #3 | #4 |
 | --- | --- |--- |--- |
 | *Spring Boot* | *Spring Data JPA* | *Spring MVC*   | *Spring Security* |
-| *Bootstrap 4* | *Gradle*          | *Thymeleaf*    | *Webjars*         |
+| *Bootstrap 4* | *Gradle*          | *Thymeleaf*    | *Lombok*         |
 
 ## Requirement
 - Java 8 or above
@@ -25,6 +25,13 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 ```
 - Import database and sample data in /install/sql/schema.sql and /install/sql/data.sql
 - Then just start Spring Boot in your IDE or using gradle (gradle bootRun).
+
+## Changes
+:boom: **2019-may**
+
+- Update database
+- Create and update article thumbnail
+- Update ajax tag cloud
 
 :boom: **2019-apr**
 

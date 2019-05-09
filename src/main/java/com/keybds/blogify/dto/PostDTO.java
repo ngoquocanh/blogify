@@ -12,7 +12,6 @@ import java.util.List;
 public class PostDTO implements Serializable {
 
     private Long postId;
-    private String postLink;
     private Integer postStatus;
     private List<PostStatusOption> postStatusOptions = new ArrayList<>(Arrays.asList(
         new PostStatusOption(ArticleEnum.STATUS_PUBLIC.getKey(), ArticleEnum.STATUS_PUBLIC.getValue()),
@@ -22,6 +21,8 @@ public class PostDTO implements Serializable {
     @NotEmpty(message = "Please enter value for title filed")
     @Length(max = 1500, message = "please enter value for title field less than {max} characters")
     private String postTitle;
+
+    private String postThumbnail;
 
     @NotEmpty(message = "Please enter value for excerpt filed")
     private String postExcerpt;
@@ -46,14 +47,6 @@ public class PostDTO implements Serializable {
 
     public void setPostContent(String postContent) {
         this.postContent = postContent;
-    }
-
-    public String getPostLink() {
-        return postLink;
-    }
-
-    public void setPostLink(String postLink) {
-        this.postLink = postLink;
     }
 
     public String getPostName() {
@@ -90,6 +83,14 @@ public class PostDTO implements Serializable {
 
     public List<PostStatusOption> getPostStatusOptions() {
         return postStatusOptions;
+    }
+
+    public String getPostThumbnail() {
+        return postThumbnail;
+    }
+
+    public void setPostThumbnail(String postThumbnail) {
+        this.postThumbnail = postThumbnail;
     }
 
     private class PostStatusOption {

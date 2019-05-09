@@ -108,9 +108,10 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
                 articleExisted = optionalArticleExisted.get();
                 Article articleToUpdate = new Article();
 
-                // new data from form update post include: id, title, content
+                // new data from form update post include: id, title, image, excerpt, content, status
                 articleToUpdate.setId(article.getId());
                 articleToUpdate.setArticleTitle(article.getArticleTitle());
+                articleToUpdate.setArticleImage(article.getArticleImage());
                 articleToUpdate.setArticleExcerpt(article.getArticleExcerpt());
                 articleToUpdate.setArticleContent(article.getArticleContent());
                 articleToUpdate.setArticleStatus(article.getArticleStatus());
@@ -123,10 +124,8 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
 
                 // old data existed from database
                 articleToUpdate.setAccountId(articleExisted.getAccountId());
-                articleToUpdate.setArticleLink(articleExisted.getArticleLink());
                 articleToUpdate.setArticleName(articleExisted.getArticleName());
                 articleToUpdate.setArticleDate(articleExisted.getArticleDate());
-                articleToUpdate.setArticleImage(articleExisted.getArticleImage());
 
                 // execute update post
                 articleUpdated = articleRepository.save(articleToUpdate);
@@ -148,6 +147,7 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         articleToCreate.setArticleTitle(article.getArticleTitle());
         articleToCreate.setArticleExcerpt(article.getArticleExcerpt());
         articleToCreate.setArticleContent(article.getArticleContent());
+        articleToCreate.setArticleImage(article.getArticleImage());
 
         // name created from controller
         articleToCreate.setArticleName(article.getArticleName());
@@ -157,14 +157,12 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
 
         ZoneId zone = ZoneId.of(ZONE_VIETNAM_HCM);
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zone);
+        articleToCreate.setArticleDate(zonedDateTime);
+        articleToCreate.setArticleModified(zonedDateTime);
 
         // hard code part, will update later
         // no need to set article id
         articleToCreate.setAccountId(1L);
-        articleToCreate.setArticleLink("test");
-        articleToCreate.setArticleDate(zonedDateTime);
-        articleToCreate.setArticleModified(zonedDateTime);
-        articleToCreate.setArticleImage("test");
 
         Article articleCreated = articleRepository.save(articleToCreate);
         return articleCreated;

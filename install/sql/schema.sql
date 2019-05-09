@@ -62,13 +62,12 @@ CREATE TABLE `articles` (
   `account_id` bigint(20) NOT NULL,
   `article_title` varchar(200) NOT NULL,
   `article_name` varchar(200) NOT NULL,
-  `article_link` varchar(255) DEFAULT NULL,
   `article_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `article_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `article_type_key` tinyint(1) NOT NULL,
   `article_excerpt` text NOT NULL,
   `article_content` text NOT NULL,
-  `article_image` varchar(200) DEFAULT NULL,
+  `article_image` varchar(255) DEFAULT NULL,
   `article_status_key` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -27,9 +27,6 @@ public class Article implements Serializable {
     @Column(name = "article_name")
     private String articleName;
 
-    @Column(name = "article_link")
-    private String articleLink;
-
     @Column(name = "article_date")
     private ZonedDateTime articleDate;
 
