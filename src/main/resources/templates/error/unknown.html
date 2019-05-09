@@ -1,8 +1,26 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-    <head></head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="public/fragments/head :: head">[global head]</head>
     <body>
-        <div th:text="${errorTitle}">[title]</div>
-        <div th:text="${errorCode}">[code]</div>
-        <div th:text="${errorMessage}">[message]</div>
+        <div id="page-container">
+            <header th:replace="public/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <section id="main" class="col col-12 col-sm-12 col-md-12 col-lg-12">
+                            <section id="errors">
+                                <div class="page-header" id="banner">
+                                    <h1 th:text="${errorTitle}">[Oops! Not Found]</h1>
+                                    <p class="lead" th:text="${errorMessage}">[Sorry, but we couldn't find the page you requested.]</p>
+                                    <a th:href="@{/}" class="text-decoration-none"><p class="text-info">Click here to go back to the homepage.</p></a>
+                                </div>
+                            </section>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="public/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
     </body>
 </html>

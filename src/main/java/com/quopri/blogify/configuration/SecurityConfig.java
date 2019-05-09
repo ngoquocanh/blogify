@@ -59,12 +59,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(PERMIT_URL_LIST).permitAll()
                 .antMatchers(IGNORED_STATIC_RESOURCE_LIST).permitAll()
-                .antMatchers(UrlConstants.ADMIN_PREFIX.concat("/**")).hasAnyAuthority(RoleEnum.ADMIN.getValue())
-                .anyRequest().authenticated();
+                .antMatchers(UrlConstants.ADMIN_PREFIX.concat("/**")).hasAnyAuthority(RoleEnum.ADMIN.getValue());
+//                .anyRequest().authenticated();
         http.formLogin()
                 .loginPage(UrlConstants.SIGN_IN).successHandler(authenticationSuccessHandler)
                 .and()
                 .logout().permitAll();
+//        http.exceptionHandling().accessDeniedPage("/404");
     }
 
     @Override
