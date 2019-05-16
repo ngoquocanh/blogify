@@ -1,7 +1,5 @@
 package com.quopri.blogify.utils;
 
-import com.quopri.blogify.enums.ArticleEnum;
-import com.quopri.blogify.model.ArticleStatus;
 import com.quopri.blogify.dto.PostDTO;
 import com.quopri.blogify.model.Article;
 
@@ -18,14 +16,7 @@ public class PostUtil {
         if (!isNew) {
             article.setId(postDTO.getPostId());
         }
-
-        if (postDTO.getPostStatus().equals(ArticleEnum.STATUS_PUBLIC.getKey())) {
-            article.setArticleStatus(new ArticleStatus(ArticleEnum.STATUS_PUBLIC));
-        } else if (postDTO.getPostStatus().equals(ArticleEnum.STATUS_DRAFT.getKey())) {
-            article.setArticleStatus(new ArticleStatus(ArticleEnum.STATUS_DRAFT));
-        } else {
-            article.setArticleStatus(new ArticleStatus(ArticleEnum.STATUS_DRAFT));
-        }
+        article.setArticleStatus(Article.Status.findByKey(postDTO.getPostStatus()));
         article.setArticleExcerpt(postDTO.getPostExcerpt());
         article.setArticleTitle(postDTO.getPostTitle());
         article.setArticleImage(postDTO.getPostThumbnail());
@@ -41,7 +32,7 @@ public class PostUtil {
         postDTO.setPostThumbnail(article.getArticleImage());
         postDTO.setPostExcerpt(article.getArticleExcerpt());
         postDTO.setPostContent(article.getArticleContent());
-        postDTO.setPostStatus(article.getArticleStatus().getStatusKey());
+        postDTO.setPostStatus(article.getArticleStatus().getKey());
         return postDTO;
     }
 }

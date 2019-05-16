@@ -15,7 +15,7 @@ public enum StatusMessageCode {
     private Integer code;
     private String message;
 
-    private StatusMessageCode(Integer code, String message) {
+    StatusMessageCode(Integer code, String message) {
         this.setCode(code);
         this.setMessage(message);
     }

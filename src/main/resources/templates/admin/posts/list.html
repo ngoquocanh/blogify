@@ -87,7 +87,7 @@
                                                     </td>
                                                     <td th:text="${post.articleTitle}">[Post Title]</td>
                                                     <td th:text="${T(com.quopri.blogify.utils.DateTimeUtil).convertZonedDateTimeToStringTime(post.articleDate)}">[Post Date]</td>
-                                                    <td th:text="${post.articleStatus.statusValue}">[PUBLIC]</td>
+<!--                                                    <td th:text="${post.articleStatus.value}">[PUBLIC]</td>-->
                                                     <td>
                                                         <a th:href="@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_POST_UPDATE_ID}(id=${post.id})}"><i class="fas fa-edit"></i></a>
                                                         <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>

@@ -2,11 +2,8 @@ package com.quopri.blogify.service.impl;
 
 import com.github.slugify.Slugify;
 import com.quopri.blogify.controller.admin.AdminPostController;
-import com.quopri.blogify.enums.ArticleEnum;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.ArticleStatus;
-import com.quopri.blogify.model.ArticleType;
 import com.quopri.blogify.repository.ArticleRepository;
 import com.quopri.blogify.service.ArticleService;
 import com.quopri.blogify.model.Article;
@@ -36,14 +33,14 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
     @Transactional(readOnly = true)
     @Override
     public List<Article> getAllPublishedPosts() {
-        return articleRepository.findByArticleStatusEquals(new ArticleStatus(ArticleEnum.STATUS_PUBLIC));
+        return articleRepository.findAllByArticleStatus(Article.Status.PUBLISHED);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<Article> getAllPublishedPosts(Pageable pageable) {
         if (isPaged(pageable)) {
-            return articleRepository.findByArticleStatusEquals(new ArticleStatus(ArticleEnum.STATUS_PUBLIC), pageable);
+            return articleRepository.findAllByArticleStatus(Article.Status.PUBLISHED, pageable);
         } else {
             return Page.empty();
         }
@@ -120,7 +117,7 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
                 ZonedDateTime zonedDateTime = ZonedDateTime.now(zone);
                 articleToUpdate.setArticleModified(zonedDateTime);
 
-                articleToUpdate.setArticleType(new ArticleType(ArticleEnum.TYPE_POST));
+                articleToUpdate.setArticleType(article.getArticleType());
 
                 // old data existed from database
                 articleToUpdate.setAccountId(articleExisted.getAccountId());
@@ -153,7 +150,7 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         articleToCreate.setArticleName(article.getArticleName());
 
         // type always is POST
-        articleToCreate.setArticleType(new ArticleType(ArticleEnum.TYPE_POST));
+        articleToCreate.setArticleType(article.getArticleType());
 
         ZoneId zone = ZoneId.of(ZONE_VIETNAM_HCM);
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zone);

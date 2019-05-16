@@ -64,11 +64,11 @@ CREATE TABLE `articles` (
   `article_name` varchar(200) NOT NULL,
   `article_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `article_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `article_type_key` tinyint(1) NOT NULL,
+  `article_type` tinyint(1) NOT NULL,
   `article_excerpt` text NOT NULL,
   `article_content` text NOT NULL,
   `article_image` varchar(255) DEFAULT NULL,
-  `article_status_key` tinyint(1) NOT NULL
+  `article_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -93,28 +93,6 @@ CREATE TABLE `articles_tags` (
   `id` bigint(20) NOT NULL,
   `article_id` bigint(20) NOT NULL,
   `tag_id` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `article_status`
---
-
-CREATE TABLE `article_status` (
-  `status_key` tinyint(1) NOT NULL,
-  `status_value` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `article_type`
---
-
-CREATE TABLE `article_type` (
-  `type_key` tinyint(1) NOT NULL,
-  `type_value` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -172,9 +150,7 @@ ALTER TABLE `accounts_authorities`
 -- Indexes for table `articles`
 --
 ALTER TABLE `articles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_articles_article_status_idx` (`article_status_key`),
-  ADD KEY `fk_articles_article_type_idx` (`article_type_key`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `articles_categories`
@@ -191,18 +167,6 @@ ALTER TABLE `articles_tags`
   ADD PRIMARY KEY (`id`,`article_id`,`tag_id`),
   ADD KEY `fk_articles_has_tags_tags1_idx` (`tag_id`),
   ADD KEY `fk_articles_has_tags_articles1_idx` (`article_id`);
-
---
--- Indexes for table `article_status`
---
-ALTER TABLE `article_status`
-  ADD PRIMARY KEY (`status_key`);
-
---
--- Indexes for table `article_type`
---
-ALTER TABLE `article_type`
-  ADD PRIMARY KEY (`type_key`);
 
 --
 -- Indexes for table `authorities`
@@ -260,13 +224,6 @@ ALTER TABLE `articles_tags`
 ALTER TABLE `accounts_authorities`
   ADD CONSTRAINT `fk_accounts_has_authorities_accounts1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_accounts_has_authorities_authorities1` FOREIGN KEY (`authority_id`) REFERENCES `authorities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `articles`
---
-ALTER TABLE `articles`
-  ADD CONSTRAINT `fk_articles_article_status` FOREIGN KEY (`article_status_key`) REFERENCES `article_status` (`status_key`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_articles_article_type` FOREIGN KEY (`article_type_key`) REFERENCES `article_type` (`type_key`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `articles_categories`

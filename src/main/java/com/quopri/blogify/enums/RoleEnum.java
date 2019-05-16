@@ -7,7 +7,7 @@ public enum RoleEnum {
     private Integer key;
     private String value;
 
-    private RoleEnum(Integer key, String value) {
+    RoleEnum(Integer key, String value) {
         this.setKey(key);
         this.setValue(value);
     }

@@ -1,6 +1,6 @@
 package com.quopri.blogify.dto;
 
-import com.quopri.blogify.enums.ArticleEnum;
+import com.quopri.blogify.model.Article;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,8 +14,8 @@ public class PostDTO implements Serializable {
     private Long postId;
     private Integer postStatus;
     private List<PostStatusOption> postStatusOptions = new ArrayList<>(Arrays.asList(
-        new PostStatusOption(ArticleEnum.STATUS_PUBLIC.getKey(), ArticleEnum.STATUS_PUBLIC.getValue()),
-        new PostStatusOption(ArticleEnum.STATUS_DRAFT.getKey(), ArticleEnum.STATUS_DRAFT.getValue())
+        new PostStatusOption(Article.Status.DRAFT.getKey(), Article.Status.DRAFT.getValue()),
+        new PostStatusOption(Article.Status.PUBLISHED.getKey(), Article.Status.PUBLISHED.getValue())
     ));
 
     @NotEmpty(message = "Please enter value for title filed")
