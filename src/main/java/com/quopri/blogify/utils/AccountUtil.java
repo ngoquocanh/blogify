@@ -1,7 +1,7 @@
 package com.quopri.blogify.utils;
 
 import com.quopri.blogify.dto.AccountInfoDTO;
-import com.quopri.blogify.model.Account;
+import com.quopri.blogify.entity.Account;
 
 public class AccountUtil {
 

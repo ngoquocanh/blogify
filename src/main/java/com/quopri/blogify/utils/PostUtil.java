@@ -1,7 +1,7 @@
 package com.quopri.blogify.utils;
 
 import com.quopri.blogify.dto.PostDTO;
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 
 public class PostUtil {
 

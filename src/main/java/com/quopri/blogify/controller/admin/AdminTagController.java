@@ -8,7 +8,7 @@ import com.quopri.blogify.controller.BaseController;
 import com.quopri.blogify.dto.TagDTO;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Tag;
+import com.quopri.blogify.entity.Tag;
 import com.quopri.blogify.service.TagService;
 import com.quopri.blogify.utils.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;

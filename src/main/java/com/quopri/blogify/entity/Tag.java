@@ -1,4 +1,4 @@
-package com.quopri.blogify.model;
+package com.quopri.blogify.entity;
 
 import lombok.Data;
 

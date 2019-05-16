@@ -2,7 +2,7 @@ package com.quopri.blogify.service;
 
 import com.quopri.blogify.dto.AccountDTO;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Account;
+import com.quopri.blogify.entity.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;

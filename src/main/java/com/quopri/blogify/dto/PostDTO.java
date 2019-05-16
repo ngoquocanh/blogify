@@ -1,6 +1,6 @@
 package com.quopri.blogify.dto;
 
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;

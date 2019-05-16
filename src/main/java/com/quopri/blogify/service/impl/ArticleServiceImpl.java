@@ -6,7 +6,7 @@ import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.repository.ArticleRepository;
 import com.quopri.blogify.service.ArticleService;
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

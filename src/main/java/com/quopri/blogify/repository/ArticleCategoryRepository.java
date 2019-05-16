@@ -1,6 +1,6 @@
 package com.quopri.blogify.repository;
 
-import com.quopri.blogify.model.ArticleCategory;
+import com.quopri.blogify.entity.ArticleCategory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

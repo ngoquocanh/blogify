@@ -1,4 +1,4 @@
-package com.quopri.blogify.model;
+package com.quopri.blogify.entity;
 
 public class AccountDetails extends org.springframework.security.core.userdetails.User {
 

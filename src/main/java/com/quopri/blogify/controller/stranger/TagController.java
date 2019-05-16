@@ -1,9 +1,9 @@
-package com.quopri.blogify.controller;
+package com.quopri.blogify.controller.stranger;
 
 import com.quopri.blogify.configuration.ApplicationSettings;
 import com.quopri.blogify.constants.UrlConstants;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Tag;
+import com.quopri.blogify.entity.Tag;
 import com.quopri.blogify.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-public class AjaxController {
+public class TagController {
 
     @Autowired
     private TagService tagService;

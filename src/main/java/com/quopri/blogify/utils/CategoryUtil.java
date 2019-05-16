@@ -1,7 +1,7 @@
 package com.quopri.blogify.utils;
 
 import com.quopri.blogify.dto.CategoryDTO;
-import com.quopri.blogify.model.Category;
+import com.quopri.blogify.entity.Category;
 
 public class CategoryUtil {
 

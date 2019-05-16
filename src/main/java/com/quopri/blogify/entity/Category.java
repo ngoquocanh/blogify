@@ -1,9 +1,11 @@
-package com.quopri.blogify.model;
+package com.quopri.blogify.entity;
 
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -17,4 +19,7 @@ public class Category implements Serializable {
 
     @Column(name = "value")
     private String value;
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Article> articles = new HashSet<>();
 }

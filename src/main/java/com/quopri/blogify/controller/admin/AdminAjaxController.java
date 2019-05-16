@@ -6,7 +6,7 @@ import com.quopri.blogify.controller.BaseController;
 import com.quopri.blogify.dto.PostDTO;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 import com.quopri.blogify.service.ArticleService;
 import com.quopri.blogify.utils.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;

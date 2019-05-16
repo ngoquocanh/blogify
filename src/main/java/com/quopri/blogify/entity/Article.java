@@ -1,4 +1,4 @@
-package com.quopri.blogify.model;
+package com.quopri.blogify.entity;
 
 import com.quopri.blogify.converters.ArticleStatusConverter;
 import com.quopri.blogify.converters.ArticleTypeConverter;

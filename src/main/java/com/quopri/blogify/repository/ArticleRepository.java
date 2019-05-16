@@ -1,6 +1,6 @@
 package com.quopri.blogify.repository;
 
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

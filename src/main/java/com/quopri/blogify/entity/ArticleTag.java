@@ -1,13 +1,13 @@
-package com.quopri.blogify.model;
+package com.quopri.blogify.entity;
 
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "articles_categories")
+@Table(name = "articles_tags")
 @Data
-public class ArticleCategory {
+public class ArticleTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,6 @@ public class ArticleCategory {
     @Column(name = "article_id")
     private Long articleId;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "tag_id")
+    private Long tagId;
 }

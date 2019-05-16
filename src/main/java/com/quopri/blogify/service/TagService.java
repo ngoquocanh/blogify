@@ -1,7 +1,7 @@
 package com.quopri.blogify.service;
 
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Tag;
+import com.quopri.blogify.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

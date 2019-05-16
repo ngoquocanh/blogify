@@ -1,12 +1,13 @@
-package com.quopri.blogify.controller;
+package com.quopri.blogify.controller.stranger;
 
 import com.quopri.blogify.containers.PageHolder;
 import com.quopri.blogify.containers.PageUtil;
+import com.quopri.blogify.controller.BaseController;
 import com.quopri.blogify.controller.admin.AdminPostController;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.service.ArticleService;
 import com.quopri.blogify.constants.UrlConstants;
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

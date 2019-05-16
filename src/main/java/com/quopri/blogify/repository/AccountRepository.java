@@ -1,6 +1,6 @@
 package com.quopri.blogify.repository;
 
-import com.quopri.blogify.model.Account;
+import com.quopri.blogify.entity.Account;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {

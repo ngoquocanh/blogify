@@ -2,8 +2,8 @@ package com.quopri.blogify.service.impl;
 
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.ArticleCategory;
-import com.quopri.blogify.model.Category;
+import com.quopri.blogify.entity.ArticleCategory;
+import com.quopri.blogify.entity.Category;
 import com.quopri.blogify.repository.ArticleCategoryRepository;
 import com.quopri.blogify.repository.CategoryRepository;
 import com.quopri.blogify.service.CategoryService;

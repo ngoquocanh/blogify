@@ -9,7 +9,7 @@ import com.quopri.blogify.containers.PageHolder;
 import com.quopri.blogify.containers.PageUtil;
 import com.quopri.blogify.controller.BaseController;
 import com.quopri.blogify.dto.PostDTO;
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 import com.quopri.blogify.utils.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

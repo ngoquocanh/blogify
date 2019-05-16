@@ -1,7 +1,7 @@
 package com.quopri.blogify.utils;
 
 import com.quopri.blogify.dto.TagDTO;
-import com.quopri.blogify.model.Tag;
+import com.quopri.blogify.entity.Tag;
 
 public class TagUtil {
 

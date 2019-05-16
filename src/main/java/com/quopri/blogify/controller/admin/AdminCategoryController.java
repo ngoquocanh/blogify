@@ -8,7 +8,7 @@ import com.quopri.blogify.controller.BaseController;
 import com.quopri.blogify.dto.CategoryDTO;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Category;
+import com.quopri.blogify.entity.Category;
 import com.quopri.blogify.service.CategoryService;
 import com.quopri.blogify.utils.CategoryUtil;
 import org.springframework.beans.factory.annotation.Autowired;

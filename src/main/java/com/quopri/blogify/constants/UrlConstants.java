@@ -1,6 +1,6 @@
 package com.quopri.blogify.constants;
 
-import com.quopri.blogify.controller.PostController;
+import com.quopri.blogify.controller.stranger.PostController;
 import com.quopri.blogify.controller.admin.AdminPostController;
 import com.quopri.blogify.controller.admin.AdminAccountController;
 

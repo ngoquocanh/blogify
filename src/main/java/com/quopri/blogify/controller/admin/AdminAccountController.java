@@ -7,7 +7,7 @@ import com.quopri.blogify.containers.PageUtil;
 import com.quopri.blogify.controller.BaseController;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.model.Account;
+import com.quopri.blogify.entity.Account;
 import com.quopri.blogify.service.AccountService;
 import com.quopri.blogify.utils.AccountUtil;
 import com.quopri.blogify.dto.AccountDTO;

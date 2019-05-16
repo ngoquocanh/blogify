@@ -1,6 +1,6 @@
 package com.quopri.blogify.converters;
 
-import com.quopri.blogify.model.Article;
+import com.quopri.blogify.entity.Article;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
