@@ -125,6 +125,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                     </form>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12" th:if="${post == null}">
@@ -137,6 +138,7 @@
             </section><!--#page-content-->
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
-        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
     </body>
 </html>

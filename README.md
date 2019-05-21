@@ -33,6 +33,8 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Create and update article thumbnail
 - Update ajax tag cloud
 - Update post type and status
+- Add page title
+- Cross Site Request Forgery (CSRF)
 
 :boom: **2019-apr**
 

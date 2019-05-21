@@ -15,6 +15,22 @@
             <script th:src="@{/js/summernode.js}"></script>
         </div>
 
+        <div th:fragment="csrf-js" th:remove="tag">
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                $(document).ready(function () {
+                    $(function () {
+                        var token = $("meta[name='_csrf']").attr("content");
+                        var header = $("meta[name='_csrf_header']").attr("content");
+                        $(document).ajaxSend(function (e, xhr, options) {
+                            xhr.setRequestHeader(header, token);
+                        });
+                    });
+                });
+                /*]]>*/
+            </script>
+        </div>
+
         <div th:fragment="mvc-js" th:remove="tag">
             <script th:inline="javascript">
                 /*<![CDATA[*/

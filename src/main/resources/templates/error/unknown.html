@@ -21,6 +21,7 @@
             </section><!--#page-content-->
             <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
-        <div th:replace="public/fragments/scripts :: scripts" th:remove="tag">[common scripts]</div>
+        <div th:replace="public/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="public/fragments/scripts :: csrf-js">[common scripts]</div>
     </body>
 </html>

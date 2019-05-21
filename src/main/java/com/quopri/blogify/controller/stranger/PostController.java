@@ -1,5 +1,6 @@
 package com.quopri.blogify.controller.stranger;
 
+import com.quopri.blogify.components.WebUI;
 import com.quopri.blogify.containers.PageHolder;
 import com.quopri.blogify.containers.PageUtil;
 import com.quopri.blogify.controller.BaseController;
@@ -22,6 +23,9 @@ public class PostController extends BaseController {
     @Autowired
     private ArticleService postService;
 
+    @Autowired
+    private WebUI webUI;
+
     protected static final String VIEW_PUBLIC_POSTS_LIST    = "public/posts/list";
     protected static final String VIEW_PUBLIC_SINGLE_POST   = "public/posts/post";
 
@@ -38,6 +42,7 @@ public class PostController extends BaseController {
     public ModelAndView retrieveAllPublishedPosts() throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_PUBLIC_POSTS_LIST);
         Page<Article> posts = postService.getAllPublishedPosts(PageRequest.of(0, PAGE_SIZE));
+        webUI.addPageTitle(mav);
         return buildPublicPosts(mav, posts);
     }
 
@@ -50,6 +55,7 @@ public class PostController extends BaseController {
     public ModelAndView retrieveAllPublishedPostsPageable(@PathVariable(MODEL_ATTRIBUTE_PAGE_INDEX) String strPageIndex) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_PUBLIC_POSTS_LIST);
         Integer pageIndex = parseInt(strPageIndex, 0);
+        webUI.addPageTitle(mav);
         if (pageIndex != 0) {
             Page<Article> posts = postService.getAllPublishedPosts(PageRequest.of(pageIndex - 1, PAGE_SIZE));
             return buildPublicPosts(mav, posts);
@@ -69,6 +75,7 @@ public class PostController extends BaseController {
     public ModelAndView retrievePost(@PathVariable(MODEL_ATTRIBUTE_ARTICLE_LINK) String articleLink) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_PUBLIC_SINGLE_POST);
         Article article = postService.getPost(articleLink);
+        webUI.addPageTitle(mav, article.getArticleTitle());
         mav.addObject(MODEL_ATTRIBUTE_ARTICLE, article);
         return mav;
     }

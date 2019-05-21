@@ -14,4 +14,9 @@ import java.io.Serializable;
 public class ApplicationSettings implements Serializable {
 
     private String baseUrl;
+
+    /**
+     * Blog title
+     */
+    private String title;
 }

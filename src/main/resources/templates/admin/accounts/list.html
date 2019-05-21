@@ -167,7 +167,8 @@
             </section><!--#page-content-->
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
-        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[scripts]</div>
+        <div th:replace="admin/fragments/scripts :: scripts">[scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
         <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
         <script th:inline="javascript">
             /*<![CDATA[*/
