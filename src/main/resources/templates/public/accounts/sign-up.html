@@ -10,7 +10,7 @@
                         <div class="page-header" id="banner">
                             <div class="row">
                                 <div class="col-lg-8 col-md-7 col-sm-6">
-                                    <h1 class="float-sm-left">Welcome!</h1>
+                                    <h1 class="float-sm-left">Join now!</h1>
                                     <!--<p class="lead">A hand-drawn look for mockups and mirth</p>-->
                                 </div>
                                 <div class="col-lg-4 col-md-5 col-sm-6">
@@ -45,22 +45,68 @@
                     </div>
 
                     <div class="container">
-                        <form th:action="@{/login}" method="post">
+                        <form th:action="@{/register}" th:object="${user}" method="post">
                             <fieldset>
                                 <legend class="row justify-content-center">
-                                    <div class="col col-9 col-sm-10 col-md-7 col-lg-5">Sign in</div>
+                                    <div class="col col-9 col-sm-10 col-md-7 col-lg-5">Sign Up</div>
                                 </legend>
-                                <div class="form-group row justify-content-center">
-                                    <label for="exampleInputEmail1" class="col col-9 col-sm-4 col-md-3 col-lg-2">Username Or Email</label>
+                                <div class="form-group row justify-content-center" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
+                                    <label for="exampleInputEmail1" class="col col-9 col-sm-4 col-md-3 col-lg-2">Username</label>
                                     <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
-                                        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username Or Email">
+                                        <input type="text" th:field="*{username}" class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username">
+                                        <ul th:if="${#fields.hasErrors('username')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                            <li th:each="err : ${#fields.errors('username')}" th:text="${err}">[Invalid input]</li>
+                                        </ul>
                                     </div>
                                 </div>
 
-                                <div class="form-group row justify-content-center">
+                                <div class="form-group row justify-content-center" th:classappend="${#fields.hasErrors('firstName')} ? 'has-danger'">
+                                    <label for="exampleInputFirstName" class="col col-9 col-sm-4 col-md-3 col-lg-2">First Name</label>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <input type="text" th:field="*{firstName}" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" id="exampleInputFirstName" aria-describedby="emailHelp" placeholder="First Name">
+                                        <ul th:if="${#fields.hasErrors('firstName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                            <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">[Invalid input]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center" th:classappend="${#fields.hasErrors('lastName')} ? 'has-danger'">
+                                    <label for="exampleInputLastName" class="col col-9 col-sm-4 col-md-3 col-lg-2">Last Name</label>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <input type="text" th:field="*{lastName}" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" id="exampleInputLastName" aria-describedby="emailHelp" placeholder="Last Name">
+                                        <ul th:if="${#fields.hasErrors('lastName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                            <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">[Invalid input]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
+                                    <label for="exampleInputEmail" class="col col-9 col-sm-4 col-md-3 col-lg-2">Email</label>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <input type="text" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email">
+                                        <ul th:if="${#fields.hasErrors('email')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                            <li th:each="err : ${#fields.errors('email')}" th:text="${err}">[Invalid input]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
                                     <label for="exampleInputPassword1" class="col col-9 col-sm-4 col-md-3 col-lg-2">Password</label>
                                     <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
-                                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                        <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" id="exampleInputPassword1" placeholder="Password">
+                                        <ul th:if="${#fields.hasErrors('password')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}">[Invalid input]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'has-danger'">
+                                    <label for="exampleInputConfirmPassword" class="col col-9 col-sm-4 col-md-3 col-lg-2">Confirm Password</label>
+                                    <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
+                                        <input type="password" th:field="*{confirmPassword}" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'" id="exampleInputConfirmPassword" placeholder="Confirm Password">
+                                        <ul th:if="${#fields.hasErrors('confirmPassword')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                            <li th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}">[Invalid input]</li>
+                                        </ul>
                                     </div>
                                 </div>
 
@@ -70,7 +116,7 @@
                                         <div class="form-check pl-0">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" value="" >
-                                                Remember Me
+                                                I agree to the <a th:href="@{/}" class="text-decoration-none"><p class="d-inline text-info">terms and conditions</p></a>
                                             </label>
                                         </div>
                                     </div>
@@ -80,8 +126,7 @@
                                     <div class="col col-9 col-sm-4 col-md-3 col-lg-2"></div>
                                     <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
                                         <div class="clearfix">
-                                            <button type="submit" class="btn btn-secondary float-left">Sign In</button>
-                                            <a href="#" class="text-decoration-none float-right">Forgot Password</a>
+                                            <button type="submit" class="btn btn-secondary float-left">Sign up</button>
                                         </div>
                                     </div>
                                 </div>
@@ -100,10 +145,10 @@
                         <form>
                             <fieldset>
                                 <legend class="row justify-content-center">
-                                    <div class="col col-9 col-sm-10 col-md-7 col-lg-5">Or Login Using</div>
+                                    <div class="col col-9 col-sm-10 col-md-7 col-lg-5">Or Continue</div>
                                 </legend>
                                 <div class="form-group row justify-content-center">
-                                    <div class="col col-9 col-sm-4 col-md-3 col-lg-2">Social Accounts</div>
+                                    <div class="col col-9 col-sm-4 col-md-3 col-lg-2">With</div>
                                     <div class="col col-9 col-sm-6 col-md-4 col-lg-3">
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <button type="button" class="btn btn-secondary"><i class="fab fa-facebook-f"></i></button>

@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -59,13 +59,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(PERMIT_URL_LIST).permitAll()
                 .antMatchers(IGNORED_STATIC_RESOURCE_LIST).permitAll()
-                .antMatchers(UrlConstants.ADMIN_PREFIX.concat("/**")).hasAnyAuthority(RoleEnum.ADMIN.getValue());
-//                .anyRequest().authenticated();
+                .antMatchers(UrlConstants.ADMIN_PREFIX.concat("/**")).hasAnyAuthority(RoleEnum.ADMIN.getValue())
+                .anyRequest().authenticated();
         http.formLogin()
                 .loginPage(UrlConstants.SIGN_IN).successHandler(authenticationSuccessHandler)
                 .and()
-                .logout().permitAll();
-//        http.exceptionHandling().accessDeniedPage("/404");
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher(UrlConstants.LOG_OUT)).logoutSuccessUrl(UrlConstants.SIGN_IN);
     }
 
     @Override

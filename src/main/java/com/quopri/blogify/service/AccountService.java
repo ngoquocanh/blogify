@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountService extends UserDetailsService {
+
+    // todo: replace this method by createAccount(Account account)
     Account createAccount(AccountDTO accountDTO);
+    Account createAccount(Account account);
     Optional<Account> retrieveAccountById(Long id);
     Account updateAccountInfo(Account account);
     Account updateAccountSecurity(Account account);
@@ -29,4 +32,8 @@ public interface AccountService extends UserDetailsService {
      * @throws MvcException
      */
     void deleteAccounts(List<Long> accountIds) throws MvcException;
+
+    boolean isExistedUsername(String username);
+    boolean isExistedEmail(String email);
+
 }

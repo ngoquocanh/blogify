@@ -45,6 +45,11 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
     }
 
     @Override
+    public Account createAccount(Account account) {
+        return accountRepository.save(account);
+    }
+
+    @Override
     public Optional<Account> retrieveAccountById(Long id) {
         Optional<Account> accountFound = accountRepository.findById(id);
         return accountFound.isPresent() ? accountFound : Optional.empty();
@@ -98,6 +103,16 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
                 accountRepository.deleteById(acId);
             }
         }
+    }
+
+    @Override
+    public boolean isExistedUsername(String username) {
+        return (accountRepository.findByUsername(username) != null) ? true : false;
+    }
+
+    @Override
+    public boolean isExistedEmail(String email) {
+        return (accountRepository.findByEmail(email) != null) ? true : false;
     }
 
     @Override

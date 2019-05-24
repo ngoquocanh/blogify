@@ -9,6 +9,7 @@ public class UrlConstants {
     public static final String HOME                           = "/";
     public static final String SIGN_IN                        = "/login";
     public static final String SIGN_UP                        = "/register";
+    public static final String LOG_OUT                        = "/logout";
     public static final String ACCESS_DENIED                  = "/denied";
 
     /** admin accounts **/
