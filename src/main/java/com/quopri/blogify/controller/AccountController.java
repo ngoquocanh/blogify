@@ -110,7 +110,7 @@ public class AccountController extends BaseController {
         account.setAuthorities(authorities);
 
         accountService.createAccount(account);
-
+        mav.setViewName("public/accounts/sign-up-success");
         return mav;
     }
 }
