@@ -91,7 +91,7 @@
                                                     <td class="kc-width-18" th:text="${tag.value}">[Tag Title]</td>
                                                     <td >[8]</td>
                                                     <td>
-                                                        <a class="kc-btn-update" th:href="@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_TAG_UPDATE_ID}(id=${tag.id})}"><i class="fas fa-edit"></i></a>
+                                                        <a class="kc-btn-update" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_TAG_UPDATE_ID}(id=${tag.id})}"><i class="fas fa-edit"></i></a>
                                                         <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>
                                                     </td>
                                                 </tr>
@@ -159,6 +159,7 @@
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
         <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
         <script th:inline="javascript">
             /*<![CDATA[*/
@@ -217,7 +218,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one post.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_POSTS_LIST}}]]*/ null;
+                        var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_POSTS_LIST}}]]*/ null;
                         submitForm(path, objList, 'POST');
                     }
                 });
@@ -266,7 +267,7 @@
                     event.preventDefault();
                     var tagId = $(this).data('tag-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_TAGS_DELETE}}]]*/ null;
+                    var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_TAGS_DELETE}}]]*/ null;
                     var obj = {id: tagId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
@@ -296,7 +297,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one tag.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_TAGS_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_TAGS_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });

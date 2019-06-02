@@ -167,7 +167,8 @@
             </section><!--#page-content-->
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
-        <div th:replace="admin/fragments/scripts :: scripts" th:remove="tag">[scripts]</div>
+        <div th:replace="admin/fragments/scripts :: scripts">[scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
         <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
         <script th:inline="javascript">
             /*<![CDATA[*/
@@ -216,7 +217,7 @@
                     event.preventDefault();
                     var acId = $(this).data('account-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
+                    var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
                     var obj = {id: acId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
@@ -246,7 +247,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one account.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_ACCOUNTS_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });

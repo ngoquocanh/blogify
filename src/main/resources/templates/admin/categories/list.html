@@ -91,7 +91,7 @@
                                                     <td class="kc-width-18" th:text="${category.value}">[Tag Title]</td>
                                                     <td >[8]</td>
                                                     <td>
-                                                        <a th:href="@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_CATEGORY_UPDATE_ID}(id=${category.id})}"><i class="fas fa-edit"></i></a>
+                                                        <a th:href="@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_CATEGORY_UPDATE_ID}(id=${category.id})}"><i class="fas fa-edit"></i></a>
                                                         <span class="kc-btn-del"><i class="fas fa-trash-alt"></i></span>
                                                     </td>
                                                 </tr>
@@ -159,6 +159,7 @@
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
         <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
         <script th:inline="javascript">
             /*<![CDATA[*/
@@ -217,7 +218,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one category.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_CATEGORIES_LIST}}]]*/ null;
+                        var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_CATEGORIES_LIST}}]]*/ null;
                         submitForm(path, objList, 'POST');
                     }
                 });
@@ -266,7 +267,7 @@
                     event.preventDefault();
                     var categoryId = $(this).data('category-id');
                     var objList = [];
-                    var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_CATEGORIES_DELETE}}]]*/ null;
+                    var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_CATEGORIES_DELETE}}]]*/ null;
                     var obj = {id: categoryId};
                     objList.push(obj);
                     doSubmitTo(path, objList, 'POST');
@@ -296,7 +297,7 @@
                     if (objList.length === 0) {
                         console.log('Please select at least one category.');
                     } else {
-                        var path = /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_CATEGORIES_DELETE}}]]*/ null;
+                        var path = /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_CATEGORIES_DELETE}}]]*/ null;
                         doSubmitTo(path, objList, 'POST');
                     }
                 });

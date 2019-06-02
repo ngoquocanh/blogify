@@ -59,6 +59,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                         <input type="hidden" id="ki-input-id" th:field="*{id}" />
                                     </form>
                                 </div>
@@ -73,5 +74,6 @@
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
     </body>
 </html>

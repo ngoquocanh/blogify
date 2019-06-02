@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="public/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="public/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <section id="main" class="col col-12 col-sm-12 col-md-12 col-lg-12">
+                            <section id="errors">
+                                <div class="page-header" id="banner">
+                                    <h1>Signed up successfully!</h1>
+                                    <p class="lead">Thank you for signing up with us. An e-mail has been sent to you to activate your account.</p>
+                                    <a th:href="@{/}" class="text-decoration-none"><p class="text-info">Click here to go back to the homepage.</p></a>
+                                </div>
+                            </section>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="public/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="public/fragments/scripts :: csrf-js">[common scripts]</div>
+    </body>
+</html>

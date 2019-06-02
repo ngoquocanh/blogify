@@ -64,6 +64,22 @@
                                                 <tr class="table-active">
                                                     <td scope="row">
                                                         <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postThumbnail')} ? 'has-danger'">
+                                                                <label for="ki-text-thumbnail" class="col-md-12 col-lg-2 col-form-label">Thumbnail</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <textarea id="ki-text-thumbnail" th:field="*{postThumbnail}" class="form-control"
+                                                                              th:classappend="${#fields.hasErrors('postThumbnail')} ? 'is-invalid'" rows="2"></textarea>
+                                                                    <ul th:if="${#fields.hasErrors('postThumbnail')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postThumbnail')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
                                                             <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postExcerpt')} ? 'has-danger'">
                                                                 <label for="ki-text-excerpt" class="col-md-12 col-lg-2 col-form-label">Excerpt</label>
                                                                 <div class="col-md-12 col-lg-10">
@@ -109,6 +125,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                         <input type="hidden" id="ki-input-id" th:field="*{postId}" />
                                     </form>
                                 </div>
@@ -123,6 +140,7 @@
             <footer th:replace="admin/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
         <script th:inline="javascript">
             /*<![CDATA[*/
             function savePost() {
@@ -135,7 +153,7 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: /*[[@{${T(com.keybds.blogify.constants.UrlConstants).ADMIN_AJAX_POST_UPDATE}}]]*/ null,
+                    url: /*[[@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_AJAX_POST_UPDATE}}]]*/ null,
                     data: JSON.stringify(postData),
                     success: function (data) {
                         if (data.code === 2000) {
