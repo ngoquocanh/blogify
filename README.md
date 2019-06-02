@@ -35,6 +35,7 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Update post type and status
 - Add page title
 - Cross Site Request Forgery (CSRF)
+- Sign up
 
 :boom: **2019-apr**
 
