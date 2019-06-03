@@ -11,6 +11,7 @@ public class UrlConstants {
     public static final String SIGN_UP                        = "/register";
     public static final String LOG_OUT                        = "/logout";
     public static final String ACCESS_DENIED                  = "/denied";
+    public static final String CONTACT_US                     = "/contact-us";
 
     /** admin accounts **/
     public static final String ADMIN_PREFIX                   = "/admin"; // is used in SecurityConfig
