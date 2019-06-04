@@ -1,6 +1,6 @@
 package com.quopri.blogify.service;
 
-import com.quopri.blogify.dto.ContactUs;
+import com.quopri.blogify.dto.ContactUsDTO;
 import org.springframework.mail.SimpleMailMessage;
 
 public interface EmailService {
@@ -9,7 +9,7 @@ public interface EmailService {
      * Sends an email with the content in the ContactUS dto
      * @param contactUs
      */
-    void sendFeedbackEmail(ContactUs contactUs);
+    void sendFeedbackEmail(ContactUsDTO contactUs);
 
     /**
      * Sends an email with the content of the Simple Mail Message object.

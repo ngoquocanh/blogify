@@ -13,14 +13,14 @@
                                 <p class="lead">Please use the form below to contact us. We will get back to you as quick as possible!</p>
                             </div>
 
-<!--                            <div id="ki-message-holder" th:if="${feedbackMessage}" class="row">-->
-<!--                                <div class="col">-->
-<!--                                    <div class="alert alert-dismissible alert-success">-->
-<!--                                        <button type="button" class="close" data-dismiss="alert">&times;</button>-->
-<!--                                        <strong th:text="${feedbackMessage}">[Feedback Message]</strong>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div id="ki-message-holder" th:if="${feedbackMessage}" class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                                    <div class="alert alert-dismissible alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong th:text="${feedbackMessage}">[Feedback Message]</strong>
+                                    </div>
+                                </div>
+                            </div>
 
                             <section class="row" id="k-contact-us">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-8">
@@ -100,5 +100,14 @@
             <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
         </div>
         <div th:replace="public/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(document).ready(function() {
+                // handle feedback message fade after a period of time
+                hideMessage('#ki-message-holder');
+            });
+            /*]]>*/
+        </script>
     </body>
 </html>

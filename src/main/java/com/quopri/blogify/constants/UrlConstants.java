@@ -13,6 +13,9 @@ public class UrlConstants {
     public static final String ACCESS_DENIED                  = "/denied";
     public static final String CONTACT_US                     = "/contact-us";
 
+    public static final String ACCOUNT_RESET_PASSWORD         = "/account/reset-password";
+    public static final String ACCOUNT_CHANGE_PASSWORD        = "/account/change-password";
+
     /** admin accounts **/
     public static final String ADMIN_PREFIX                   = "/admin"; // is used in SecurityConfig
     public static final String ADMIN_ACCOUNTS_LIST            = "/admin/accounts";

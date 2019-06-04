@@ -17,16 +17,24 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 ```
     @PropertySource("file:/home/user/config/settings.properties")
 ```
-- Change connection info in: /src/resources/application.properties
+- Change connection info and something else in: /src/resources/application.properties
 ```
     spring.datasource.url=jdbc:mysql://localhost:8889/blogify
-    spring.datasource.username=root
-    spring.datasource.password=root
+    spring.datasource.username=
+    spring.datasource.password=
+    
+    spring.mail.username=
+    spring.mail.password=
 ```
 - Import database and sample data in /install/sql/schema.sql and /install/sql/data.sql
 - Then just start Spring Boot in your IDE or using gradle (gradle bootRun).
 
 ## Changes
+:boom: **2019-may**
+
+- Contact us
+- Reset password
+
 :boom: **2019-may**
 
 - Update database

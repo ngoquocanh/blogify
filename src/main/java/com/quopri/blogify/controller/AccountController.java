@@ -3,10 +3,12 @@ package com.quopri.blogify.controller;
 import com.quopri.blogify.components.WebUI;
 import com.quopri.blogify.configuration.ApplicationSettings;
 import com.quopri.blogify.constants.UrlConstants;
+import com.quopri.blogify.dto.ForgotPasswordInfoDTO;
 import com.quopri.blogify.dto.UserDTO;
 import com.quopri.blogify.entity.Account;
 import com.quopri.blogify.entity.Authority;
 import com.quopri.blogify.enums.RoleEnum;
+import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,8 +43,10 @@ public class AccountController extends BaseController {
 
     public static final String VIEW_SIGN_IN         = "public/accounts/sign-in";
     public static final String VIEW_SIGN_UP         = "public/accounts/sign-up";
+    public static final String VIEW_RESET_PASSWORD  = "public/accounts/reset-password";
 
     public static final String MODEL_ATTRIBUTE_USER = "user";
+    public static final String MODEL_ATTRIBUTE_FORGOT_PASSWORD = "forgotPasswordInfo";
 
     @GetMapping(UrlConstants.SIGN_IN)
     public ModelAndView openSignInForm() {
@@ -111,6 +115,29 @@ public class AccountController extends BaseController {
 
         accountService.createAccount(account);
         mav.setViewName("public/accounts/sign-up-success");
+        return mav;
+    }
+
+    /**
+     * Url: /account/reset-password
+     * Method: GET
+     * @return The view forgot password
+     * @throws MvcException
+     */
+    @GetMapping(UrlConstants.ACCOUNT_RESET_PASSWORD)
+    public ModelAndView openResetPasswordForm() throws MvcException {
+        ModelAndView mav = new ModelAndView(VIEW_RESET_PASSWORD);
+        mav.addObject(MODEL_ATTRIBUTE_FORGOT_PASSWORD, new ForgotPasswordInfoDTO());
+        return mav;
+    }
+
+    @PostMapping(UrlConstants.ACCOUNT_RESET_PASSWORD)
+    public ModelAndView sendEmailResetPassword(@Valid @ModelAttribute(MODEL_ATTRIBUTE_FORGOT_PASSWORD) ForgotPasswordInfoDTO forgotPasswordInfo,
+                                               BindingResult bindingResult) throws MvcException {
+        ModelAndView mav = new ModelAndView(VIEW_RESET_PASSWORD);
+        if (bindingResult.hasErrors()) {
+            return mav;
+        }
         return mav;
     }
 }
