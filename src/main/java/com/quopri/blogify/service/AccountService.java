@@ -18,6 +18,8 @@ public interface AccountService extends UserDetailsService {
     Optional<Account> retrieveAccountById(Long id);
     Account updateAccountInfo(Account account);
     Account updateAccountSecurity(Account account);
+    void updatePassword(Long id, String password);
+    Account loadAccountByEmail(String email);
 
     /**
      * get all accounts for pagination

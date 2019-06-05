@@ -1,12 +1,16 @@
 package com.quopri.blogify.utils;
 
+import com.quopri.blogify.constants.UrlConstants;
 import com.quopri.blogify.dto.AccountInfoDTO;
 import com.quopri.blogify.entity.Account;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class AccountUtil {
 
     /**
      * Account Info DTO to Account
+     *
      * @param accountInfoDTO
      * @return
      */
@@ -18,5 +22,18 @@ public class AccountUtil {
         account.setUsername(accountInfoDTO.getUsername());
         account.setEmail(accountInfoDTO.getEmail());
         return account;
+    }
+
+    /**
+     * Builds and returns the URL to reset the account password.
+     * @param request The Http Servlet Request
+     * @param accountId The account id
+     * @param token The token
+     * @return The URL to reset the account password.
+     */
+    public static String createPasswordResetUrl(HttpServletRequest request, Long accountId, String token) {
+        String passwordResetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+                + request.getContextPath() + UrlConstants.ACCOUNT_CHANGE_PASSWORD + "?id=" + accountId + "&token=" + token;
+        return passwordResetUrl;
     }
 }

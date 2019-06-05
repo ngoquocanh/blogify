@@ -86,6 +86,17 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
         }
     }
 
+    @Override
+    public void updatePassword(Long id, String password) {
+        password = passwordEncoder.encode(password);
+        accountRepository.updatePassword(id, password);
+    }
+
+    @Override
+    public Account loadAccountByEmail(String email) {
+        return accountRepository.findByEmail(email);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public Page<Account> getAllAccounts(Pageable pageable) {

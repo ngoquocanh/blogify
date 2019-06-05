@@ -7,9 +7,12 @@ import com.quopri.blogify.dto.ForgotPasswordInfoDTO;
 import com.quopri.blogify.dto.UserDTO;
 import com.quopri.blogify.entity.Account;
 import com.quopri.blogify.entity.Authority;
+import com.quopri.blogify.entity.PasswordResetToken;
 import com.quopri.blogify.enums.RoleEnum;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.service.AccountService;
+import com.quopri.blogify.service.PasswordResetTokenService;
+import com.quopri.blogify.utils.AccountUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +43,9 @@ public class AccountController extends BaseController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PasswordResetTokenService passwordResetTokenService;
 
     public static final String VIEW_SIGN_IN         = "public/accounts/sign-in";
     public static final String VIEW_SIGN_UP         = "public/accounts/sign-up";
@@ -132,11 +138,19 @@ public class AccountController extends BaseController {
     }
 
     @PostMapping(UrlConstants.ACCOUNT_RESET_PASSWORD)
-    public ModelAndView sendEmailResetPassword(@Valid @ModelAttribute(MODEL_ATTRIBUTE_FORGOT_PASSWORD) ForgotPasswordInfoDTO forgotPasswordInfo,
+    public ModelAndView sendEmailResetPassword(HttpServletRequest request, @Valid @ModelAttribute(MODEL_ATTRIBUTE_FORGOT_PASSWORD) ForgotPasswordInfoDTO forgotPasswordInfo,
                                                BindingResult bindingResult) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_RESET_PASSWORD);
         if (bindingResult.hasErrors()) {
             return mav;
+        }
+
+        PasswordResetToken passwordResetToken = passwordResetTokenService.createPasswordResetTokenForEmail(forgotPasswordInfo.getEmail());
+        if (passwordResetToken == null) {
+            // todo: LOG - couldn't find a password reset token for email {}
+        } else {
+            String resetPasswordUrl = AccountUtil.createPasswordResetUrl(request,
+                    passwordResetToken.getAccount().getId(), passwordResetToken.getToken());
         }
         return mav;
     }

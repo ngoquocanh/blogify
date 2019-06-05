@@ -9,8 +9,8 @@ import javax.persistence.Converter;
 public class ArticleTypeConverter implements AttributeConverter<Article.Type, Integer> {
 
     @Override
-    public Integer convertToDatabaseColumn(Article.Type attribute) {
-        return attribute.getKey();
+    public Integer convertToDatabaseColumn(Article.Type articleType) {
+        return articleType.getKey();
     }
 
     @Override

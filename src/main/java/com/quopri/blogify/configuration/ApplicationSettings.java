@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 @Component
-@PropertySource("file:/home/dev/config/settings.properties")
+@PropertySource("file:/home/albert/anhqngo/config-files/blogify/settings.properties")
 @ConfigurationProperties(prefix = "app")
 @Data
 public class ApplicationSettings implements Serializable {
