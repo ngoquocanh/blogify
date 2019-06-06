@@ -36,4 +36,17 @@ public class AccountUtil {
                 + request.getContextPath() + UrlConstants.ACCOUNT_CHANGE_PASSWORD + "?id=" + accountId + "&token=" + token;
         return passwordResetUrl;
     }
+
+    /**
+     * Builds and returns the URL to reset the account password.
+     * @param request The Http Servlet Request
+     * @param email The account email
+     * @param token The token
+     * @return The URL to reset the account password.
+     */
+    public static String createPasswordResetUrl(HttpServletRequest request, String email, String token) {
+        String passwordResetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+                + request.getContextPath() + UrlConstants.ACCOUNT_CHANGE_PASSWORD + "?email=" + email + "&token=" + token;
+        return passwordResetUrl;
+    }
 }

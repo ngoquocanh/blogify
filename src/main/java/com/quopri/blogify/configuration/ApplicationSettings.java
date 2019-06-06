@@ -17,4 +17,5 @@ public class ApplicationSettings implements Serializable {
     private String title;
     private Boolean mailSignUp;
     private String sendEmailContactUsTo;
+    private String webMasterEmail;
 }

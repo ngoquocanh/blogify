@@ -3,7 +3,7 @@ package com.quopri.blogify.dto;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
-public class ForgotPasswordInfoDTO implements Serializable {
+public class ResetPasswordInfoDTO implements Serializable {
 
     @NotEmpty(message = "Please enter a valid email address.")
     private String email;

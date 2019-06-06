@@ -18,10 +18,10 @@ public abstract class AbstractEmailService implements EmailService {
 
     protected SimpleMailMessage prepareSimpleMailMessage(ContactUsDTO contactUs) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(applicationSettings.getSendEmailContactUsTo());
         message.setFrom(contactUs.getEmail());
-        message.setSubject("[Contact Us - Quopri] From " + contactUs.getFullName() + "<" + contactUs.getEmail() + ">");
-        message.setText("From: " + contactUs.getEmail() + "\r\nContent: " + contactUs.getMessage());
+        message.setTo(applicationSettings.getSendEmailContactUsTo());
+        message.setSubject("[Quopri] Contact us");
+        message.setText("From: " + contactUs.getFullName() + "<" + contactUs.getEmail() + ">\r\nContent: " + contactUs.getMessage());
         return message;
     }
 }

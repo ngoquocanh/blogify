@@ -34,6 +34,7 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 
 - Contact us
 - Reset password
+- Change password
 
 :boom: **2019-may**
 
