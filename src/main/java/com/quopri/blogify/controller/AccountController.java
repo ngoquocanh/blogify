@@ -31,6 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,7 +69,8 @@ public class AccountController extends BaseController {
     public static final String MODEL_ATTRIBUTE_CHANGE_PASSWORD = "changePasswordInfo";
 
     public static final String FEEDBACK_MESSAGE_KEY_SEND_EMAIL_RESET_PASSWORD_SUCCESS = "feedback.message.reset-password.success";
-    public static final String ERROR_MESSAGE_KEY_RESET_PASSWORD = "error.message.reset-password";
+    public static final String ERROR_RESET_PASSWORD_INVALID_EMAIL = "error.message.reset-password.invalid-email";
+    public static final String ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK = "error.message.reset-password.invalid-or-expired-link";
 
     @GetMapping(UrlConstants.SIGN_IN)
     public ModelAndView openSignInForm() {
@@ -152,6 +155,16 @@ public class AccountController extends BaseController {
         return mav;
     }
 
+    /**
+     * Url: /account/reset-password
+     * Method: POST
+     * @param request
+     * @param resetPasswordInfo
+     * @param bindingResult
+     * @param attributes
+     * @return
+     * @throws MvcException
+     */
     @PostMapping(UrlConstants.ACCOUNT_RESET_PASSWORD)
     public ModelAndView sendEmailResetPassword(HttpServletRequest request, @Valid @ModelAttribute(MODEL_ATTRIBUTE_RESET_PASSWORD) ResetPasswordInfoDTO resetPasswordInfo,
                                                BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
@@ -164,7 +177,7 @@ public class AccountController extends BaseController {
         PasswordResetToken passwordResetToken = passwordResetTokenService.createPasswordResetTokenForEmail(resetPasswordInfo.getEmail());
         if (passwordResetToken == null) {
             // todo: LOG - couldn't find a password reset token for email {}
-            webUI.addErrorMessage(attributes, ERROR_MESSAGE_KEY_RESET_PASSWORD);
+            webUI.addErrorMessage(attributes, ERROR_RESET_PASSWORD_INVALID_EMAIL);
             mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
         } else {
             Account account = passwordResetToken.getAccount();
@@ -193,31 +206,64 @@ public class AccountController extends BaseController {
      */
     @GetMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD)
     public ModelAndView openChangePasswordForm(@RequestParam(value = "email", defaultValue = "") String email,
-                                               @RequestParam(value = "token", defaultValue = "") String token) throws MvcException {
+                                               @RequestParam(value = "token", defaultValue = "") String token, RedirectAttributes attributes) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_CHANGE_PASSWORD);
         ChangePasswordInfoDTO changePasswordInfo = new ChangePasswordInfoDTO();
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(email)) {
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, "Invalid email or token value");
-            mav.setViewName(VIEW_CHANGE_PASSWORD);
+            // todo: LOG - Invalid email or token value
+            webUI.addErrorMessage(attributes, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
+            //mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
+            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
             mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            return mav;
         }
 
         PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token);
 
         if (passwordResetToken == null) {
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, "Invalid email or token value");
-            mav.setViewName(VIEW_CHANGE_PASSWORD);
+            // todo: LOG - The token could not be found
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
+            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
             mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            return mav;
         }
 
         Account account = passwordResetToken.getAccount();
         if (!account.getEmail().equals(email)) {
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, "Invalid email or token value");
-            mav.setViewName(VIEW_CHANGE_PASSWORD);
+            // todo: LOG - The email passed as parameter does not match the email associated with the token
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
+            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
             mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            return mav;
         }
 
-        // todo: check password expired
+        if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
+            // todo: LOG - The token has expired
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
+            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
+            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            return mav;
+        }
+
+        mav.setViewName(VIEW_CHANGE_PASSWORD);
+        mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+
+        return mav;
+    }
+
+    /**
+     * Url: /account/change-password
+     * Method: POST
+     * @param changePasswordInfo
+     * @param bindingResult
+     * @param attributes
+     * @return
+     * @throws MvcException
+     */
+    @PostMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD)
+    public ModelAndView changePassword(@Valid @ModelAttribute(MODEL_ATTRIBUTE_USER) ChangePasswordInfoDTO changePasswordInfo,
+                                       BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
+        ModelAndView mav = new ModelAndView();
         return mav;
     }
 }

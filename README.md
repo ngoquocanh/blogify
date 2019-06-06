@@ -36,6 +36,8 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Reset password
 - Change password
 
+![alt 2019-apr](https://3.bp.blogspot.com/-rLl9C3fOURE/XPk-LMkXW0I/AAAAAAAACrw/bCu4VGEc2PYxe-g-p9UC61I9aGp-qOZ5wCPcBGAYYCw/s1600/2019-june.jpg)
+
 :boom: **2019-may**
 
 - Update database
@@ -45,6 +47,8 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Add page title
 - Cross Site Request Forgery (CSRF)
 - Sign up
+
+![alt 2019-apr](https://3.bp.blogspot.com/-f9yp4nx4nHI/XPk-LNwU4FI/AAAAAAAACrs/8omlxHNHXTUuhBG7pWifiARD4hXltOmKQCPcBGAYYCw/s1600/2019-may.jpg)
 
 :boom: **2019-apr**
 
