@@ -122,6 +122,19 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_reset_token`
+--
+
+CREATE TABLE `password_reset_token` (
+  `id` bigint(20) NOT NULL,
+  `expiry_date` datetime DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `account_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tags`
 --
 
@@ -183,6 +196,13 @@ ALTER TABLE `categories`
     ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `password_reset_token`
+--
+ALTER TABLE `password_reset_token`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `FK76a4o6jaqpn5s2gji7q8aaxvg` (`account_id`);
+
+--
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
@@ -219,6 +239,12 @@ ALTER TABLE `articles_tags`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `password_reset_token`
+--
+ALTER TABLE `password_reset_token`
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for table `accounts_authorities`

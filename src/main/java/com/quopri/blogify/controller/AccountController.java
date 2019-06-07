@@ -9,6 +9,7 @@ import com.quopri.blogify.dto.UserDTO;
 import com.quopri.blogify.entity.Account;
 import com.quopri.blogify.entity.Authority;
 import com.quopri.blogify.entity.PasswordResetToken;
+import com.quopri.blogify.enums.ResetPasswordResult;
 import com.quopri.blogify.enums.RoleEnum;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.service.AccountService;
@@ -68,7 +69,8 @@ public class AccountController extends BaseController {
     public static final String MODEL_ATTRIBUTE_RESET_PASSWORD = "resetPasswordInfo";
     public static final String MODEL_ATTRIBUTE_CHANGE_PASSWORD = "changePasswordInfo";
 
-    public static final String FEEDBACK_MESSAGE_KEY_SEND_EMAIL_RESET_PASSWORD_SUCCESS = "feedback.message.reset-password.success";
+    public static final String FEEDBACK_MESSAGE_KEY_SEND_EMAIL_RESET_PASSWORD_SUCCESS = "feedback.message.reset-password.email-success";
+    public static final String FEEDBACK_MESSAGE_KEY_PASSWORD_RESET_SUCCESS            = "feedback.message.reset-password.success";
     public static final String ERROR_RESET_PASSWORD_INVALID_EMAIL = "error.message.reset-password.invalid-email";
     public static final String ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK = "error.message.reset-password.invalid-or-expired-link";
 
@@ -206,15 +208,13 @@ public class AccountController extends BaseController {
      */
     @GetMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD)
     public ModelAndView openChangePasswordForm(@RequestParam(value = "email", defaultValue = "") String email,
-                                               @RequestParam(value = "token", defaultValue = "") String token, RedirectAttributes attributes) throws MvcException {
+                                               @RequestParam(value = "token", defaultValue = "") String token) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_CHANGE_PASSWORD);
-        ChangePasswordInfoDTO changePasswordInfo = new ChangePasswordInfoDTO();
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(email)) {
             // todo: LOG - Invalid email or token value
-            webUI.addErrorMessage(attributes, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
-            //mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
-            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
-            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            mav.setViewName(VIEW_RESET_PASSWORD);
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+            mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
             return mav;
         }
 
@@ -222,32 +222,33 @@ public class AccountController extends BaseController {
 
         if (passwordResetToken == null) {
             // todo: LOG - The token could not be found
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
-            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
-            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            mav.setViewName(VIEW_RESET_PASSWORD);
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+            mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
             return mav;
         }
 
         Account account = passwordResetToken.getAccount();
         if (!account.getEmail().equals(email)) {
             // todo: LOG - The email passed as parameter does not match the email associated with the token
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
-            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
-            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
-            return mav;
+            mav.setViewName(VIEW_RESET_PASSWORD);
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+            mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
         }
 
         if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
             // todo: LOG - The token has expired
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
-            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
-            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            mav.setViewName(VIEW_RESET_PASSWORD);
+            mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+            mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
             return mav;
         }
 
+        ChangePasswordInfoDTO changePasswordInfo = new ChangePasswordInfoDTO();
+        changePasswordInfo.setEmail(account.getEmail());
+        changePasswordInfo.setVerificationToken(passwordResetToken.getToken());
         mav.setViewName(VIEW_CHANGE_PASSWORD);
         mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
-
         return mav;
     }
 
@@ -261,9 +262,25 @@ public class AccountController extends BaseController {
      * @throws MvcException
      */
     @PostMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD)
-    public ModelAndView changePassword(@Valid @ModelAttribute(MODEL_ATTRIBUTE_USER) ChangePasswordInfoDTO changePasswordInfo,
+    public ModelAndView changePassword(@Valid @ModelAttribute(MODEL_ATTRIBUTE_CHANGE_PASSWORD) ChangePasswordInfoDTO changePasswordInfo,
                                        BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView(VIEW_CHANGE_PASSWORD);
+        if (bindingResult.hasErrors()) {
+            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+            mav.setViewName(VIEW_CHANGE_PASSWORD);
+            return mav;
+        }
+        ResetPasswordResult resetPasswordResult = accountService.updatePassword(changePasswordInfo);
+        switch (resetPasswordResult) {
+            case ERROR:
+                webUI.addErrorMessage(attributes, ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK);
+                mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
+                break;
+            case CHANGE_PASSWORD_SUCCESS:
+                webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_PASSWORD_RESET_SUCCESS);
+                mav.setViewName(redirectTo(UrlConstants.SIGN_IN));
+                break;
+        }
         return mav;
     }
 }

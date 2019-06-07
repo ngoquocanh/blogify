@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "password_reset_token")
 public class PasswordResetToken implements Serializable {
 
     private static final Integer DEFAULT_TOKEN_IN_MINUTES = 120;
