@@ -18,4 +18,6 @@ public class ApplicationSettings implements Serializable {
     private Boolean mailSignUp;
     private String sendEmailContactUsTo;
     private String webMasterEmail;
+    private String secretKeyPassword;
+    private String secretKeySalt;
 }

@@ -6,6 +6,7 @@ import com.quopri.blogify.enums.RoleEnum;
 import com.quopri.blogify.entity.AccountDetails;
 import com.quopri.blogify.entity.Authority;
 import com.quopri.blogify.service.AccountService;
+import com.quopri.blogify.utils.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -200,5 +202,18 @@ public abstract class BaseController {
     protected static <T> PageHolder<T> manualBuildPager(PageUtil<T> pageUtil, String baseUrl) {
         PageHolder<T> pageHolder = new PageHolder<>(pageUtil, baseUrl);
         return pageHolder;
+    }
+
+    /**
+     * Get Url Context Path
+     * @return
+     */
+    protected String getUrlContextPath() {
+        HttpServletRequest request = HttpUtil.getCurrentHttpRequest();
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
+
+    protected String getUrlContextPath(String contextUrl) {
+        return getUrlContextPath() + contextUrl;
     }
 }

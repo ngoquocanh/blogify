@@ -1,5 +1,6 @@
 package com.quopri.blogify.constants;
 
+import com.quopri.blogify.controller.AccountController;
 import com.quopri.blogify.controller.stranger.PostController;
 import com.quopri.blogify.controller.admin.AdminPostController;
 import com.quopri.blogify.controller.admin.AdminAccountController;
@@ -15,6 +16,7 @@ public class UrlConstants {
 
     public static final String ACCOUNT_RESET_PASSWORD         = "/account/reset-password";
     public static final String ACCOUNT_CHANGE_PASSWORD        = "/account/change-password";
+    public static final String ACCOUNT_CHANGE_PASSWORD_TOKEN  = "/account/change-password/{" + AccountController.MODEL_ATTRIBUTE_TOKEN + "}";
 
     /** admin accounts **/
     public static final String ADMIN_PREFIX                   = "/admin"; // is used in SecurityConfig

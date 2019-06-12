@@ -38,7 +38,7 @@ public class PasswordResetTokenTests {
         Assert.assertNotNull(accountService);
     }
 
-    private static final String TEST_EMAIL = "anhngoquoc@gmail.com";
+    private static final String TEST_EMAIL = "test@gmail.com";
 
 //    @Test
 //    public void createPasswordResetTokenForEmail() {

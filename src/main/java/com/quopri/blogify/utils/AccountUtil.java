@@ -2,9 +2,11 @@ package com.quopri.blogify.utils;
 
 import com.quopri.blogify.constants.UrlConstants;
 import com.quopri.blogify.dto.AccountInfoDTO;
+import com.quopri.blogify.dto.AuthenticityTokenDTO;
 import com.quopri.blogify.entity.Account;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
 
 public class AccountUtil {
 
@@ -48,5 +50,20 @@ public class AccountUtil {
         String passwordResetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
                 + request.getContextPath() + UrlConstants.ACCOUNT_CHANGE_PASSWORD + "?email=" + email + "&token=" + token;
         return passwordResetUrl;
+    }
+
+    /**
+     * Extract token from url
+     * @param token     The token submit by end user
+     * @param password  The secret key password
+     * @param salt      The secret key salt
+     * @return
+     * @throws Exception
+     */
+    public static AuthenticityTokenDTO extractResetToken(String token, String password, String salt) throws Exception {
+        token = URLDecoder.decode(token, CipherHelper.UTF8);
+        String decrypt = CipherHelper.decrypt(token, password, salt);
+        AuthenticityTokenDTO authenticityToken = JacksonJsonUtil.fromJson(decrypt, AuthenticityTokenDTO.class);
+        return authenticityToken;
     }
 }

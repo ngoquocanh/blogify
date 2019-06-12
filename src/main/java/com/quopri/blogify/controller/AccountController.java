@@ -3,6 +3,7 @@ package com.quopri.blogify.controller;
 import com.quopri.blogify.components.WebUI;
 import com.quopri.blogify.configuration.ApplicationSettings;
 import com.quopri.blogify.constants.UrlConstants;
+import com.quopri.blogify.dto.AuthenticityTokenDTO;
 import com.quopri.blogify.dto.ChangePasswordInfoDTO;
 import com.quopri.blogify.dto.ResetPasswordInfoDTO;
 import com.quopri.blogify.dto.UserDTO;
@@ -16,6 +17,8 @@ import com.quopri.blogify.service.AccountService;
 import com.quopri.blogify.service.EmailService;
 import com.quopri.blogify.service.PasswordResetTokenService;
 import com.quopri.blogify.utils.AccountUtil;
+import com.quopri.blogify.utils.CipherHelper;
+import com.quopri.blogify.utils.JacksonJsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,15 +26,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URLEncoder;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -68,6 +69,7 @@ public class AccountController extends BaseController {
     public static final String MODEL_ATTRIBUTE_USER = "user";
     public static final String MODEL_ATTRIBUTE_RESET_PASSWORD = "resetPasswordInfo";
     public static final String MODEL_ATTRIBUTE_CHANGE_PASSWORD = "changePasswordInfo";
+    public static final String MODEL_ATTRIBUTE_TOKEN = "token";
 
     public static final String FEEDBACK_MESSAGE_KEY_SEND_EMAIL_RESET_PASSWORD_SUCCESS = "feedback.message.reset-password.email-success";
     public static final String FEEDBACK_MESSAGE_KEY_PASSWORD_RESET_SUCCESS            = "feedback.message.reset-password.success";
@@ -160,7 +162,6 @@ public class AccountController extends BaseController {
     /**
      * Url: /account/reset-password
      * Method: POST
-     * @param request
      * @param resetPasswordInfo
      * @param bindingResult
      * @param attributes
@@ -168,14 +169,13 @@ public class AccountController extends BaseController {
      * @throws MvcException
      */
     @PostMapping(UrlConstants.ACCOUNT_RESET_PASSWORD)
-    public ModelAndView sendEmailResetPassword(HttpServletRequest request, @Valid @ModelAttribute(MODEL_ATTRIBUTE_RESET_PASSWORD) ResetPasswordInfoDTO resetPasswordInfo,
-                                               BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
+    public ModelAndView sendEmailResetPassword(@Valid @ModelAttribute(MODEL_ATTRIBUTE_RESET_PASSWORD) ResetPasswordInfoDTO resetPasswordInfo,
+                                               BindingResult bindingResult, RedirectAttributes attributes) throws MvcException, Exception {
         ModelAndView mav = new ModelAndView(VIEW_RESET_PASSWORD);
         if (bindingResult.hasErrors()) {
             mav.addAllObjects(bindingResult.getModel());
             return mav;
         }
-
         PasswordResetToken passwordResetToken = passwordResetTokenService.createPasswordResetTokenForEmail(resetPasswordInfo.getEmail());
         if (passwordResetToken == null) {
             // todo: LOG - couldn't find a password reset token for email {}
@@ -183,17 +183,8 @@ public class AccountController extends BaseController {
             mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
         } else {
             Account account = passwordResetToken.getAccount();
-            String resetPasswordUrl = AccountUtil.createPasswordResetUrl(request, account.getEmail(), passwordResetToken.getToken());
-
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(applicationSettings.getWebMasterEmail());
-            mailMessage.setTo(account.getEmail());
-            mailMessage.setSubject("[Quopri] Reset your password");
-
-            String message = "";
-
-            mailMessage.setText(message + "\r\n\r\n" + resetPasswordUrl);
-            emailService.sendGenericEmailMessage(mailMessage);
+            emailService.sendResetPasswordEmail(getUrlContextPath(UrlConstants.ACCOUNT_CHANGE_PASSWORD),
+                    account.getEmail(), passwordResetToken.getToken());
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_SEND_EMAIL_RESET_PASSWORD_SUCCESS);
             mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
         }
@@ -206,50 +197,65 @@ public class AccountController extends BaseController {
      * @return The view change password
      * @throws MvcException
      */
-    @GetMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD)
-    public ModelAndView openChangePasswordForm(@RequestParam(value = "email", defaultValue = "") String email,
-                                               @RequestParam(value = "token", defaultValue = "") String token) throws MvcException {
+    @GetMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD_TOKEN)
+    public ModelAndView openChangePasswordForm(@PathVariable(MODEL_ATTRIBUTE_TOKEN) String token) throws MvcException {
         ModelAndView mav = new ModelAndView(VIEW_CHANGE_PASSWORD);
-        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(email)) {
-            // todo: LOG - Invalid email or token value
+
+        // check invalid token value
+        if (token == null || StringUtils.isEmpty(token)) {
+            // todo: LOG - Invalid token value
             mav.setViewName(VIEW_RESET_PASSWORD);
             mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
             mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
             return mav;
         }
 
-        PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token);
+        // decrypt token
+        AuthenticityTokenDTO authenticityToken = null;
+        try {
+            authenticityToken = AccountUtil.extractResetToken(token, applicationSettings.getSecretKeyPassword(), applicationSettings.getSecretKeySalt());
+        } catch (Exception e) {
+            // do nothing
+        }
 
-        if (passwordResetToken == null) {
-            // todo: LOG - The token could not be found
+        if (authenticityToken == null) {
+            // todo: LOG - Can not extract token
             mav.setViewName(VIEW_RESET_PASSWORD);
             mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
             mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
             return mav;
-        }
+        } else {
+            PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token);
+            if (passwordResetToken == null) {
+                // todo: LOG - The token could not be found
+                mav.setViewName(VIEW_RESET_PASSWORD);
+                mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+                mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
+                return mav;
+            }
+            Account account = passwordResetToken.getAccount();
+            if (!account.getEmail().equals(authenticityToken.getEmail())) {
+                // todo: LOG - The email passed as parameter does not match the email associated with the token
+                mav.setViewName(VIEW_RESET_PASSWORD);
+                mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+                mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
+            }
 
-        Account account = passwordResetToken.getAccount();
-        if (!account.getEmail().equals(email)) {
-            // todo: LOG - The email passed as parameter does not match the email associated with the token
-            mav.setViewName(VIEW_RESET_PASSWORD);
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
-            mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
-        }
+            if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
+                // todo: LOG - The token has expired
+                mav.setViewName(VIEW_RESET_PASSWORD);
+                mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
+                mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
+                return mav;
+            }
 
-        if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
-            // todo: LOG - The token has expired
-            mav.setViewName(VIEW_RESET_PASSWORD);
-            mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
-            mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
+            ChangePasswordInfoDTO changePasswordInfo = new ChangePasswordInfoDTO();
+            changePasswordInfo.setEmail(account.getEmail());
+            changePasswordInfo.setVerificationToken(passwordResetToken.getToken());
+            mav.setViewName(VIEW_CHANGE_PASSWORD);
+            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
             return mav;
         }
-
-        ChangePasswordInfoDTO changePasswordInfo = new ChangePasswordInfoDTO();
-        changePasswordInfo.setEmail(account.getEmail());
-        changePasswordInfo.setVerificationToken(passwordResetToken.getToken());
-        mav.setViewName(VIEW_CHANGE_PASSWORD);
-        mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
-        return mav;
     }
 
     /**

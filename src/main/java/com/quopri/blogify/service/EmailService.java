@@ -5,6 +5,8 @@ import org.springframework.mail.SimpleMailMessage;
 
 public interface EmailService {
 
+    void sendResetPasswordEmail(String resetPasswordUrl, String email, String token) throws Exception;
+
     /**
      * Sends an email with the content in the ContactUS dto
      * @param contactUs
