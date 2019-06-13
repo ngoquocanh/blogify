@@ -5,6 +5,10 @@ public class AuthenticityTokenDTO {
     private String email;
     private String token;
 
+    public AuthenticityTokenDTO() {
+
+    }
+
     public AuthenticityTokenDTO(String email, String token) {
         this.email = email;
         this.token = token;

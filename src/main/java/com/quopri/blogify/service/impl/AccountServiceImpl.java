@@ -119,6 +119,7 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
 
         if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
             // todo: LOG - The token has expired
+            passwordResetTokenRepository.delete(passwordResetToken);
             return ResetPasswordResult.ERROR;
         }
 

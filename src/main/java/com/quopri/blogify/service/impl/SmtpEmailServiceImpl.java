@@ -24,8 +24,7 @@ public class SmtpEmailServiceImpl extends AbstractEmailService {
     public void sendResetPasswordEmail(String resetPasswordUrl, String email, String token) throws Exception {
         AuthenticityTokenDTO authenticityToken = new AuthenticityTokenDTO(email, token);
         String strAuthenticityToken = JacksonJsonUtil.toJson(authenticityToken);
-        String tokenEncrypted = CipherHelper.encrypt(strAuthenticityToken, applicationSettings.getSecretKeyPassword(),
-                applicationSettings.getSecretKeySalt());
+        String tokenEncrypted = CipherHelper.encrypt(strAuthenticityToken, applicationSettings.getSecretKeyPassword());
         tokenEncrypted = URLEncoder.encode(tokenEncrypted, CipherHelper.UTF8);
         String resetPasswordUrlToken = resetPasswordUrl + "/" + tokenEncrypted;
 

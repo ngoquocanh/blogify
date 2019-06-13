@@ -213,7 +213,7 @@ public class AccountController extends BaseController {
         // decrypt token
         AuthenticityTokenDTO authenticityToken = null;
         try {
-            authenticityToken = AccountUtil.extractResetToken(token, applicationSettings.getSecretKeyPassword(), applicationSettings.getSecretKeySalt());
+            authenticityToken = AccountUtil.extractResetToken(token, applicationSettings.getSecretKeyPassword());
         } catch (Exception e) {
             // do nothing
         }
@@ -225,7 +225,7 @@ public class AccountController extends BaseController {
             mav.addObject(MODEL_ATTRIBUTE_RESET_PASSWORD, new ResetPasswordInfoDTO());
             return mav;
         } else {
-            PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(token);
+            PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(authenticityToken.getToken());
             if (passwordResetToken == null) {
                 // todo: LOG - The token could not be found
                 mav.setViewName(VIEW_RESET_PASSWORD);

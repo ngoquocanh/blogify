@@ -3,6 +3,7 @@ package com.quopri.blogify.utils;
 import com.quopri.blogify.constants.UrlConstants;
 import com.quopri.blogify.dto.AccountInfoDTO;
 import com.quopri.blogify.dto.AuthenticityTokenDTO;
+import com.quopri.blogify.dto.Payload;
 import com.quopri.blogify.entity.Account;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,13 +57,12 @@ public class AccountUtil {
      * Extract token from url
      * @param token     The token submit by end user
      * @param password  The secret key password
-     * @param salt      The secret key salt
      * @return
      * @throws Exception
      */
-    public static AuthenticityTokenDTO extractResetToken(String token, String password, String salt) throws Exception {
-        token = URLDecoder.decode(token, CipherHelper.UTF8);
-        String decrypt = CipherHelper.decrypt(token, password, salt);
+    public static AuthenticityTokenDTO extractResetToken(String token, String password) throws Exception {
+        String tokenDecode = URLDecoder.decode(token, CipherHelper.UTF8);
+        String decrypt = CipherHelper.decrypt(tokenDecode, password);
         AuthenticityTokenDTO authenticityToken = JacksonJsonUtil.fromJson(decrypt, AuthenticityTokenDTO.class);
         return authenticityToken;
     }
