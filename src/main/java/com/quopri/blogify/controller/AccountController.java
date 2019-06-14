@@ -8,6 +8,7 @@ import com.quopri.blogify.dto.ChangePasswordInfoDTO;
 import com.quopri.blogify.dto.ResetPasswordInfoDTO;
 import com.quopri.blogify.dto.UserDTO;
 import com.quopri.blogify.entity.Account;
+import com.quopri.blogify.entity.AccountDetails;
 import com.quopri.blogify.entity.Authority;
 import com.quopri.blogify.entity.PasswordResetToken;
 import com.quopri.blogify.enums.ResetPasswordResult;
@@ -16,6 +17,7 @@ import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.service.AccountService;
 import com.quopri.blogify.service.EmailService;
 import com.quopri.blogify.service.PasswordResetTokenService;
+import com.quopri.blogify.service.impl.AbstractService;
 import com.quopri.blogify.utils.AccountUtil;
 import com.quopri.blogify.utils.CipherHelper;
 import com.quopri.blogify.utils.JacksonJsonUtil;
@@ -193,6 +195,27 @@ public class AccountController extends BaseController {
 
     /**
      * Url: /account/change-password
+     * Method: GET
+     * @return The view change password
+     * @throws MvcException
+     */
+    @GetMapping(UrlConstants.ACCOUNT_CHANGE_PASSWORD)
+    public ModelAndView openChangePasswordFormPreLogin() throws MvcException {
+        ModelAndView mav = new ModelAndView(VIEW_CHANGE_PASSWORD);
+        if (isLoggedIn()) {
+            AccountDetails accountDetails = getLoggedInInfo();
+            ChangePasswordInfoDTO changePasswordInfo = new ChangePasswordInfoDTO();
+            changePasswordInfo.setEmail(accountDetails.getAccount().getEmail());
+            changePasswordInfo.setVerificationToken(AbstractService.AUTHORIZED_CODE);
+            mav.addObject(MODEL_ATTRIBUTE_CHANGE_PASSWORD, changePasswordInfo);
+        } else {
+            mav.setViewName(redirectTo(UrlConstants.ACCOUNT_RESET_PASSWORD));
+        }
+        return mav;
+    }
+
+    /**
+     * Url: /account/change-password/{token}
      * Method: GET
      * @return The view change password
      * @throws MvcException

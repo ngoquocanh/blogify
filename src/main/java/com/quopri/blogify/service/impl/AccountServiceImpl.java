@@ -103,29 +103,32 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
 
     @Override
     public ResetPasswordResult updatePassword(ChangePasswordInfoDTO changePasswordInfo) {
-        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(changePasswordInfo.getVerificationToken());
+        if (!changePasswordInfo.getVerificationToken().equals(AUTHORIZED_CODE)) {
+            PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(changePasswordInfo.getVerificationToken());
 
-        if (passwordResetToken == null) {
-            // todo: LOG - The token could not be found
-            return ResetPasswordResult.ERROR;
-        }
+            if (passwordResetToken == null) {
+                // todo: LOG - The token could not be found
+                return ResetPasswordResult.ERROR;
+            }
 
-        Account account = passwordResetToken.getAccount();
+            Account account = passwordResetToken.getAccount();
 
-        if (!account.getEmail().equals(changePasswordInfo.getEmail())) {
-            // todo: LOG - The email passed as parameter does not match the email associated with the token
-            return ResetPasswordResult.ERROR;
-        }
+            if (!account.getEmail().equals(changePasswordInfo.getEmail())) {
+                // todo: LOG - The email passed as parameter does not match the email associated with the token
+                return ResetPasswordResult.ERROR;
+            }
 
-        if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
-            // todo: LOG - The token has expired
+            if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
+                // todo: LOG - The token has expired
+                passwordResetTokenRepository.delete(passwordResetToken);
+                return ResetPasswordResult.ERROR;
+            }
+            updatePassword(account.getId(), changePasswordInfo.getNewPassword());
             passwordResetTokenRepository.delete(passwordResetToken);
-            return ResetPasswordResult.ERROR;
+        } else {
+            Account account = accountRepository.findByEmail(changePasswordInfo.getEmail());
+            updatePassword(account.getId(), changePasswordInfo.getNewPassword());
         }
-
-        updatePassword(account.getId(), changePasswordInfo.getNewPassword());
-        passwordResetTokenRepository.delete(passwordResetToken);
-
         return ResetPasswordResult.CHANGE_PASSWORD_SUCCESS;
     }
 
