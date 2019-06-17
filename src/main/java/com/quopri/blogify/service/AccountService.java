@@ -1,7 +1,7 @@
 package com.quopri.blogify.service;
 
 import com.quopri.blogify.dto.AccountDTO;
-import com.quopri.blogify.dto.ChangePasswordInfoDTO;
+import com.quopri.blogify.dto.ResetPasswordInfoDTO;
 import com.quopri.blogify.enums.ResetPasswordResult;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.entity.Account;
@@ -21,7 +21,7 @@ public interface AccountService extends UserDetailsService {
     Account updateAccountInfo(Account account);
     Account updateAccountSecurity(Account account);
     void updatePassword(Long id, String password);
-    ResetPasswordResult updatePassword(ChangePasswordInfoDTO changePasswordInfo);
+    ResetPasswordResult updatePassword(ResetPasswordInfoDTO changePasswordInfo);
     Account loadAccountByEmail(String email);
 
     /**

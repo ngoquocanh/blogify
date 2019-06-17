@@ -36,7 +36,7 @@ public class AccountUtil {
      */
     public static String createPasswordResetUrl(HttpServletRequest request, Long accountId, String token) {
         String passwordResetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                + request.getContextPath() + UrlConstants.ACCOUNT_CHANGE_PASSWORD + "?id=" + accountId + "&token=" + token;
+                + request.getContextPath() + UrlConstants.ACCOUNT_RESET_PASSWORD + "?id=" + accountId + "&token=" + token;
         return passwordResetUrl;
     }
 
@@ -49,7 +49,7 @@ public class AccountUtil {
      */
     public static String createPasswordResetUrl(HttpServletRequest request, String email, String token) {
         String passwordResetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                + request.getContextPath() + UrlConstants.ACCOUNT_CHANGE_PASSWORD + "?email=" + email + "&token=" + token;
+                + request.getContextPath() + UrlConstants.ACCOUNT_RESET_PASSWORD + "?email=" + email + "&token=" + token;
         return passwordResetUrl;
     }
 

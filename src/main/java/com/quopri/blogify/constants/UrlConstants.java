@@ -15,8 +15,8 @@ public class UrlConstants {
     public static final String CONTACT_US                     = "/contact-us";
 
     public static final String ACCOUNT_RESET_PASSWORD         = "/account/reset-password";
-    public static final String ACCOUNT_CHANGE_PASSWORD        = "/account/change-password";
-    public static final String ACCOUNT_CHANGE_PASSWORD_TOKEN  = "/account/change-password/{" + AccountController.MODEL_ATTRIBUTE_TOKEN + "}";
+    public static final String ACCOUNT_RESET_PASSWORD_TOKEN   = "/account/reset-password/{" + AccountController.MODEL_ATTRIBUTE_TOKEN + "}";
+    public static final String ACCOUNT_FORGOT_PASSWORD        = "/account/forgot-password";
 
     /** admin accounts **/
     public static final String ADMIN_PREFIX                   = "/admin"; // is used in SecurityConfig

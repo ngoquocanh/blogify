@@ -1,6 +1,6 @@
 package com.quopri.blogify.service.impl;
 
-import com.quopri.blogify.dto.ChangePasswordInfoDTO;
+import com.quopri.blogify.dto.ResetPasswordInfoDTO;
 import com.quopri.blogify.entity.PasswordResetToken;
 import com.quopri.blogify.enums.ResetPasswordResult;
 import com.quopri.blogify.exceptions.MvcException;
@@ -102,7 +102,7 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
     }
 
     @Override
-    public ResetPasswordResult updatePassword(ChangePasswordInfoDTO changePasswordInfo) {
+    public ResetPasswordResult updatePassword(ResetPasswordInfoDTO changePasswordInfo) {
         if (!changePasswordInfo.getVerificationToken().equals(AUTHORIZED_CODE)) {
             PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(changePasswordInfo.getVerificationToken());
 
