@@ -21,6 +21,8 @@ import com.quopri.blogify.service.impl.AbstractService;
 import com.quopri.blogify.utils.AccountUtil;
 import com.quopri.blogify.validator.ForgotPasswordValidator;
 import com.quopri.blogify.validator.ResetPasswordValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +44,9 @@ import java.util.Set;
 
 @Controller
 public class AccountController extends BaseController {
+
+    /** Application logger **/
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private WebUI webUI;
@@ -185,15 +190,16 @@ public class AccountController extends BaseController {
         }
         PasswordResetToken passwordResetToken = passwordResetTokenService.createPasswordResetTokenForEmail(forgotPasswordInfo.getEmail());
         if (passwordResetToken == null) {
-            // todo: LOG - couldn't find a password reset token for email {}
             webUI.addErrorMessage(attributes, ERROR_RESET_PASSWORD_INVALID_EMAIL);
             mav.setViewName(redirectTo(UrlConstants.ACCOUNT_FORGOT_PASSWORD));
+            logger.info("Couldn't find a password reset token for email {}", forgotPasswordInfo.getEmail());
         } else {
             Account account = passwordResetToken.getAccount();
             emailService.sendResetPasswordEmail(getUrlContextPath(UrlConstants.ACCOUNT_RESET_PASSWORD),
                     account.getEmail(), passwordResetToken.getToken());
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_SEND_EMAIL_RESET_PASSWORD_SUCCESS);
             mav.setViewName(redirectTo(UrlConstants.ACCOUNT_FORGOT_PASSWORD));
+            logger.info("Forgot password successfully", forgotPasswordInfo.getEmail());
         }
         return mav;
     }
@@ -231,10 +237,10 @@ public class AccountController extends BaseController {
 
         // check invalid token value
         if (token == null || StringUtils.isEmpty(token)) {
-            // todo: LOG - Invalid token value
             mav.setViewName(VIEW_FORGOT_PASSWORD);
             mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
             mav.addObject(MODEL_ATTRIBUTE_FORGOT_PASSWORD, new ForgotPasswordInfoDTO());
+            logger.info("Invalid token value");
             return mav;
         }
 
@@ -247,33 +253,33 @@ public class AccountController extends BaseController {
         }
 
         if (authenticityToken == null) {
-            // todo: LOG - Can not extract token
             mav.setViewName(VIEW_FORGOT_PASSWORD);
             mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
             mav.addObject(MODEL_ATTRIBUTE_FORGOT_PASSWORD, new ForgotPasswordInfoDTO());
+            logger.info("Can not extract token");
             return mav;
         } else {
             PasswordResetToken passwordResetToken = passwordResetTokenService.findByToken(authenticityToken.getToken());
             if (passwordResetToken == null) {
-                // todo: LOG - The token could not be found
                 mav.setViewName(VIEW_FORGOT_PASSWORD);
                 mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
                 mav.addObject(MODEL_ATTRIBUTE_FORGOT_PASSWORD, new ForgotPasswordInfoDTO());
+                logger.info("The token could not be found");
                 return mav;
             }
             Account account = passwordResetToken.getAccount();
             if (!account.getEmail().equals(authenticityToken.getEmail())) {
-                // todo: LOG - The email passed as parameter does not match the email associated with the token
                 mav.setViewName(VIEW_FORGOT_PASSWORD);
                 mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
                 mav.addObject(MODEL_ATTRIBUTE_FORGOT_PASSWORD, new ForgotPasswordInfoDTO());
+                logger.info("The email passed as parameter does not match the email associated with the token");
             }
 
             if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
-                // todo: LOG - The token has expired
                 mav.setViewName(VIEW_FORGOT_PASSWORD);
                 mav.addObject(WebUI.ERROR_MESSAGE_KEY, webUI.getMessage(ERROR_RESET_PASSWORD_INVALID_OR_EXPIRED_LINK));
                 mav.addObject(MODEL_ATTRIBUTE_FORGOT_PASSWORD, new ForgotPasswordInfoDTO());
+                logger.info("The token has expired");
                 return mav;
             }
 

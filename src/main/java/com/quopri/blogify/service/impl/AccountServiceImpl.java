@@ -10,6 +10,8 @@ import com.quopri.blogify.entity.Account;
 import com.quopri.blogify.entity.AccountDetails;
 import com.quopri.blogify.repository.PasswordResetTokenRepository;
 import com.quopri.blogify.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,9 @@ import java.util.Optional;
 
 @Service(value = "accountService")
 public class AccountServiceImpl extends AbstractService implements AccountService  {
+
+    /** Application logger **/
+    private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -107,20 +112,20 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
             PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(changePasswordInfo.getVerificationToken());
 
             if (passwordResetToken == null) {
-                // todo: LOG - The token could not be found
+                logger.info("The token could not be found");
                 return ResetPasswordResult.ERROR;
             }
 
             Account account = passwordResetToken.getAccount();
 
             if (!account.getEmail().equals(changePasswordInfo.getEmail())) {
-                // todo: LOG - The email passed as parameter does not match the email associated with the token
+                logger.info("The email passed as parameter does not match the email associated with the token");
                 return ResetPasswordResult.ERROR;
             }
 
             if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiryDate())) {
-                // todo: LOG - The token has expired
                 passwordResetTokenRepository.delete(passwordResetToken);
+                logger.info("The token has expired");
                 return ResetPasswordResult.ERROR;
             }
             updatePassword(account.getId(), changePasswordInfo.getNewPassword());

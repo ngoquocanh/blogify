@@ -5,6 +5,8 @@ import com.quopri.blogify.entity.PasswordResetToken;
 import com.quopri.blogify.repository.AccountRepository;
 import com.quopri.blogify.repository.PasswordResetTokenRepository;
 import com.quopri.blogify.service.PasswordResetTokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ import java.util.UUID;
 @Service
 @Transactional(readOnly = true)
 public class PasswordResetTokenServiceImpl extends AbstractService implements PasswordResetTokenService {
+
+    /** Application logger **/
+    private static final Logger logger = LoggerFactory.getLogger(PasswordResetTokenServiceImpl.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -38,7 +43,7 @@ public class PasswordResetTokenServiceImpl extends AbstractService implements Pa
             passwordResetToken = new PasswordResetToken(token, account, now, tokenExpirationInMinutes);
             passwordResetToken = passwordResetTokenRepository.save(passwordResetToken);
         } else {
-            // todo: log - Couldn't find a account for the given email
+            logger.info("Couldn't find a account for the given email {}", email);
         }
         return passwordResetToken;
     }

@@ -26,6 +26,13 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
     spring.mail.username=
     spring.mail.password=
 ```
+- Change logback folder in: /src/resources/logback.xml
+```
+     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>{folder}/quopri.log</file>
+            ...
+     </appender>
+```
 - Import database and sample data in /install/sql/schema.sql and /install/sql/data.sql
 - Then just start Spring Boot in your IDE or using gradle (gradle bootRun).
 
@@ -36,6 +43,7 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Forgot password
 - Reset password
 - Validator
+- Add logback
 
 ![alt 2019-apr](https://3.bp.blogspot.com/-rLl9C3fOURE/XPk-LMkXW0I/AAAAAAAACrw/bCu4VGEc2PYxe-g-p9UC61I9aGp-qOZ5wCPcBGAYYCw/s1600/2019-june.jpg)
 

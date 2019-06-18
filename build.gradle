@@ -28,9 +28,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
     implementation 'com.github.slugify:slugify:2.3'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.62'
-    // https://mvnrepository.com/artifact/commons-validator/commons-validator
-    compile group: 'commons-validator', name: 'commons-validator', version: '1.4.0'
-
+    implementation 'commons-validator:commons-validator:1.4.0'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'mysql:mysql-connector-java'
