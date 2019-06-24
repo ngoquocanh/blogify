@@ -146,6 +146,10 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         articleToCreate.setArticleContent(article.getArticleContent());
         articleToCreate.setArticleImage(article.getArticleImage());
 
+        /** coding tags here **/
+        articleToCreate.setTags(article.getTags());
+        /**********************/
+
         // name created from controller
         articleToCreate.setArticleName(article.getArticleName());
 

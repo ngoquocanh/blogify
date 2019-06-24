@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,16 @@ public class TagServiceImpl extends AbstractService implements TagService {
     @Override
     public List<Tag> getAllTags() {
         return (List<Tag>) tagRepository.findAll();
+    }
+
+    @Override
+    public List<String> getAllTagValues() {
+        List<Tag> tags = getAllTags();
+        List<String> tagValues = new ArrayList<>();
+        for (Tag tag : tags) {
+            tagValues.add(tag.getValue());
+        }
+        return tagValues;
     }
 
     @Override

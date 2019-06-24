@@ -56,6 +56,7 @@ public class UrlConstants {
 
     /** admin ajax **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";
+    public static final String ADMIN_AJAX_TAGS_VALUES      = "/admin/ajax/tags/values";
 
     /** public ajax **/
     public static final String PUBLIC_AJAX_PREFIX          = "/aj";

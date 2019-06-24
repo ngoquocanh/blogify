@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface TagService {
     List<Tag> getAllTags();
+    List<String> getAllTagValues();
     Page<Tag> getAllTags(Pageable pageable);
     void deleteTags(List<Long> tagIds) throws MvcException;
     Tag getTag(Long tagId) throws MvcException;

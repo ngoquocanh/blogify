@@ -2,6 +2,10 @@ package com.quopri.blogify.utils;
 
 import com.quopri.blogify.dto.PostDTO;
 import com.quopri.blogify.entity.Article;
+import com.quopri.blogify.entity.Tag;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class PostUtil {
 
@@ -22,6 +26,15 @@ public class PostUtil {
         article.setArticleImage(postDTO.getPostThumbnail());
         article.setArticleName(postDTO.getPostName());
         article.setArticleContent(postDTO.getPostContent());
+
+        /** coding tags here **/
+        Set<Tag> tags = new HashSet<>();
+        Tag tag = new Tag();
+        tag.setValue(postDTO.getPostTags());
+        tags.add(tag);
+        article.setTags(tags);
+        /******************/
+
         return article;
     }
 
