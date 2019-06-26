@@ -4,6 +4,7 @@ import com.quopri.blogify.dto.PostDTO;
 import com.quopri.blogify.entity.Article;
 import com.quopri.blogify.entity.Tag;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,15 +27,14 @@ public class PostUtil {
         article.setArticleImage(postDTO.getPostThumbnail());
         article.setArticleName(postDTO.getPostName());
         article.setArticleContent(postDTO.getPostContent());
-
-        /** coding tags here **/
+        String[] postTagValues = Arrays.stream(postDTO.getPostTags().split(",")).map(String::trim).toArray(String[]::new);
         Set<Tag> tags = new HashSet<>();
-        Tag tag = new Tag();
-        tag.setValue(postDTO.getPostTags());
-        tags.add(tag);
+        for (String postTag : postTagValues) {
+            Tag tag = new Tag();
+            tag.setValue(postTag);
+            tags.add(tag);
+        }
         article.setTags(tags);
-        /******************/
-
         return article;
     }
 

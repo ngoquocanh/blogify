@@ -2,9 +2,13 @@ package com.quopri.blogify.service.impl;
 
 import com.github.slugify.Slugify;
 import com.quopri.blogify.controller.admin.AdminPostController;
+import com.quopri.blogify.entity.ArticleTag;
+import com.quopri.blogify.entity.Tag;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.repository.ArticleRepository;
+import com.quopri.blogify.repository.ArticleTagRepository;
+import com.quopri.blogify.repository.TagRepository;
 import com.quopri.blogify.service.ArticleService;
 import com.quopri.blogify.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +17,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -27,6 +32,12 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private ArticleTagRepository articleTagRepository;
 
     private static final String ZONE_VIETNAM_HCM    = "Asia/Ho_Chi_Minh";
 
@@ -135,6 +146,7 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         return articleUpdated;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Article createPost(Article article) throws MvcException {
         Article articleToCreate = new Article();
@@ -145,10 +157,6 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         articleToCreate.setArticleExcerpt(article.getArticleExcerpt());
         articleToCreate.setArticleContent(article.getArticleContent());
         articleToCreate.setArticleImage(article.getArticleImage());
-
-        /** coding tags here **/
-        articleToCreate.setTags(article.getTags());
-        /**********************/
 
         // name created from controller
         articleToCreate.setArticleName(article.getArticleName());
@@ -165,7 +173,24 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         // no need to set article id
         articleToCreate.setAccountId(1L);
 
+        // save tag to post
+        List<Tag> tagsExisted = new ArrayList<>();
+        articleToCreate.setTags(new HashSet<>());
+        for (Tag tag : article.getTags()) {
+            Tag tagExisted = tagRepository.findByValueIgnoreCase(tag.getValue());
+            if (tagExisted == null) {
+                articleToCreate.getTags().add(tag);
+            } else {
+                tagsExisted.add(tagExisted);
+            }
+        }
         Article articleCreated = articleRepository.save(articleToCreate);
+        for (Tag tag : tagsExisted) {
+            ArticleTag articleTag = new ArticleTag();
+            articleTag.setTagId(tag.getId());
+            articleTag.setArticleId(articleCreated.getId());
+            articleTagRepository.save(articleTag);
+        }
         return articleCreated;
     }
 

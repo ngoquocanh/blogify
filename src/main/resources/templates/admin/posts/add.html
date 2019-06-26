@@ -114,10 +114,14 @@
                                                     <td scope="row">
                                                         <div class="container">
                                                             <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postTags')} ? 'has-danger'">
-                                                                <label for="inputEmail3" class="col-md-12 col-lg-2 col-form-label">Tags</label>
+                                                                <label for="q-lib-tags-input" class="col-md-12 col-lg-2 col-form-label">Tags</label>
                                                                 <div class="col-md-12 col-lg-10">
-                                                                    <input type="text" th:field="*{postTags}" class="form-control"
-                                                                           th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'" id="q-lib-tags-input" data-role="tagsinput" placeholder="" autocomplete="off">
+<!--                                                                    <input type="text" th:field="*{postTags}" class="form-control"-->
+<!--                                                                           th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'" id="q-lib-tags-input" data-role="tagsinput" placeholder="" autocomplete="off">-->
+
+
+                                                                    <select id="q-lib-tags-input" multiple="multiple" data-role="tagsinput" th:field="*{postTags}"></select>
+
                                                                     <ul th:if="${#fields.hasErrors('postTags')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
                                                                         <li th:each="err : ${#fields.errors('postTags')}" th:text="${err}">[Invalid input]</li>
                                                                     </ul>

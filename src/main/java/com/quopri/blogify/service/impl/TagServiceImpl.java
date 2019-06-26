@@ -1,8 +1,8 @@
 package com.quopri.blogify.service.impl;
 
+import com.quopri.blogify.entity.ArticleTag;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.entity.ArticleTag;
 import com.quopri.blogify.entity.Tag;
 import com.quopri.blogify.repository.ArticleTagRepository;
 import com.quopri.blogify.repository.TagRepository;

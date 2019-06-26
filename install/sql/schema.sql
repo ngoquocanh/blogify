@@ -181,7 +181,7 @@ ALTER TABLE `articles_categories`
 ALTER TABLE `articles_tags`
     ADD PRIMARY KEY (`id`,`tag_id`,`article_id`),
     ADD KEY `fk_articles_has_tags_tags1_idx` (`tag_id`),
-    ADD KEY `fk_articles_has_tags_articles1_idx` (`id`);
+    ADD KEY `fk_articles_has_tags_articles1_idx` (`article_id`);
 
 --
 -- Indexes for table `authorities`
@@ -272,7 +272,7 @@ ALTER TABLE `articles_categories`
 -- Constraints for table `articles_tags`
 --
 ALTER TABLE `articles_tags`
-    ADD CONSTRAINT `fk_articles_has_tags_articles1` FOREIGN KEY (`id`) REFERENCES `articles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_articles_has_tags_articles1` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     ADD CONSTRAINT `fk_articles_has_tags_tags1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
