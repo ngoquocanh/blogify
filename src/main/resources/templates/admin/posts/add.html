@@ -116,14 +116,28 @@
                                                             <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postTags')} ? 'has-danger'">
                                                                 <label for="q-lib-tags-input" class="col-md-12 col-lg-2 col-form-label">Tags</label>
                                                                 <div class="col-md-12 col-lg-10">
-<!--                                                                    <input type="text" th:field="*{postTags}" class="form-control"-->
-<!--                                                                           th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'" id="q-lib-tags-input" data-role="tagsinput" placeholder="" autocomplete="off">-->
-
-
-                                                                    <select id="q-lib-tags-input" multiple="multiple" data-role="tagsinput" th:field="*{postTags}"></select>
-
+                                                                    <select id="q-lib-tags-input" multiple="multiple" data-role="tagsinput" th:field="*{postTags}"
+                                                                            class="form-control" th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'"></select>
                                                                     <ul th:if="${#fields.hasErrors('postTags')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
                                                                         <li th:each="err : ${#fields.errors('postTags')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postCategory')} ? 'has-danger'">
+                                                                <label for="ki-select-status" class="col-md-12 col-lg-2 col-form-label">Category</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <select th:field="*{postCategory}" class="form-control kc-width-9" id="qi-select-category">
+                                                                        <option th:each="category : *{postCategoryOptions}" th:value="${category.categoryKey}" th:text="${category.categoryValue}" th:if="${category.categoryKey == 1}" selected="selected"></option>
+                                                                        <option th:each="category : *{postCategoryOptions}" th:value="${category.categoryKey}" th:text="${category.categoryValue}" th:if="${category.categoryKey != 1}" ></option>
+                                                                    </select>
+                                                                    <ul th:if="${#fields.hasErrors('postCategory')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postCategory')}" th:text="${err}">[Invalid input]</li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -140,7 +154,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </td>
                                                 </tr>
                                             </tbody>

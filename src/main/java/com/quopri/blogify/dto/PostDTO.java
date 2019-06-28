@@ -1,6 +1,7 @@
 package com.quopri.blogify.dto;
 
 import com.quopri.blogify.entity.Article;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,6 +20,8 @@ public class PostDTO implements Serializable {
     @Length(max = 1500, message = "please enter value for title field less than {max} characters")
     private String postTitle;
 
+    private String postName;
+
     @NotEmpty(message = "Please enter value for excerpt filed")
     private String postExcerpt;
 
@@ -35,19 +38,28 @@ public class PostDTO implements Serializable {
         new PostStatusOption(Article.Status.PUBLISHED.getKey(), Article.Status.PUBLISHED.getValue())
     ));
 
-    private String postName;
-
     @NotEmpty(message = "Please enter at least one tag")
     private String postTags;
 
+    private Long postCategory;
+
+    private List<PostCategoryOption> postCategoryOptions = new ArrayList<>(Arrays.asList(
+            new PostCategoryOption(1L, "None Category")
+    ));
+
+    private Long postAuthor;
+
     @Data
+    @AllArgsConstructor
     private class PostStatusOption {
         private Integer statusKey;
         private String statusValue;
+    }
 
-        public PostStatusOption(Integer statusKey, String statusValue) {
-            this.setStatusKey(statusKey);
-            this.setStatusValue(statusValue);
-        }
+    @Data
+    @AllArgsConstructor
+    private class PostCategoryOption {
+        private Long categoryKey;
+        private String categoryValue;
     }
 }

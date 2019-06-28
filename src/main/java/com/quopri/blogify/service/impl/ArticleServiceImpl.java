@@ -2,15 +2,11 @@ package com.quopri.blogify.service.impl;
 
 import com.github.slugify.Slugify;
 import com.quopri.blogify.controller.admin.AdminPostController;
-import com.quopri.blogify.entity.ArticleTag;
-import com.quopri.blogify.entity.Tag;
+import com.quopri.blogify.entity.*;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
-import com.quopri.blogify.repository.ArticleRepository;
-import com.quopri.blogify.repository.ArticleTagRepository;
-import com.quopri.blogify.repository.TagRepository;
+import com.quopri.blogify.repository.*;
 import com.quopri.blogify.service.ArticleService;
-import com.quopri.blogify.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -37,7 +31,13 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
     private TagRepository tagRepository;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private ArticleTagRepository articleTagRepository;
+
+    @Autowired
+    private ArticleCategoryRepository articleCategoryRepository;
 
     private static final String ZONE_VIETNAM_HCM    = "Asia/Ho_Chi_Minh";
 
@@ -171,7 +171,7 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
 
         // hard code part, will update later
         // no need to set article id
-        articleToCreate.setAccountId(1L);
+        articleToCreate.setAccountId(article.getAccountId());
 
         // save tag to post
         List<Tag> tagsExisted = new ArrayList<>();
@@ -185,6 +185,19 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
             }
         }
         Article articleCreated = articleRepository.save(articleToCreate);
+
+        // category
+        for (Category category : article.getCategories()) {
+            Optional<Category> categoryOptional = categoryRepository.findById(category.getId());
+            if (categoryOptional.isPresent()) {
+                Category categoryExisted = categoryOptional.get();
+                ArticleCategory articleCategory = new ArticleCategory();
+                articleCategory.setArticleId(articleCreated.getId());
+                articleCategory.setCategoryId(categoryExisted.getId());
+                articleCategoryRepository.save(articleCategory);
+            }
+        }
+
         for (Tag tag : tagsExisted) {
             ArticleTag articleTag = new ArticleTag();
             articleTag.setTagId(tag.getId());
