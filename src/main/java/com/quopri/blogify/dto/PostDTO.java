@@ -2,7 +2,8 @@ package com.quopri.blogify.dto;
 
 import com.quopri.blogify.entity.Article;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 public class PostDTO implements Serializable {
 
     private Long postId;
@@ -41,6 +43,8 @@ public class PostDTO implements Serializable {
     @NotEmpty(message = "Please enter at least one tag")
     private String postTags;
 
+    private List<String> postTagsOptions = new ArrayList<>();
+
     private Long postCategory;
 
     private List<PostCategoryOption> postCategoryOptions = new ArrayList<>(Arrays.asList(
@@ -49,14 +53,16 @@ public class PostDTO implements Serializable {
 
     private Long postAuthor;
 
-    @Data
+    @Setter
+    @Getter
     @AllArgsConstructor
     private class PostStatusOption {
         private Integer statusKey;
         private String statusValue;
     }
 
-    @Data
+    @Setter
+    @Getter
     @AllArgsConstructor
     private class PostCategoryOption {
         private Long categoryKey;

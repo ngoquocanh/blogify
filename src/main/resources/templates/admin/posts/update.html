@@ -116,7 +116,9 @@
                                                                 <label for="q-lib-tags-input" class="col-md-12 col-lg-2 col-form-label">Tags</label>
                                                                 <div class="col-md-12 col-lg-10">
                                                                     <select id="q-lib-tags-input" multiple="multiple" data-role="tagsinput" th:field="*{postTags}"
-                                                                            class="form-control" th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'"></select>
+                                                                            class="form-control" th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'">
+                                                                        <option th:each="tag : *{postTagsOptions}" th:text="${tag}" th:value="${tag}" />
+                                                                    </select>
                                                                     <ul th:if="${#fields.hasErrors('postTags')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
                                                                         <li th:each="err : ${#fields.errors('postTags')}" th:text="${err}">[Invalid input]</li>
                                                                     </ul>
@@ -221,6 +223,31 @@
                 });
             });
             /*]]>*/
+        </script>
+        <script>
+            var tags = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/admin/ajax/tags/values',
+                    cache: false
+                }
+            });
+            tags.initialize();
+            $('#q-lib-tags-input').tagsinput({
+                tagClass: 'badge badge-secondary',
+                confirmKeys: [13, 188],
+                typeaheadjs: {
+                    name: 'postTags',
+                    source: tags.ttAdapter()
+                }
+            });
+            $('body .bootstrap-tagsinput input').on('keypress', function(e){
+                if (e.keyCode == 13) {
+                    e.keyCode = 188;
+                    e.preventDefault();
+                }
+            })
         </script>
     </body>
 </html>

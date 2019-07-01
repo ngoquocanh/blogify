@@ -1,15 +1,17 @@
 package com.quopri.blogify.entity;
 
 import com.quopri.blogify.converters.LocalDateTimeConverter;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
 @Table(name = "password_reset_token")
+@Getter
+@Setter
 public class PasswordResetToken implements Serializable {
 
     private static final Integer DEFAULT_TOKEN_IN_MINUTES = 120;

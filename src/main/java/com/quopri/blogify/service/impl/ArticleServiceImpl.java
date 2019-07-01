@@ -115,27 +115,30 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
             if (optionalArticleExisted.isPresent()) {
                 articleExisted = optionalArticleExisted.get();
                 Article articleToUpdate = new Article();
-
-                // new data from form update post include: id, title, image, excerpt, content, status
                 articleToUpdate.setId(article.getId());
+                articleToUpdate.setAccountId(articleExisted.getAccountId());
                 articleToUpdate.setArticleTitle(article.getArticleTitle());
-                articleToUpdate.setArticleImage(article.getArticleImage());
-                articleToUpdate.setArticleExcerpt(article.getArticleExcerpt());
-                articleToUpdate.setArticleContent(article.getArticleContent());
-                articleToUpdate.setArticleStatus(article.getArticleStatus());
-
+                articleToUpdate.setArticleName(articleExisted.getArticleName());
+                articleToUpdate.setArticleDate(articleExisted.getArticleDate());
                 ZoneId zone = ZoneId.of(ZONE_VIETNAM_HCM);
                 ZonedDateTime zonedDateTime = ZonedDateTime.now(zone);
                 articleToUpdate.setArticleModified(zonedDateTime);
-
                 articleToUpdate.setArticleType(article.getArticleType());
-
-                // old data existed from database
-                articleToUpdate.setAccountId(articleExisted.getAccountId());
-                articleToUpdate.setArticleName(articleExisted.getArticleName());
-                articleToUpdate.setArticleDate(articleExisted.getArticleDate());
-
-                // execute update post
+                articleToUpdate.setArticleExcerpt(article.getArticleExcerpt());
+                articleToUpdate.setArticleContent(article.getArticleContent());
+                articleToUpdate.setArticleImage(article.getArticleImage());
+                articleToUpdate.setArticleStatus(article.getArticleStatus());
+                Set<Category> categoriesExisted = new HashSet<>();
+                for (Category category : article.getCategories()) {
+                    Category categoryExisted = categoryRepository.findById(category.getId()).get();
+                    categoriesExisted.add(categoryExisted);
+                }
+                articleToUpdate.setCategories(categoriesExisted);
+                articleToUpdate.setTags(new HashSet<>());
+                List<Tag> tagsExisted = addTagToPost(articleToUpdate, article.getTags());
+                for (Tag tag : tagsExisted) {
+                    articleToUpdate.getTags().add(tag);
+                }
                 articleUpdated = articleRepository.save(articleToUpdate);
             } else {
                 throw new MvcException(StatusMessageCode.POST_NOT_FOUND);
@@ -150,40 +153,19 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
     @Override
     public Article createPost(Article article) throws MvcException {
         Article articleToCreate = new Article();
-
-        // new data from form add post include: status, title, excerpt, content
         articleToCreate.setArticleStatus(article.getArticleStatus());
         articleToCreate.setArticleTitle(article.getArticleTitle());
         articleToCreate.setArticleExcerpt(article.getArticleExcerpt());
         articleToCreate.setArticleContent(article.getArticleContent());
         articleToCreate.setArticleImage(article.getArticleImage());
-
-        // name created from controller
         articleToCreate.setArticleName(article.getArticleName());
-
-        // type always is POST
         articleToCreate.setArticleType(article.getArticleType());
-
         ZoneId zone = ZoneId.of(ZONE_VIETNAM_HCM);
         ZonedDateTime zonedDateTime = ZonedDateTime.now(zone);
         articleToCreate.setArticleDate(zonedDateTime);
         articleToCreate.setArticleModified(zonedDateTime);
-
-        // hard code part, will update later
-        // no need to set article id
         articleToCreate.setAccountId(article.getAccountId());
-
-        // save tag to post
-        List<Tag> tagsExisted = new ArrayList<>();
-        articleToCreate.setTags(new HashSet<>());
-        for (Tag tag : article.getTags()) {
-            Tag tagExisted = tagRepository.findByValueIgnoreCase(tag.getValue());
-            if (tagExisted == null) {
-                articleToCreate.getTags().add(tag);
-            } else {
-                tagsExisted.add(tagExisted);
-            }
-        }
+        List<Tag> tagsExisted = addTagToPost(articleToCreate, article.getTags());
         Article articleCreated = articleRepository.save(articleToCreate);
 
         // category
@@ -268,5 +250,18 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
                 articleRepository.deleteById(postId);
             }
         }
+    }
+
+    private List<Tag> addTagToPost(Article post, Set<Tag> tags) {
+        List<Tag> tagsExisted = new ArrayList<>();
+        for (Tag tag : tags) {
+            Tag tagExisted = tagRepository.findByValueIgnoreCase(tag.getValue());
+            if (tagExisted == null) {
+                post.getTags().add(tag);
+            } else {
+                tagsExisted.add(tagExisted);
+            }
+        }
+        return tagsExisted;
     }
 }

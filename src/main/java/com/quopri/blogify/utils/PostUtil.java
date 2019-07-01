@@ -5,10 +5,7 @@ import com.quopri.blogify.entity.Article;
 import com.quopri.blogify.entity.Category;
 import com.quopri.blogify.entity.Tag;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class PostUtil {
 
@@ -64,10 +61,13 @@ public class PostUtil {
 
         // tags
         StringJoiner postTags = new StringJoiner(",");
+        List<String> postTagsOptions = new ArrayList<>();
         for (Tag tag : article.getTags()) {
             postTags.add(tag.getValue());
+            postTagsOptions.add(tag.getValue());
         }
         postDTO.setPostTags(postTags.toString());
+        postDTO.setPostTagsOptions(postTagsOptions);
 
         // categories
         Long postCategory = null;

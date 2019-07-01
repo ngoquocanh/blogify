@@ -28,6 +28,7 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 ```
 - Change logback folder in: /src/resources/logback.xml
 ```
+     <file>{folder}/quopri.log</file>
      <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>{folder}/quopri.log</file>
             ...
@@ -37,13 +38,14 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Then just start Spring Boot in your IDE or using gradle (gradle bootRun).
 
 ## Changes
-:boom: **2019-may**
+:boom: **2019-june**
 
 - Contact us
 - Forgot password
 - Reset password
 - Validator
 - Add logback
+- Input tags
 
 ![alt 2019-apr](https://3.bp.blogspot.com/-rLl9C3fOURE/XPk-LMkXW0I/AAAAAAAACrw/bCu4VGEc2PYxe-g-p9UC61I9aGp-qOZ5wCPcBGAYYCw/s1600/2019-june.jpg)
 
