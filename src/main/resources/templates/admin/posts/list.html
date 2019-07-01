@@ -63,11 +63,11 @@
                                                 </th>
                                                 <th th:replace="admin/fragments/table-th :: table-th(#{pager.title.posts.title}, 'title', '')"></th>
                                                 <th th:replace="admin/fragments/table-th :: table-th(#{pager.title.posts.date}, 'date', '')"></th>
-                                                <th scope="col">
-                                                    <a class="column-header" href="#">
-                                                        <div th:text="#{pager.title.posts.status}">[Status]</div>
-                                                    </a>
-                                                </th>
+                                                <!--<th scope="col">-->
+                                                    <!--<a class="column-header" href="#">-->
+                                                        <!--<div th:text="#{pager.title.posts.status}">[Status]</div>-->
+                                                    <!--</a>-->
+                                                <!--</th>-->
                                                 <th scope="col">
                                                     <a class="column-header" href="#">
                                                         <div th:text="#{pager.title.posts.action}">[Action]</div>
@@ -244,6 +244,13 @@
                         form.appendChild(hiddenField);
                     }
                 });
+                var csKey = /*[[${_csrf.parameterName}]]*/ null;
+                var csValue = /*[[${_csrf.token}]]*/ null;
+                var csInput = document.createElement("input");
+                csInput.setAttribute("type", "hidden");
+                csInput.setAttribute("name", csKey);
+                csInput.setAttribute("value", csValue);
+                form.appendChild(csInput);
                 $('#ki-dynamic-form').append(form);
                 form.submit();
                 isSubmitted = true;

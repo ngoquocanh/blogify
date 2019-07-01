@@ -1,5 +1,6 @@
 package com.quopri.blogify.controller.admin;
 
+import com.quopri.blogify.entity.AccountDetails;
 import com.quopri.blogify.enums.StatusMessageCode;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.service.ArticleService;
@@ -150,7 +151,7 @@ public class AdminPostController extends BaseController {
      * @throws MvcException
      */
     @PostMapping(UrlConstants.ADMIN_POST_ADD)
-    public ModelAndView createPost(@Valid @ModelAttribute(MODEL_ATTRIBUTE_POST) PostDTO postDTO,
+    public ModelAndView createPost(AccountDetails currentAccount, @Valid @ModelAttribute(MODEL_ATTRIBUTE_POST) PostDTO postDTO,
                                    BindingResult bindingResult, RedirectAttributes attributes) throws MvcException {
         ModelAndView mav = new ModelAndView();
         if (bindingResult.hasErrors()) {
@@ -160,6 +161,7 @@ public class AdminPostController extends BaseController {
             // create slug base on post title
             String slug = postService.createSlug(postDTO.getPostTitle());
             postDTO.setPostName(slug);
+            postDTO.setPostAuthor(currentAccount.getId());
             Article article = PostUtil.convertToEntity(postDTO, true);
             Article articleCreated = postService.createPost(article);
             webUI.addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_POST_ADDED, articleCreated.getArticleTitle());

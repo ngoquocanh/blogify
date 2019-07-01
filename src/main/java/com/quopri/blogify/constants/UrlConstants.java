@@ -1,5 +1,6 @@
 package com.quopri.blogify.constants;
 
+import com.quopri.blogify.controller.AccountController;
 import com.quopri.blogify.controller.stranger.PostController;
 import com.quopri.blogify.controller.admin.AdminPostController;
 import com.quopri.blogify.controller.admin.AdminAccountController;
@@ -11,6 +12,11 @@ public class UrlConstants {
     public static final String SIGN_UP                        = "/register";
     public static final String LOG_OUT                        = "/logout";
     public static final String ACCESS_DENIED                  = "/denied";
+    public static final String CONTACT_US                     = "/contact-us";
+
+    public static final String ACCOUNT_RESET_PASSWORD         = "/account/reset-password";
+    public static final String ACCOUNT_RESET_PASSWORD_TOKEN   = "/account/reset-password/{" + AccountController.MODEL_ATTRIBUTE_TOKEN + "}";
+    public static final String ACCOUNT_FORGOT_PASSWORD        = "/account/forgot-password";
 
     /** admin accounts **/
     public static final String ADMIN_PREFIX                   = "/admin"; // is used in SecurityConfig
@@ -50,6 +56,7 @@ public class UrlConstants {
 
     /** admin ajax **/
     public static final String ADMIN_AJAX_POST_UPDATE      = "/admin/ajax/posts/update";
+    public static final String ADMIN_AJAX_TAGS_VALUES      = "/admin/ajax/tags/values";
 
     /** public ajax **/
     public static final String PUBLIC_AJAX_PREFIX          = "/aj";

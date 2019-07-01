@@ -1,15 +1,19 @@
 package com.quopri.blogify.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
-@Data
+@Getter
+@Setter
 public class Account implements UserDetails, Serializable {
 
     @Id
@@ -34,6 +38,9 @@ public class Account implements UserDetails, Serializable {
 
     @Column(name = "enabled")
     private Boolean enabled = true;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "accounts_authorities",

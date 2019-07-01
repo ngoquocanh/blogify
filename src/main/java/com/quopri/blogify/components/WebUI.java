@@ -20,7 +20,8 @@ public class WebUI {
     private ApplicationSettings applicationSettings;
 
     public static final String FEEDBACK_MESSAGE_KEY = "feedbackMessage";
-    public static final String PAGE_TITLE = "pageTitle";
+    public static final String ERROR_MESSAGE_KEY    = "errorMessage";
+    public static final String PAGE_TITLE           = "pageTitle";
 
     public String getMessage(String code, Object... params) {
         Locale currentLocale = LocaleContextHolder.getLocale();
@@ -30,6 +31,11 @@ public class WebUI {
     public void addFeedbackMessage(RedirectAttributes redirectAttributes, String code, Object... params) {
         String localizedFeedbackMessage = getMessage(code, params);
         redirectAttributes.addFlashAttribute(FEEDBACK_MESSAGE_KEY, localizedFeedbackMessage);
+    }
+
+    public void addErrorMessage(RedirectAttributes redirectAttributes, String code, Object... params) {
+        String localizedFeedbackMessage = getMessage(code, params);
+        redirectAttributes.addFlashAttribute(ERROR_MESSAGE_KEY, localizedFeedbackMessage);
     }
 
     public ModelAndView addPageTitle(ModelAndView mav) {

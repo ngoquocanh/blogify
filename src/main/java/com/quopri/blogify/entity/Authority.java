@@ -1,14 +1,16 @@
 package com.quopri.blogify.entity;
 
 import com.quopri.blogify.enums.RoleEnum;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "authorities")
-@Data
+@Getter
+@Setter
 public class Authority implements GrantedAuthority {
 
     public Authority() {

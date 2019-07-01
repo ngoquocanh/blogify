@@ -191,6 +191,13 @@
                         form.appendChild(hiddenField);
                     }
                 });
+                var csKey = /*[[${_csrf.parameterName}]]*/ null;
+                var csValue = /*[[${_csrf.token}]]*/ null;
+                var csInput = document.createElement("input");
+                csInput.setAttribute("type", "hidden");
+                csInput.setAttribute("name", csKey);
+                csInput.setAttribute("value", csValue);
+                form.appendChild(csInput);
                 $('#ki-dynamic-form').append(form);
                 form.submit();
                 isSubmitted = true;

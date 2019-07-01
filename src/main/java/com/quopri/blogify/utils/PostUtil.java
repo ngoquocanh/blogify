@@ -2,6 +2,10 @@ package com.quopri.blogify.utils;
 
 import com.quopri.blogify.dto.PostDTO;
 import com.quopri.blogify.entity.Article;
+import com.quopri.blogify.entity.Category;
+import com.quopri.blogify.entity.Tag;
+
+import java.util.*;
 
 public class PostUtil {
 
@@ -22,6 +26,26 @@ public class PostUtil {
         article.setArticleImage(postDTO.getPostThumbnail());
         article.setArticleName(postDTO.getPostName());
         article.setArticleContent(postDTO.getPostContent());
+
+        // tags
+        String[] postTagValues = Arrays.stream(postDTO.getPostTags().split(",")).map(String::trim).toArray(String[]::new);
+        Set<Tag> tags = new HashSet<>();
+        for (String postTag : postTagValues) {
+            Tag tag = new Tag();
+            tag.setValue(postTag);
+            tags.add(tag);
+        }
+        article.setTags(tags);
+
+        // categories
+        Set<Category> categories = new HashSet<>();
+        Category category = new Category();
+        category.setId(postDTO.getPostCategory());
+        categories.add(category);
+        article.setCategories(categories);
+
+        article.setAccountId(postDTO.getPostAuthor());
+
         return article;
     }
 
@@ -29,10 +53,30 @@ public class PostUtil {
         PostDTO postDTO = new PostDTO();
         postDTO.setPostId(article.getId());
         postDTO.setPostTitle(article.getArticleTitle());
-        postDTO.setPostThumbnail(article.getArticleImage());
+        postDTO.setPostName(article.getArticleName());
         postDTO.setPostExcerpt(article.getArticleExcerpt());
         postDTO.setPostContent(article.getArticleContent());
+        postDTO.setPostThumbnail(article.getArticleImage());
         postDTO.setPostStatus(article.getArticleStatus().getKey());
+
+        // tags
+        StringJoiner postTags = new StringJoiner(",");
+        List<String> postTagsOptions = new ArrayList<>();
+        for (Tag tag : article.getTags()) {
+            postTags.add(tag.getValue());
+            postTagsOptions.add(tag.getValue());
+        }
+        postDTO.setPostTags(postTags.toString());
+        postDTO.setPostTagsOptions(postTagsOptions);
+
+        // categories
+        Long postCategory = null;
+        for (Category category : article.getCategories()) {
+            postCategory = category.getId();
+        }
+        postDTO.setPostCategory(postCategory);
+
+        postDTO.setPostAuthor(article.getAccountId());
         return postDTO;
     }
 }

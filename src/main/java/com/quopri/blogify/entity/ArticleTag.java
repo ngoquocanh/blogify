@@ -1,12 +1,14 @@
 package com.quopri.blogify.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "articles_tags")
-@Data
+@Getter
+@Setter
 public class ArticleTag {
 
     @Id

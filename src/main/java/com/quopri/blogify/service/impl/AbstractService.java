@@ -4,6 +4,8 @@ import org.springframework.data.domain.Pageable;
 
 public abstract class AbstractService {
 
+    public static final String AUTHORIZED_CODE = "authorizedCode";
+
     /**
      * Need to call this method before findAll() because of SimpleJpaRepository -> readPage() parse error
      * when page too large.

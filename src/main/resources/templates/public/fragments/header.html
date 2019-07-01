@@ -19,6 +19,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).PUBLIC_ARTICLES_LIST}}" th:text="#{nav.articles}">[Articles]</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).CONTACT_US}}" th:text="#{nav.contact-us}">[Contact Us]</a>
+                            </li>
                             <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                                 <a class="nav-link" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_PREFIX}}" th:text="#{nav.manage}">[Manage]</a>
                             </li>
@@ -49,7 +52,7 @@
                                     <a class="dropdown-item disabled" href="#" th:text="${accountDetails.getFullName()}">[Full name]</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#" th:text="#{nav.profile}">[View profile]</a>
-                                    <a class="dropdown-item" href="#" th:text="#{nav.password}">Change password</a>
+                                    <a class="dropdown-item" href="#" th:text="#{nav.password}">[Change password]</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" th:href="@{/logout}" th:text="#{nav.logout}">[Sign out]</a>
                                 </div>

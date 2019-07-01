@@ -122,6 +122,19 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_reset_token`
+--
+
+CREATE TABLE `password_reset_token` (
+  `id` bigint(20) NOT NULL,
+  `expiry_date` datetime DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `account_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tags`
 --
 
@@ -168,7 +181,7 @@ ALTER TABLE `articles_categories`
 ALTER TABLE `articles_tags`
     ADD PRIMARY KEY (`id`,`tag_id`,`article_id`),
     ADD KEY `fk_articles_has_tags_tags1_idx` (`tag_id`),
-    ADD KEY `fk_articles_has_tags_articles1_idx` (`id`);
+    ADD KEY `fk_articles_has_tags_articles1_idx` (`article_id`);
 
 --
 -- Indexes for table `authorities`
@@ -183,14 +196,29 @@ ALTER TABLE `categories`
     ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `password_reset_token`
+--
+ALTER TABLE `password_reset_token`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `FK76a4o6jaqpn5s2gji7q8aaxvg` (`account_id`);
+
+--
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
     ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT for table `categories`
 --
+ALTER TABLE `categories`
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tags`
+--
+ALTER TABLE `tags`
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `accounts`
@@ -221,6 +249,12 @@ ALTER TABLE `articles_tags`
 --
 
 --
+-- AUTO_INCREMENT for table `password_reset_token`
+--
+ALTER TABLE `password_reset_token`
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for table `accounts_authorities`
 --
 ALTER TABLE `accounts_authorities`
@@ -238,7 +272,7 @@ ALTER TABLE `articles_categories`
 -- Constraints for table `articles_tags`
 --
 ALTER TABLE `articles_tags`
-    ADD CONSTRAINT `fk_articles_has_tags_articles1` FOREIGN KEY (`id`) REFERENCES `articles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_articles_has_tags_articles1` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     ADD CONSTRAINT `fk_articles_has_tags_tags1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 

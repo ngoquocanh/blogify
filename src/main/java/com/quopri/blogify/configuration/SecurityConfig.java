@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] PERMIT_URL_LIST = new String[] {
         UrlConstants.HOME,
         UrlConstants.SIGN_IN, UrlConstants.SIGN_UP,
+        UrlConstants.ACCOUNT_FORGOT_PASSWORD, UrlConstants.ACCOUNT_RESET_PASSWORD,
+        UrlConstants.ACCOUNT_RESET_PASSWORD.concat("/**"),
+        UrlConstants.CONTACT_US,
         UrlConstants.PUBLIC_AJAX_PREFIX.concat("/**"),
         UrlConstants.PUBLIC_ARTICLE.concat("/**"), UrlConstants.PUBLIC_ARTICLES_LIST.concat("/**"),
     };

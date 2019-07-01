@@ -6,6 +6,7 @@ DELETE FROM `articles_categories`;
 DELETE FROM `tags`;
 DELETE FROM `categories`;
 DELETE FROM `accounts_authorities`;
+DELETE FROM `password_reset_token`;
 DELETE FROM `accounts`;
 DELETE FROM `authorities`;
 
@@ -13,6 +14,7 @@ ALTER TABLE `articles` AUTO_INCREMENT = 1;
 ALTER TABLE `accounts` AUTO_INCREMENT = 1;
 ALTER TABLE `articles_tags` AUTO_INCREMENT = 1;
 ALTER TABLE `articles_categories` AUTO_INCREMENT = 1;
+ALTER TABLE `password_reset_token` AUTO_INCREMENT = 1;
 
 -- ----------------------------
 -- records of accounts

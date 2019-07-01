@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="public/fragments/head :: head">[global head]</head>
+    <body>
+        <div id="page-container">
+            <header th:replace="public/fragments/header :: header">[common header]</header><!--#page-header-->
+            <section id="page-content" class="pb-4">
+                <div class="container">
+                    <div class="row">
+                        <section id="main" class="col col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="page-header" id="banner">
+                                <h1>Contact Us</h1>
+                                <p class="lead">Please use the form below to contact us. We will get back to you as quick as possible!</p>
+                            </div>
+
+                            <div id="ki-message-holder" th:if="${feedbackMessage}" class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                                    <div class="alert alert-dismissible alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong th:text="${feedbackMessage}">[Feedback Message]</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section class="row" id="k-contact-us">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                                    <form th:object="${contactUs}" th:action="@{/contact-us}" method="post" class="table-responsive">
+                                        <table class="table table-bordered bg-secondary">
+                                            <tbody>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('fullName')} ? 'has-danger'">
+                                                                <label for="inputEmail3" class="col-md-12 col-lg-2 col-form-label">Full Name</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{fullName}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid'" id="inputEmail3" placeholder="" autocomplete="off" />
+                                                                    <ul th:if="${#fields.hasErrors('fullName')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
+                                                                <label for="ki-text-last-name" class="col-md-12 col-lg-2 col-form-label">Email</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <input type="text" th:field="*{email}" class="form-control"
+                                                                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="" autocomplete="off" id="ki-text-last-name" />
+                                                                    <ul th:if="${#fields.hasErrors('email')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('message')} ? 'has-danger'">
+                                                                <label for="ki-text-message" class="col-md-12 col-lg-2 col-form-label">Message</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <textarea id="ki-text-message" th:field="*{message}" class="form-control"
+                                                                              th:classappend="${#fields.hasErrors('message')} ? 'is-invalid'" rows="4"></textarea>
+                                                                    <ul th:if="${#fields.hasErrors('message')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('message')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0">
+                                                                <div class="col-md-12 col-lg-2"></div>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <button type="submit" class="btn btn-primary">Send</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                    </form>
+                                </div>
+                            </section>
+                        </section><!--#main-->
+                    </div>
+                </div>
+            </section><!--#page-content-->
+            <footer th:replace="public/fragments/footer :: footer">[page footer]</footer><!--#page-footer-->
+        </div>
+        <div th:replace="public/fragments/scripts :: scripts">[common scripts]</div>
+        <div th:replace="admin/fragments/scripts :: mvc-js">[function]</div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(document).ready(function() {
+                // handle feedback message fade after a period of time
+                hideMessage('#ki-message-holder');
+            });
+            /*]]>*/
+        </script>
+    </body>
+</html>

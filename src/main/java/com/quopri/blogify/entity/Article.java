@@ -4,6 +4,7 @@ import com.quopri.blogify.converters.ArticleStatusConverter;
 import com.quopri.blogify.converters.ArticleTypeConverter;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "articles")
-@Data
+@Setter
+@Getter
 public class Article implements Serializable {
 
     @Id

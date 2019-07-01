@@ -20,6 +20,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).PUBLIC_ARTICLES_LIST}}" th:text="#{nav.articles}">[Articles]</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).CONTACT_US}}" th:text="#{nav.contact-us}">[Contact Us]</a>
+                            </li>
                             <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                                 <a class="nav-link" th:href="@{${T(com.quopri.blogify.constants.UrlConstants).ADMIN_PREFIX}}" th:text="#{nav.manage}">[Manage]</a>
                             </li>

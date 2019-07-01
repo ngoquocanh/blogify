@@ -113,6 +113,40 @@
                                                 <tr class="table-active">
                                                     <td scope="row">
                                                         <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postTags')} ? 'has-danger'">
+                                                                <label for="q-lib-tags-input" class="col-md-12 col-lg-2 col-form-label">Tags</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <select id="q-lib-tags-input" multiple="multiple" data-role="tagsinput" th:field="*{postTags}"
+                                                                            class="form-control" th:classappend="${#fields.hasErrors('postTags')} ? 'is-invalid'"></select>
+                                                                    <ul th:if="${#fields.hasErrors('postTags')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postTags')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
+                                                            <div class="form-group row mb-0" th:classappend="${#fields.hasErrors('postCategory')} ? 'has-danger'">
+                                                                <label for="ki-select-status" class="col-md-12 col-lg-2 col-form-label">Category</label>
+                                                                <div class="col-md-12 col-lg-10">
+                                                                    <select th:field="*{postCategory}" class="form-control kc-width-9" id="qi-select-category">
+                                                                        <option th:each="category : *{postCategoryOptions}" th:value="${category.categoryKey}" th:text="${category.categoryValue}" th:if="${category.categoryKey == 1}" selected="selected"></option>
+                                                                        <option th:each="category : *{postCategoryOptions}" th:value="${category.categoryKey}" th:text="${category.categoryValue}" th:if="${category.categoryKey != 1}" ></option>
+                                                                    </select>
+                                                                    <ul th:if="${#fields.hasErrors('postCategory')}" class="list-unstyled mb-0" th:classappend="'invalid-feedback'">
+                                                                        <li th:each="err : ${#fields.errors('postCategory')}" th:text="${err}">[Invalid input]</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td scope="row">
+                                                        <div class="container">
                                                             <div class="form-group row mb-0">
                                                                 <div class="col-md-12 col-lg-2"></div>
                                                                 <div class="col-md-12 col-lg-10">
@@ -120,7 +154,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -140,5 +173,30 @@
         </div>
         <div th:replace="admin/fragments/scripts :: scripts">[common scripts]</div>
         <div th:replace="admin/fragments/scripts :: csrf-js">[common scripts]</div>
+        <script>
+            var tags = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/admin/ajax/tags/values',
+                    cache: false
+                }
+            });
+            tags.initialize();
+            $('#q-lib-tags-input').tagsinput({
+                tagClass: 'badge badge-secondary',
+                confirmKeys: [13, 188],
+                typeaheadjs: {
+                    name: 'postTags',
+                    source: tags.ttAdapter()
+                }
+            });
+            $('body .bootstrap-tagsinput input').on('keypress', function(e){
+                if (e.keyCode == 13) {
+                    e.keyCode = 188;
+                    e.preventDefault();
+                }
+            })
+        </script>
     </body>
 </html>

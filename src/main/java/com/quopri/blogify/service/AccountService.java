@@ -1,6 +1,8 @@
 package com.quopri.blogify.service;
 
 import com.quopri.blogify.dto.AccountDTO;
+import com.quopri.blogify.dto.ResetPasswordInfoDTO;
+import com.quopri.blogify.enums.ResetPasswordResult;
 import com.quopri.blogify.exceptions.MvcException;
 import com.quopri.blogify.entity.Account;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,9 @@ public interface AccountService extends UserDetailsService {
     Optional<Account> retrieveAccountById(Long id);
     Account updateAccountInfo(Account account);
     Account updateAccountSecurity(Account account);
+    void updatePassword(Long id, String password);
+    ResetPasswordResult updatePassword(ResetPasswordInfoDTO changePasswordInfo);
+    Account loadAccountByEmail(String email);
 
     /**
      * get all accounts for pagination
