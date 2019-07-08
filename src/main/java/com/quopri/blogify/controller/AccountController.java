@@ -114,42 +114,47 @@ public class AccountController extends BaseController {
         if (bindingResult.hasErrors())
             return mav;
 
-        if (applicationSettings.getMailSignUp())
-            userDTO.setEnabled(false);
-        else
-            userDTO.setEnabled(true);
+        if (applicationSettings.getCanSignUp()) {
+            if (applicationSettings.getMailSignUp())
+                userDTO.setEnabled(false);
+            else
+                userDTO.setEnabled(true);
 
-        if (accountService.isExistedUsername(userDTO.getUsername())) {
-            bindingResult.rejectValue("username", "account.register.duplicate-username");
-            return mav;
+            if (accountService.isExistedUsername(userDTO.getUsername())) {
+                bindingResult.rejectValue("username", "account.register.duplicate-username");
+                return mav;
+            }
+
+            if (accountService.isExistedEmail(userDTO.getEmail())) {
+                bindingResult.rejectValue("email", "account.register.duplicate-email");
+                return mav;
+            }
+
+            if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
+                bindingResult.rejectValue("confirmPassword", "account.register.password-mismatch");
+                return mav;
+            }
+
+            Account account = new Account();
+            account.setUsername(userDTO.getUsername());
+            account.setFirstName(userDTO.getFirstName());
+            account.setLastName(userDTO.getLastName());
+            account.setEmail(userDTO.getEmail());
+            account.setEnabled(userDTO.getEnabled());
+            account.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+            Authority authority = new Authority(RoleEnum.USER);
+            Set<Authority> authorities = new HashSet<>();
+            authorities.add(authority);
+
+            account.setAuthorities(authorities);
+
+            accountService.createAccount(account);
+            mav.setViewName("public/accounts/sign-up-success");
+        } else {
+            mav.addObject(WebUI.FEEDBACK_MESSAGE_KEY, "Sorry! Sign up function not available right now.");
+            mav.setViewName(VIEW_SIGN_UP);
         }
-
-        if (accountService.isExistedEmail(userDTO.getEmail())) {
-            bindingResult.rejectValue("email", "account.register.duplicate-email");
-            return mav;
-        }
-
-        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-            bindingResult.rejectValue("confirmPassword", "account.register.password-mismatch");
-            return mav;
-        }
-
-        Account account = new Account();
-        account.setUsername(userDTO.getUsername());
-        account.setFirstName(userDTO.getFirstName());
-        account.setLastName(userDTO.getLastName());
-        account.setEmail(userDTO.getEmail());
-        account.setEnabled(userDTO.getEnabled());
-        account.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
-        Authority authority = new Authority(RoleEnum.USER);
-        Set<Authority> authorities = new HashSet<>();
-        authorities.add(authority);
-
-        account.setAuthorities(authorities);
-
-        accountService.createAccount(account);
-        mav.setViewName("public/accounts/sign-up-success");
         return mav;
     }
 

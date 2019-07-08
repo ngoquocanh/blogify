@@ -7,6 +7,14 @@
             <section id="page-content" class="pb-4">
                 <section id="main">
                     <div class="container">
+                        <div th:if="${feedbackMessage}" class="row justify-content-center">
+                            <div class="col col-9 col-sm-10 col-md-7 col-lg-5">
+                                <div class="alert alert-dismissible alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <span th:text="${feedbackMessage}">[Feedback Message]</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="page-header" id="banner">
                             <div class="row">
                                 <div class="col-lg-8 col-md-7 col-sm-6">

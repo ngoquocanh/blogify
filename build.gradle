@@ -9,6 +9,8 @@ group = 'com.quopri'
 version = '1.0'
 sourceCompatibility = '1.8'
 
+archivesBaseName = 'quopri'
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
