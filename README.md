@@ -38,6 +38,10 @@ This project is built by Java Spring. The idea was to build a basic blogging pla
 - Then just start Spring Boot in your IDE or using gradle (gradle bootRun).
 
 ## Changes
+:boom: **2019-july**
+- Update authentication provider
+- Public tag name
+
 :boom: **2019-june**
 
 - Contact us

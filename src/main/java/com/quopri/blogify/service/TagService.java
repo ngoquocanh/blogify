@@ -13,6 +13,7 @@ public interface TagService {
     Page<Tag> getAllTags(Pageable pageable);
     void deleteTags(List<Long> tagIds) throws MvcException;
     Tag getTag(Long tagId) throws MvcException;
+    Tag getTag(String value) throws MvcException;
     Tag updateTag(Tag tag) throws MvcException;
     Tag createTag(Tag tag) throws MvcException;
 }

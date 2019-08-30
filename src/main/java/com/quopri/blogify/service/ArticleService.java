@@ -22,6 +22,8 @@ public interface ArticleService {
      */
     Page<Article> getAllPublishedPosts(Pageable pageable);
 
+    Page<Article> getAllPublishedPostsByTag(Pageable pageable, Long tagId);
+
     /**
      * get all post don't care status at admin post page
      * @return

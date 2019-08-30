@@ -68,4 +68,7 @@ public class UrlConstants {
     public static final String PUBLIC_POSTS_LIST_PAGE      = "/articles/p/{" + PostController.MODEL_ATTRIBUTE_PAGE_INDEX + "}";
     public static final String PUBLIC_ARTICLE              = "/article"; // is used in SecurityConfig
     public static final String PUBLIC_ARTICLE_LINK         = "/article/{" + PostController.MODEL_ATTRIBUTE_ARTICLE_LINK + "}";
+
+    public static final String PUBLIC_ARTICLES_TAG          = "/articles/tag/{tag}";
+    public static final String PUBLIC_ARTICLES_TAG_BASE_URL = "/articles/tag/{tag}?page=";
 }

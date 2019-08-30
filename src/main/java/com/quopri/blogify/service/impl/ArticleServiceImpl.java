@@ -57,6 +57,15 @@ public class ArticleServiceImpl extends AbstractService implements ArticleServic
         }
     }
 
+    @Override
+    public Page<Article> getAllPublishedPostsByTag(Pageable pageable, Long tagId) {
+        if (isPaged(pageable)) {
+            return articleRepository.findAllByTagId(pageable, tagId);
+        } else {
+            return Page.empty();
+        }
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<Article> getAllPosts() {

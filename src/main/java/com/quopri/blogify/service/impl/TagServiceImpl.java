@@ -83,6 +83,15 @@ public class TagServiceImpl extends AbstractService implements TagService {
     }
 
     @Override
+    public Tag getTag(String value) throws MvcException {
+        Tag tag = tagRepository.findByValueIgnoreCase(value);
+        if (tag == null) {
+            throw new MvcException(StatusMessageCode.TAG_NOT_FOUND);
+        }
+        return tag;
+    }
+
+    @Override
     public Tag updateTag(Tag tag) throws MvcException {
         Tag tagUpdated;
         if (tagRepository.existsById(tag.getId())) {
